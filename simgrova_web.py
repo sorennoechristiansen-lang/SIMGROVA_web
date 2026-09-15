@@ -75,6 +75,27 @@ svg{width:100%;height:100%}
 @keyframes pick{0%,20%{transform:rotate(-14deg)}45%,65%{transform:rotate(17deg)}100%{transform:rotate(-14deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slide{from{transform:translateX(-55px)}to{transform:translateX(55px)}}
+
+#cad3d{cursor:grab;touch-action:none;user-select:none;perspective:900px;overflow:hidden}
+#cad3d:active{cursor:grabbing}
+.cad-stage{position:absolute;inset:0;perspective:900px;transform-style:preserve-3d}
+.cad-grid{position:absolute;left:8%;right:8%;bottom:7%;height:43%;transform:rotateX(66deg);
+ transform-origin:bottom;background-image:linear-gradient(#cdd8d4 1px,transparent 1px),
+ linear-gradient(90deg,#cdd8d4 1px,transparent 1px);background-size:34px 34px;opacity:.7}
+.cad-object{position:absolute;left:53%;top:48%;width:240px;height:100px;transform-style:preserve-3d}
+.face{position:absolute;border:2px solid #285863;background:rgba(120,174,184,.58);
+ display:flex;align-items:center;justify-content:center;font:10px monospace;color:#244b53;
+ backface-visibility:visible}
+.front,.back{width:240px;height:100px}
+.front{transform:translateZ(75px)} .back{transform:rotateY(180deg) translateZ(75px)}
+.right,.left{width:150px;height:100px;left:45px}
+.right{transform:rotateY(90deg) translateZ(120px)} .left{transform:rotateY(-90deg) translateZ(120px)}
+.top,.bottom{width:240px;height:150px;top:-25px}
+.top{transform:rotateX(90deg) translateZ(50px)} .bottom{transform:rotateX(-90deg) translateZ(50px)}
+.axis{position:absolute;font:700 11px monospace;color:#347e8c}
+.ax{right:8%;bottom:15%}.ay{left:17%;bottom:12%}.az{left:13%;top:18%}
+.cad-dim{position:absolute;right:25px;bottom:18px;font:10px monospace;letter-spacing:.08em;color:#657779}
+
 @media(max-width:850px){
  html,body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-rows:auto auto auto;padding:20px}
  header{padding-bottom:14px} nav{display:none}
@@ -210,63 +231,39 @@ svg{width:100%;height:100%}
 </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 let cadStarted=false;
 function initCad(){
- if(cadStarted || typeof THREE==="undefined") return;
+ if(cadStarted) return;
  cadStarted=true;
  const host=document.getElementById("cad3d");
- const scene=new THREE.Scene();
- const camera=new THREE.PerspectiveCamera(40, host.clientWidth/host.clientHeight, 1, 5000);
- camera.position.set(420,330,300);
- const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
- renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
- renderer.setSize(host.clientWidth,host.clientHeight);
- renderer.setClearColor(0x000000,0);
- host.appendChild(renderer.domElement);
-
- const group=new THREE.Group();
- scene.add(group);
- const geo=new THREE.BoxGeometry(240,150,100);
- const mat=new THREE.MeshPhongMaterial({color:0x78aeb8,transparent:true,opacity:.78,shininess:25});
- const block=new THREE.Mesh(geo,mat);
- group.add(block);
- const edges=new THREE.LineSegments(
-   new THREE.EdgesGeometry(geo),
-   new THREE.LineBasicMaterial({color:0x244b53})
- );
- group.add(edges);
-
- const grid=new THREE.GridHelper(600,12,0x9caaa7,0xd7ded9);
- grid.position.y=-85;
- scene.add(grid);
- scene.add(new THREE.HemisphereLight(0xffffff,0x8aa0a0,2.2));
- const dl=new THREE.DirectionalLight(0xffffff,2.4); dl.position.set(300,400,500); scene.add(dl);
-
- let dragging=false, px=0, py=0;
- renderer.domElement.addEventListener("pointerdown",e=>{dragging=true;px=e.clientX;py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
- renderer.domElement.addEventListener("pointerup",()=>dragging=false);
- renderer.domElement.addEventListener("pointermove",e=>{
-   if(!dragging)return;
-   group.rotation.y+=(e.clientX-px)*.012;
-   group.rotation.x+=(e.clientY-py)*.012;
-   px=e.clientX;py=e.clientY;
+ host.innerHTML=`
+   <div class="cad-stage">
+     <div class="cad-grid"></div>
+     <div class="cad-object" id="cadObject">
+       <div class="face front">240 × 100</div>
+       <div class="face back"></div>
+       <div class="face right">150 × 100</div>
+       <div class="face left"></div>
+       <div class="face top">240 × 150</div>
+       <div class="face bottom"></div>
+     </div>
+     <div class="axis ax">X</div><div class="axis ay">Y</div><div class="axis az">Z</div>
+     <div class="cad-dim">BLOCK / 240 × 150 × 100 mm</div>
+   </div>`;
+ const obj=document.getElementById("cadObject");
+ let rx=-18, ry=28, scale=1, drag=false, px=0, py=0;
+ function draw(){obj.style.transform=`translate(-50%,-50%) rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
+ draw();
+ host.addEventListener("pointerdown",e=>{drag=true;px=e.clientX;py=e.clientY;host.setPointerCapture(e.pointerId)});
+ host.addEventListener("pointerup",()=>drag=false);
+ host.addEventListener("pointercancel",()=>drag=false);
+ host.addEventListener("pointermove",e=>{
+   if(!drag)return;
+   ry+=(e.clientX-px)*.55; rx-=(e.clientY-py)*.55; px=e.clientX;py=e.clientY;draw();
  });
- renderer.domElement.addEventListener("wheel",e=>{
-   e.preventDefault();
-   camera.position.multiplyScalar(e.deltaY>0?1.08:.92);
- },{passive:false});
-
- function resize(){
-   const w=host.clientWidth,h=host.clientHeight;
-   if(w&&h){camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);}
- }
- window.addEventListener("resize",resize);
- function animate(){requestAnimationFrame(animate);renderer.render(scene,camera)}
- animate();
+ host.addEventListener("wheel",e=>{e.preventDefault();scale*=e.deltaY>0?.92:1.08;scale=Math.max(.55,Math.min(1.8,scale));draw()},{passive:false});
 }
-
 const data={
  energy:{
   kicker:"ENERGY / CONCEPT 01",
