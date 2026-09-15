@@ -8,251 +8,227 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# -----------------------------------------------------------------------------
-# SIMGROVA — first clean-sheet web prototype
-# No APB logic, login, portfolio code or external image assets.
-# -----------------------------------------------------------------------------
-
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
-
-:root{
-    --bg:#07090b;
-    --panel:#0d1115;
-    --line:rgba(173,205,215,.18);
-    --text:#eef4f5;
-    --muted:#8e9da2;
-    --accent:#b9e7ef;
-}
-
-html, body, [data-testid="stAppViewContainer"], .stApp {
-    background:var(--bg);
-    color:var(--text);
-}
-[data-testid="stHeader"], [data-testid="stToolbar"], #MainMenu, footer {
-    visibility:hidden;
-}
-.block-container{
-    max-width:100% !important;
-    padding:0 !important;
-}
-div[data-testid="stVerticalBlock"]{gap:0 !important;}
-.simgrova-section{
-    max-width:1220px;
-    margin:auto;
-    padding:92px 48px;
-}
-.kicker{
-    font-family:'Space Mono',monospace;
-    color:var(--accent);
-    font-size:12px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-}
-h2.sg{
-    font-family:'Inter',sans-serif;
-    font-size:clamp(34px,5vw,68px);
-    line-height:1.02;
-    font-weight:300;
-    letter-spacing:-.045em;
-    margin:14px 0 28px;
-}
-.sg-copy{
-    color:#a9b5b8;
-    font:300 18px/1.75 'Inter',sans-serif;
-    max-width:720px;
-}
-.sg-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
-    margin-top:54px;
-}
-.sg-card{
-    background:var(--bg);
-    padding:34px;
-    min-height:210px;
-}
-.sg-num{
-    font:400 11px 'Space Mono',monospace;
-    color:#647278;
-    letter-spacing:.15em;
-}
-.sg-card h3{
-    font:400 20px 'Inter',sans-serif;
-    margin:38px 0 12px;
-    color:#edf3f4;
-}
-.sg-card p{
-    color:#849297;
-    font:300 14px/1.7 'Inter',sans-serif;
-}
-.process{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-top:62px;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    padding:24px 0;
-    font:400 11px 'Space Mono',monospace;
-    color:#9ba9ad;
-    letter-spacing:.08em;
-}
-.arrow{color:#405056;}
-.contact{
-    border-top:1px solid var(--line);
-    text-align:center;
-    padding:110px 30px 130px;
-}
-.contact .mail{
-    font:300 clamp(28px,5vw,62px) 'Inter',sans-serif;
-    color:#eef4f5;
-    margin-top:18px;
-}
-@media(max-width:800px){
-    .simgrova-section{padding:70px 24px}
-    .sg-grid{grid-template-columns:1fr}
-    .process{display:grid;grid-template-columns:1fr 20px 1fr;gap:14px}
-}
+html,body,[data-testid="stAppViewContainer"],.stApp{background:#f4f2eb!important}
+[data-testid="stHeader"],[data-testid="stToolbar"],#MainMenu,footer{visibility:hidden}
+.block-container{max-width:100%!important;padding:0!important}
+iframe{display:block}
 </style>
 """, unsafe_allow_html=True)
 
-hero = r"""
-<!DOCTYPE html>
+page = r"""
+<!doctype html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-*{box-sizing:border-box} html,body{margin:0;background:#07090b;overflow:hidden}
-.hero{
-  height:760px;position:relative;background:
-  radial-gradient(circle at 70% 45%,rgba(107,157,168,.08),transparent 29%),
-  linear-gradient(#07090b,#090c0f);
-  color:#eef4f5;font-family:Arial,sans-serif;
+:root{
+ --paper:#f4f2eb; --ink:#20353a; --muted:#6e7d7e; --line:#ccd6d2;
+ --blue:#347e8c; --blue2:#8cb8bd; --warm:#d28a57; --green:#799b80;
 }
-.grid{
- position:absolute;inset:0;opacity:.15;
- background-image:linear-gradient(rgba(170,210,220,.13) 1px,transparent 1px),
- linear-gradient(90deg,rgba(170,210,220,.13) 1px,transparent 1px);
- background-size:54px 54px;
- mask-image:linear-gradient(to right,transparent 0,#000 35%,#000 100%);
-}
-.top{position:absolute;left:6%;right:6%;top:34px;display:flex;justify-content:space-between;
-font:11px monospace;letter-spacing:.18em;color:#819096}
-.brand{color:#dce9eb;font-weight:bold}
-.copy{position:absolute;left:7%;top:210px;z-index:5}
-.eyebrow{font:11px monospace;letter-spacing:.24em;color:#a7d6de;margin-bottom:22px}
-h1{font-size:clamp(62px,9vw,132px);font-weight:300;line-height:.82;letter-spacing:-.07em;margin:0}
-.sub{font-size:clamp(18px,2vw,27px);font-weight:300;color:#8f9da1;margin-top:30px;letter-spacing:.01em}
-.motto{font:11px monospace;letter-spacing:.18em;color:#607076;margin-top:62px}
-.machine{position:absolute;right:3%;top:80px;width:52%;height:620px}
-.machine svg{width:100%;height:100%}
-.ring1{transform-origin:410px 300px;animation:spin 28s linear infinite}
-.ring2{transform-origin:410px 300px;animation:spin2 18s linear infinite}
-.arm{transform-origin:410px 300px;animation:sweep 7s ease-in-out infinite alternate}
-.pulse{animation:pulse 2.6s ease-in-out infinite}
-.scan{animation:scan 6s ease-in-out infinite}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif;overflow:hidden}
+.app{height:100vh;min-height:690px;padding:28px 4.5vw 24px;display:grid;grid-template-rows:48px 1fr 92px}
+header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{font-size:20px;font-weight:700;letter-spacing:.16em}
+.brand small{font:10px monospace;color:var(--blue);margin-left:12px;letter-spacing:.12em}
+nav{display:flex;gap:30px;font:11px monospace;letter-spacing:.1em;color:var(--muted)}
+.main{display:grid;grid-template-columns:42% 58%;align-items:center;min-height:0}
+.copy{padding-right:4vw}
+.kicker{font:11px monospace;letter-spacing:.18em;color:var(--blue);margin-bottom:22px}
+h1{font-size:clamp(44px,5.1vw,78px);font-weight:400;line-height:.96;letter-spacing:-.055em;margin:0 0 25px}
+.lead{font-size:clamp(16px,1.35vw,21px);line-height:1.55;color:#5d6e70;max-width:570px}
+.note{margin-top:28px;font:10px monospace;letter-spacing:.1em;color:#879393}
+.visual{height:min(61vh,570px);min-height:430px;position:relative;border-left:1px solid var(--line)}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.scene.active{opacity:1}
+svg{width:100%;height:100%}
+.label{font:11px monospace;fill:#657779;letter-spacing:1px}
+.dim{stroke:#91a6a5;stroke-width:1;fill:none}
+.mechanic{stroke:#347e8c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.soft{stroke:#8cb8bd;stroke-width:1.4;fill:none}
+.solid{fill:#347e8c}
+.warm{stroke:#d28a57;fill:none;stroke-width:2}
+.green{stroke:#799b80;fill:none;stroke-width:2}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.tab{border:0;border-right:1px solid var(--line);background:transparent;text-align:left;padding:18px 24px;color:var(--ink);cursor:pointer;transition:.2s}
+.tab:last-child{border-right:0}
+.tab:hover,.tab.active{background:#e9ece5}
+.tab .n{font:10px monospace;color:#83908f}
+.tab strong{display:block;margin-top:7px;font-size:15px;letter-spacing:.09em}
+.tab span{font-size:11px;color:#738181}
+.sun{animation:sunmove 9s ease-in-out infinite alternate}
+.panel{transform-origin:425px 315px;animation:track 9s ease-in-out infinite alternate}
+.heat{animation:heat 2.4s linear infinite}
+.drill{animation:drill 3.2s ease-in-out infinite alternate}
+.food1{animation:foodmove 5s linear infinite}
+.food2{animation:foodmove 5s linear infinite;animation-delay:-2.5s}
+.picker{transform-origin:410px 160px;animation:pick 4s ease-in-out infinite}
+.gear{transform-origin:445px 285px;animation:spin 9s linear infinite}
+.slider{animation:slide 4s ease-in-out infinite alternate}
+@keyframes sunmove{from{transform:translate(-80px,70px)}to{transform:translate(100px,-40px)}}
+@keyframes track{from{transform:rotate(-10deg)}to{transform:rotate(13deg)}}
+@keyframes heat{to{stroke-dashoffset:-28}}
+@keyframes drill{from{transform:translateY(-25px)}to{transform:translateY(65px)}}
+@keyframes foodmove{from{transform:translateX(-150px)}to{transform:translateX(500px)}}
+@keyframes pick{0%,20%{transform:rotate(-14deg)}45%,65%{transform:rotate(17deg)}100%{transform:rotate(-14deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes spin2{to{transform:rotate(-360deg)}}
-@keyframes sweep{from{transform:rotate(-13deg)}to{transform:rotate(17deg)}}
-@keyframes pulse{50%{opacity:.25}}
-@keyframes scan{0%,100%{transform:translateY(-80px);opacity:0}20%,80%{opacity:.5}50%{transform:translateY(410px)}}
-.bottom{position:absolute;left:7%;right:7%;bottom:34px;border-top:1px solid rgba(180,215,220,.15);
-padding-top:15px;display:flex;justify-content:space-between;font:10px monospace;letter-spacing:.12em;color:#526167}
+@keyframes slide{from{transform:translateX(-55px)}to{transform:translateX(55px)}}
+@media(max-width:850px){
+ html,body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-rows:auto auto auto;padding:20px}
+ header{padding-bottom:14px} nav{display:none}
+ .main{grid-template-columns:1fr}.copy{padding:55px 0 25px}
+ .visual{border-left:0;border-top:1px solid var(--line);height:430px}
+ .tabs{grid-template-columns:1fr}.tab{border-right:0;border-bottom:1px solid var(--line)}
+}
 </style>
 </head>
 <body>
-<div class="hero">
- <div class="grid"></div>
- <div class="top"><span class="brand">SIMGROVA / ENGINEERING</span><span>SKANDERBORG · DENMARK</span></div>
+<div class="app">
+<header>
+ <div class="brand">SIMGROVA <small>MECHANICAL ENGINEERING</small></div>
+ <nav><span>CONCEPT</span><span>PROTOTYPE</span><span>ENGINEERING</span><span>CONTACT</span></nav>
+</header>
+
+<section class="main">
  <div class="copy">
-   <div class="eyebrow">MECHANICAL ENGINEERING / DEVELOPMENT</div>
-   <h1>SIMGROVA</h1>
-   <div class="sub">From idea to production.</div>
-   <div class="motto">SIMPLICITY CREATES GROWTH</div>
+   <div class="kicker" id="kicker">ENERGY / CONCEPT 01</div>
+   <h1 id="headline">Mechanical ideas.<br>Developed into reality.</h1>
+   <div class="lead" id="lead">A solar tracking concept where the panel follows the sun through a simple mechanical rotation. The animation shows the principle — not a completed SIMGROVA project.</div>
+   <div class="note">IDEA → CONCEPT → PROTOTYPE → TEST → PRODUCT / MACHINE</div>
  </div>
- <div class="machine">
- <svg viewBox="0 0 700 600" fill="none">
-   <g stroke="#9bc5cd" stroke-width="1" opacity=".18">
-    <path d="M40 300H660M410 25V575"/><path d="M110 85L625 510M120 520L620 70"/>
-   </g>
-   <g class="ring1" stroke="#b6dce3" opacity=".45">
-    <circle cx="410" cy="300" r="188"/><circle cx="410" cy="300" r="172" stroke-dasharray="2 17"/>
-    <path d="M410 98v30M410 472v30M208 300h30M582 300h30"/>
-   </g>
-   <g class="ring2" stroke="#8ebbc4" opacity=".33">
-    <circle cx="410" cy="300" r="122" stroke-dasharray="65 14 5 14"/>
-    <circle cx="410" cy="300" r="96"/>
-   </g>
-   <g class="arm">
-    <path d="M410 300L555 215" stroke="#d5eef2" stroke-width="2"/>
-    <circle cx="555" cy="215" r="18" stroke="#d5eef2"/>
-    <circle cx="555" cy="215" r="4" fill="#d5eef2"/>
-   </g>
-   <circle cx="410" cy="300" r="42" stroke="#d5eef2" stroke-width="2"/>
-   <circle class="pulse" cx="410" cy="300" r="8" fill="#d5eef2"/>
-   <g stroke="#8fb7bf" opacity=".35">
-    <path d="M260 505h300M260 498v14M560 498v14"/>
-    <path d="M280 520h260"/><path d="M280 515v10M540 515v10"/>
-   </g>
-   <g fill="#81999e" font-family="monospace" font-size="10">
-    <text x="360" y="535">Ø 376.00 / REF</text><text x="575" y="210">P-04</text>
-    <text x="420" y="286">AXIS 01</text>
-   </g>
-   <line class="scan" x1="155" y1="130" x2="650" y2="130" stroke="#c5edf4" opacity=".4"/>
- </svg>
+
+ <div class="visual">
+   <!-- ENERGY: deliberately recognisable solar tracker + geothermal section -->
+   <div class="scene active" id="energy">
+   <svg viewBox="0 0 720 520">
+     <path class="dim" d="M70 420H665M90 430v-20M645 430v-20"/>
+     <text class="label" x="285" y="451">SOLAR TRACKING / PRINCIPLE STUDY</text>
+
+     <g class="sun">
+       <circle cx="565" cy="115" r="35" class="warm"/>
+       <path class="warm" d="M565 62v-18M565 186v-18M512 115h-18M636 115h-18M527 77l-13-13M603 153l13 13M603 77l13-13M527 153l-13 13"/>
+     </g>
+
+     <g class="panel">
+       <path class="mechanic" d="M300 245L540 205L555 292L315 332Z"/>
+       <path class="soft" d="M360 235l15 87M420 225l15 87M480 215l15 87M307 273l240-40M312 302l240-40"/>
+       <path class="mechanic" d="M425 315v92M382 407h86"/>
+       <circle cx="425" cy="315" r="12" class="mechanic"/>
+     </g>
+     <path class="dim" d="M425 315A92 92 0 0 1 500 262"/>
+     <text class="label" x="488" y="306">TRACKING AXIS</text>
+
+     <g opacity=".75">
+       <path class="green" d="M100 420V310h80"/>
+       <g class="drill">
+         <path class="mechanic" d="M140 315v78"/>
+         <path class="soft" d="M132 330l16 12-16 12 16 12-16 12"/>
+       </g>
+       <path class="green heat" stroke-dasharray="7 9" d="M115 405C80 370 88 335 112 316"/>
+       <text class="label" x="74" y="290">GEOTHERMAL</text>
+       <text class="label" x="74" y="305">CONCEPT</text>
+     </g>
+   </svg>
+   </div>
+
+   <!-- FOOD: recognisable conveyor + products + pick arm -->
+   <div class="scene" id="food">
+   <svg viewBox="0 0 720 520">
+     <text class="label" x="205" y="85">HIGH-SPEED PRODUCT HANDLING / PRINCIPLE</text>
+     <path class="mechanic" d="M75 355H650"/>
+     <path class="soft" d="M90 382H635M105 355v27M150 355v27M195 355v27M240 355v27M285 355v27M330 355v27M375 355v27M420 355v27M465 355v27M510 355v27M555 355v27M600 355v27"/>
+     <circle cx="105" cy="369" r="22" class="soft"/><circle cx="620" cy="369" r="22" class="soft"/>
+
+     <g class="food1"><rect x="120" y="317" width="48" height="36" rx="7" class="green"/><circle cx="144" cy="335" r="5" class="solid"/></g>
+     <g class="food2"><rect x="120" y="317" width="48" height="36" rx="7" class="green"/><circle cx="144" cy="335" r="5" class="solid"/></g>
+
+     <g class="picker">
+       <circle cx="410" cy="160" r="24" class="mechanic"/>
+       <path class="mechanic" d="M410 184L455 250L430 305"/>
+       <path class="mechanic" d="M418 303l12 18M442 304l-12 17"/>
+       <circle cx="455" cy="250" r="9" class="mechanic"/>
+     </g>
+     <path class="dim" d="M300 130H520M300 122v16M520 122v16"/>
+     <text class="label" x="357" y="115">PICK / PLACE AXIS</text>
+     <path class="warm" d="M535 330h72v-78h-72z"/>
+     <text class="label" x="540" y="239">SORT / PROCESS</text>
+   </svg>
+   </div>
+
+   <!-- INDUSTRY: recognisable gear drive + linear slide + gripper -->
+   <div class="scene" id="industry">
+   <svg viewBox="0 0 720 520">
+     <text class="label" x="205" y="78">SPECIAL MACHINE / MECHANICAL MOTION</text>
+     <rect x="105" y="365" width="510" height="42" class="soft"/>
+     <path class="mechanic" d="M145 365V170h95v195"/>
+     <path class="soft" d="M165 190h55v55h-55z"/>
+
+     <g class="gear">
+       <circle cx="445" cy="285" r="64" class="mechanic"/>
+       <circle cx="445" cy="285" r="20" class="mechanic"/>
+       <path class="mechanic" d="M445 221v-18M445 367v-18M381 285h-18M527 285h-18M400 240l-13-13M503 343l-13-13M490 240l13-13M387 343l13-13"/>
+     </g>
+
+     <path class="mechanic" d="M240 275H365"/>
+     <g class="slider">
+       <rect x="275" y="252" width="70" height="46" rx="5" class="mechanic"/>
+       <path class="mechanic" d="M275 275h-52M223 257v36"/>
+       <path class="mechanic" d="M210 257l13-12M210 293l13 12"/>
+     </g>
+     <path class="dim" d="M240 325h125M240 317v16M365 317v16"/>
+     <text class="label" x="262" y="348">LINEAR MOTION</text>
+     <path class="warm" d="M545 350v-100M530 250h30M530 350h30"/>
+     <text class="label" x="570" y="300">WORKPIECE</text>
+   </svg>
+   </div>
  </div>
- <div class="bottom"><span>CONCEPT / DESIGN / ANALYSIS / REALISATION</span><span>01 — 04</span></div>
+</section>
+
+<div class="tabs">
+ <button class="tab active" onclick="showScene('energy',this)">
+   <div class="n">01</div><strong>ENERGY</strong><span>Solar · geothermal · mechanisms</span>
+ </button>
+ <button class="tab" onclick="showScene('food',this)">
+   <div class="n">02</div><strong>FOOD</strong><span>Handling · sorting · automation</span>
+ </button>
+ <button class="tab" onclick="showScene('industry',this)">
+   <div class="n">03</div><strong>INDUSTRY</strong><span>Special machines · motion · tooling</span>
+ </button>
 </div>
+</div>
+
+<script>
+const data={
+ energy:{
+  kicker:"ENERGY / CONCEPT 01",
+  headline:"Mechanical ideas.<br>Developed into reality.",
+  lead:"A solar tracking concept where the panel follows the sun through a simple mechanical rotation. The animation shows the principle — not a completed SIMGROVA project."
+ },
+ food:{
+  kicker:"FOOD / CONCEPT 02",
+  headline:"Move it.<br>Position it. Improve it.",
+  lead:"A simple product-handling concept: products travel on a conveyor while a mechanical arm picks, positions or sorts them. A recognisable principle ready to be developed further."
+ },
+ industry:{
+  kicker:"INDUSTRY / CONCEPT 03",
+  headline:"Make the movement<br>work simply.",
+  lead:"A special-machine concept combining rotary and linear motion with tooling around a workpiece. The purpose is to make the mechanical idea understandable before details take over."
+ }
+};
+function showScene(id,btn){
+ document.querySelectorAll('.scene').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');
+ document.getElementById('kicker').innerHTML=data[id].kicker;
+ document.getElementById('headline').innerHTML=data[id].headline;
+ document.getElementById('lead').innerHTML=data[id].lead;
+}
+</script>
 </body>
 </html>
 """
-components.html(hero, height=760, scrolling=False)
 
-st.markdown("""
-<div class="simgrova-section">
-  <div class="kicker">01 / Engineering</div>
-  <h2 class="sg">Complex engineering.<br>Made simple.</h2>
-  <div class="sg-copy">
-    SIMGROVA develops mechanical solutions from the first idea to a production-ready result.
-    The focus is on projects where mechanics, development, calculation and practical
-    implementation have to work as one system.
-  </div>
-
-  <div class="sg-grid">
-    <div class="sg-card"><div class="sg-num">01.01</div><h3>Concept development</h3><p>Turning requirements and ideas into robust mechanical concepts that can actually be built.</p></div>
-    <div class="sg-card"><div class="sg-num">01.02</div><h3>Mechanical design</h3><p>Construction, dimensioning and detailed engineering with focus on function, simplicity and production.</p></div>
-    <div class="sg-card"><div class="sg-num">01.03</div><h3>Multidisciplinary projects</h3><p>Mechanical development coordinated across interfaces, suppliers, manufacturing and commissioning.</p></div>
-  </div>
-</div>
-
-<div class="simgrova-section">
-  <div class="kicker">02 / Process</div>
-  <h2 class="sg">From sketch<br>to working machine.</h2>
-  <div class="process">
-    <span>IDEA</span><span class="arrow">→</span><span>CONCEPT</span><span class="arrow">→</span>
-    <span>ENGINEERING</span><span class="arrow">→</span><span>ANALYSIS</span><span class="arrow">→</span>
-    <span>PROTOTYPE</span><span class="arrow">→</span><span>PRODUCTION</span>
-  </div>
-</div>
-
-<div class="simgrova-section">
-  <div class="kicker">03 / Capability</div>
-  <h2 class="sg">One engineering partner.<br>Across the development chain.</h2>
-  <div class="sg-grid">
-    <div class="sg-card"><div class="sg-num">A</div><h3>Product & machine development</h3><p>Mechanical systems, tools, special machines and equipment from concept through detailed design.</p></div>
-    <div class="sg-card"><div class="sg-num">B</div><h3>Calculation & optimisation</h3><p>Dimensioning, structural assessment and engineering optimisation supporting sound design decisions.</p></div>
-    <div class="sg-card"><div class="sg-num">C</div><h3>Project execution</h3><p>Technical project management, supplier coordination, risk assessment, CE and commissioning.</p></div>
-  </div>
-</div>
-
-<div class="contact">
-  <div class="kicker">04 / Start a project</div>
-  <div class="mail">Have a mechanical challenge?</div>
-  <div class="sg-copy" style="margin:24px auto 0">Bring the idea. SIMGROVA can help turn it into a practical engineering solution.</div>
-</div>
-""", unsafe_allow_html=True)
+components.html(page, height=760, scrolling=False)
