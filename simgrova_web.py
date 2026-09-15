@@ -42,7 +42,7 @@ h1{font-size:clamp(44px,5.1vw,78px);font-weight:400;line-height:.96;letter-spaci
 .note{margin-top:28px;font:10px monospace;letter-spacing:.1em;color:#879393}
 .visual{height:min(61vh,570px);min-height:430px;position:relative;border-left:1px solid var(--line)}
 .scene{position:absolute;inset:0;opacity:0;transition:opacity .45s ease;pointer-events:none}
-.scene.active{opacity:1}
+.scene.active{opacity:1;pointer-events:auto}
 svg{width:100%;height:100%}
 .label{font:11px monospace;fill:#657779;letter-spacing:1px}
 .dim{stroke:#91a6a5;stroke-width:1;fill:none}
@@ -51,7 +51,7 @@ svg{width:100%;height:100%}
 .solid{fill:#347e8c}
 .warm{stroke:#d28a57;fill:none;stroke-width:2}
 .green{stroke:#799b80;fill:none;stroke-width:2}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
 .tab{border:0;border-right:1px solid var(--line);background:transparent;text-align:left;padding:18px 24px;color:var(--ink);cursor:pointer;transition:.2s}
 .tab:last-child{border-right:0}
 .tab:hover,.tab.active{background:#e9ece5}
@@ -183,6 +183,14 @@ svg{width:100%;height:100%}
      <text class="label" x="570" y="300">WORKPIECE</text>
    </svg>
    </div>
+
+   <!-- AI + CAD: interactive 3D block, drag to rotate -->
+   <div class="scene" id="aicad" style="pointer-events:auto">
+     <div style="position:absolute;left:28px;top:22px;z-index:3;font:11px monospace;color:#657779;letter-spacing:1px">
+       INTERACTIVE 3D / DRAG TO ROTATE · SCROLL TO ZOOM
+     </div>
+     <div id="cad3d" style="position:absolute;inset:45px 8px 5px 8px"></div>
+   </div>
  </div>
 </section>
 
@@ -196,10 +204,69 @@ svg{width:100%;height:100%}
  <button class="tab" onclick="showScene('industry',this)">
    <div class="n">03</div><strong>INDUSTRY</strong><span>Special machines · motion · tooling</span>
  </button>
+ <button class="tab" onclick="showScene('aicad',this)">
+   <div class="n">04</div><strong>AI + CAD</strong><span>Simple geometry · intelligent assembly</span>
+ </button>
 </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
+let cadStarted=false;
+function initCad(){
+ if(cadStarted || typeof THREE==="undefined") return;
+ cadStarted=true;
+ const host=document.getElementById("cad3d");
+ const scene=new THREE.Scene();
+ const camera=new THREE.PerspectiveCamera(40, host.clientWidth/host.clientHeight, 1, 5000);
+ camera.position.set(420,330,300);
+ const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+ renderer.setSize(host.clientWidth,host.clientHeight);
+ renderer.setClearColor(0x000000,0);
+ host.appendChild(renderer.domElement);
+
+ const group=new THREE.Group();
+ scene.add(group);
+ const geo=new THREE.BoxGeometry(240,150,100);
+ const mat=new THREE.MeshPhongMaterial({color:0x78aeb8,transparent:true,opacity:.78,shininess:25});
+ const block=new THREE.Mesh(geo,mat);
+ group.add(block);
+ const edges=new THREE.LineSegments(
+   new THREE.EdgesGeometry(geo),
+   new THREE.LineBasicMaterial({color:0x244b53})
+ );
+ group.add(edges);
+
+ const grid=new THREE.GridHelper(600,12,0x9caaa7,0xd7ded9);
+ grid.position.y=-85;
+ scene.add(grid);
+ scene.add(new THREE.HemisphereLight(0xffffff,0x8aa0a0,2.2));
+ const dl=new THREE.DirectionalLight(0xffffff,2.4); dl.position.set(300,400,500); scene.add(dl);
+
+ let dragging=false, px=0, py=0;
+ renderer.domElement.addEventListener("pointerdown",e=>{dragging=true;px=e.clientX;py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
+ renderer.domElement.addEventListener("pointerup",()=>dragging=false);
+ renderer.domElement.addEventListener("pointermove",e=>{
+   if(!dragging)return;
+   group.rotation.y+=(e.clientX-px)*.012;
+   group.rotation.x+=(e.clientY-py)*.012;
+   px=e.clientX;py=e.clientY;
+ });
+ renderer.domElement.addEventListener("wheel",e=>{
+   e.preventDefault();
+   camera.position.multiplyScalar(e.deltaY>0?1.08:.92);
+ },{passive:false});
+
+ function resize(){
+   const w=host.clientWidth,h=host.clientHeight;
+   if(w&&h){camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);}
+ }
+ window.addEventListener("resize",resize);
+ function animate(){requestAnimationFrame(animate);renderer.render(scene,camera)}
+ animate();
+}
+
 const data={
  energy:{
   kicker:"ENERGY / CONCEPT 01",
@@ -215,6 +282,11 @@ const data={
   kicker:"INDUSTRY / CONCEPT 03",
   headline:"Make the movement<br>work simply.",
   lead:"A special-machine concept combining rotary and linear motion with tooling around a workpiece. The purpose is to make the mechanical idea understandable before details take over."
+ },
+ aicad:{
+  kicker:"AI + CAD / R&D CONCEPT 04",
+  headline:"Simple geometry.<br>Engineering intelligence.",
+  lead:"An experimental SIMGROVA approach: describe components by their key specifications, simplified 3D envelopes and mounting interfaces — then let AI reason about how a machine can be assembled."
  }
 };
 function showScene(id,btn){
@@ -225,6 +297,7 @@ function showScene(id,btn){
  document.getElementById('kicker').innerHTML=data[id].kicker;
  document.getElementById('headline').innerHTML=data[id].headline;
  document.getElementById('lead').innerHTML=data[id].lead;
+ if(id==='aicad') setTimeout(initCad,60);
 }
 </script>
 </body>
