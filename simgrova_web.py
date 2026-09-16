@@ -95,30 +95,63 @@ h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margi
 <div class="kicker" id="dkicker">ENERGI / MEKANISK UDVIKLING</div><h3 id="dtitle">Mekaniske løsninger til energiområdet</h3><div id="dtext"></div>
 </div><div class="detail-visual">
 <div class="scene active" id="energy"><svg viewBox="0 0 720 470">
-<text class="label" x="210" y="55">LØFT / BELASTNINGSVEJ / KONTROL</text>
-<path class="mechanic" d="M125 105H590M160 105v60M555 105v60"/><path class="soft" d="M160 145h395"/>
-<g class="load"><path class="mechanic" d="M360 105v120M330 225h60"/><path class="mechanic" d="M330 225l-55 90M390 225l55 90"/><rect x="260" y="315" width="200" height="65" class="warm"/></g>
-<path class="dim" d="M245 395h230"/><text class="label" x="286" y="420">KONTROLLERET LAST</text></svg></div>
+<text class="label" x="55" y="52">MEKANISK PRINCIP / LAST & INTERFACE</text>
+<path class="dim" d="M70 395H650M90 405v-20M630 405v-20"/>
+<path class="soft" d="M120 330H600M145 330V145M575 330V145M145 145H575"/>
+<path class="mechanic" d="M235 145v48h250v-48"/>
+<path class="mechanic" d="M360 193v72"/>
+<circle cx="360" cy="193" r="10" class="mechanic"/>
+<path class="mechanic" d="M315 265h90l30 65H285z"/>
+<path class="warm" d="M285 330h150"/>
+<path class="dim" d="M465 193v137M455 193h20M455 330h20"/>
+<text class="label" x="485" y="265">KONTROLLERET</text>
+<text class="label" x="485" y="281">BELASTNINGSVEJ</text>
+<text class="label" x="225" y="365">SPECIALVÆRKTØJ / HÅNDTERING</text>
+</svg></div>
+
 <div class="scene" id="food"><svg viewBox="0 0 720 470">
-<text class="label" x="190" y="55">HYGIENISK PRODUKTHÅNDTERING / CIP</text><path class="mechanic" d="M70 340H650"/><path class="soft" d="M85 365H635"/>
-<g class="product"><rect x="120" y="300" width="55" height="38" rx="8" class="warm"/></g>
-<g class="arm"><circle cx="405" cy="150" r="20" class="mechanic"/><path class="mechanic" d="M405 170l45 75-25 55"/><path class="mechanic" d="M415 300h20"/></g>
-<path class="soft flow" stroke-dasharray="8 8" d="M545 120c-50 35-70 85-62 145"/><path class="soft" d="M520 105h55l-20 25z"/><text class="label" x="525" y="90">CIP / SPRAY</text></svg></div>
+<text class="label" x="55" y="52">HYGIENISK DESIGN / DRÆNBAR KONSTRUKTION</text>
+<path class="mechanic" d="M110 170h475v145H110z"/>
+<path class="soft" d="M145 205h405v72H145z"/>
+<path class="mechanic" d="M145 277l202 28 203-28"/>
+<path class="warm" d="M347 305v55"/>
+<path class="soft" d="M110 315l-28 35M585 315l28 35"/>
+<path class="dim" d="M180 335h130"/>
+<path class="dim" d="M385 335h130"/>
+<text class="label" x="274" y="390">FALD / DRÆNING</text>
+<circle cx="347" cy="215" r="18" class="mechanic"/>
+<path class="soft" d="M347 233v38M325 245l22 12 22-12"/>
+<text class="label" x="385" y="215">CIP / RENGØRINGSZONE</text>
+<text class="label" x="135" y="125">ÅBNE FLADER · FÅ DØDE ZONER · ADGANG TIL RENGØRING</text>
+</svg></div>
+
 <div class="scene" id="industry"><svg viewBox="0 0 720 470">
-<text class="label" x="210" y="55">SPECIALMASKINE / PROCESBEVÆGELSE</text><path class="mechanic" d="M90 370H630M130 370V140h105v230"/><path class="mechanic" d="M235 215H510"/>
-<g class="press"><rect x="340" y="175" width="90" height="60" class="mechanic"/><path class="mechanic" d="M385 235v80"/><rect x="350" y="315" width="70" height="30" class="warm"/></g>
-<path class="dim" d="M280 395h210"/><text class="label" x="330" y="420">GENTAGELIG FUNKTION</text></svg></div>
+<text class="label" x="55" y="52">SPECIALMASKINE / FUNKTION & INTERFACES</text>
+<path class="soft" d="M90 355H630M115 355V145M605 355V145"/>
+<path class="mechanic" d="M115 145h490"/>
+<path class="mechanic" d="M175 190h310"/>
+<rect x="245" y="165" width="105" height="50" rx="3" class="mechanic"/>
+<path class="mechanic" d="M350 190h135"/>
+<circle cx="510" cy="190" r="25" class="mechanic"/>
+<path class="mechanic" d="M510 215v75"/>
+<path class="mechanic" d="M470 290h80"/>
+<rect x="450" y="310" width="120" height="45" class="warm"/>
+<path class="dim" d="M175 245h310M175 235v20M485 235v20"/>
+<text class="label" x="265" y="270">LINEÆR AKSE</text>
+<text class="label" x="465" y="390">EMNE / PROCES</text>
+<text class="label" x="130" y="390">RAMME · AKSE · VÆRKTØJ · EMNE</text>
+</svg></div>
 <div class="scene" id="cad"><div style="position:absolute;left:25px;top:20px;font:11px monospace;color:#657779">SIMGROVA 3D · TRÆK FOR AT ROTERE · SCROLL FOR ZOOM</div><div id="cad3d"></div></div>
 </div></div></section>
 
 <section class="section" id="samarbejde"><div class="section-title"><div class="kicker">SAMARBEJDE</div><h2>Indgår dér, hvor der er behov.</h2><p>Opgaverne kan løses direkte for en virksomhed eller som en del af et engineering- eller projektteam. Rollen og omfanget tilpasses den konkrete opgave.</p></div>
 <div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projektteam.</span></div><div class="step"><span>02</span><b>Afgrænset opgave</b><span>En konkret konstruktions-, udviklings- eller beregningsopgave med et tydeligt teknisk scope.</span></div><div class="step"><span>03</span><b>Projektansvar</b><span>Teknisk koordinering af en mekanisk delopgave med grænseflader til kunde, leverandører og øvrige fag.</span></div><div class="step"><span>04</span><b>On-site / remote</b><span>Arbejdet kan indgå tæt i kundens organisation eller udføres mere selvstændigt efter opgavens karakter.</span></div><div class="step"><span>05</span><b>Engineering house</b><span>Kan indgå som ekstern ressource hos engineeringhuse, der har behov for mekanisk kompetence eller ekstra kapacitet.</span></div></div></section>
 
-<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>SIMGROVA drives af maskiningeniør Søren Noe Christiansen og arbejder med mekanisk udvikling, konstruktion og teknisk projektledelse.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
+<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>Arbejdsområdet er mekanisk udvikling, konstruktion og teknisk projektledelse med fokus på praktiske, gennemarbejdede løsninger.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
 <div class="facts"><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Teamcenter</b><span>PLM / PROJEKTMILJØ</span></div><div class="fact"><b>Engineering</b><span>UDVIKLING / DIMENSIONERING</span></div><div class="fact"><b>Projekt</b><span>TEKNISK KOORDINERING</span></div></div></div></section>
 
 <section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
-<div class="contactbox"><div class="kicker">SIMGROVA ApS</div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
+<div class="contactbox"><div style="font-size:24px;font-weight:700;letter-spacing:.14em;margin-bottom:24px">SIMGROVA <span style="font-size:11px;font-weight:400;letter-spacing:.08em;color:var(--muted)">ApS</span></div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
 
 <div class="footer"><span>SIMGROVA · SIMPLICITY CREATES GROWTH</span><span>MECHANICAL ENGINEERING / DENMARK</span></div>
 </div>
