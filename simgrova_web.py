@@ -205,62 +205,58 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 .concept-static .concept-image{position:absolute;inset:38px 10px 28px;width:calc(100% - 20px);height:calc(100% - 66px);object-fit:contain;display:block}
 .concept-static canvas,.concept-static .model-grid,.concept-static .model-stage{display:none!important}
 
-/* v35 — premium, more photorealistic SIMGROVA business card */
-#kontakt .business-card,
-#kontakt .contact-card{
+/* v36 — controlled photorealistic business card, without altering contact layout */
+#kontakt .premium-card{
   position:relative;
+  box-sizing:border-box;
+  min-height:300px;
+  padding:0!important;
   overflow:hidden;
+  border:1px solid #c8cfcc!important;
+  border-radius:9px!important;
   background:
-    radial-gradient(circle at 18% 12%,rgba(255,255,255,.92),rgba(255,255,255,0) 30%),
-    linear-gradient(132deg,#f7f8f6 0%,#e7ebe8 42%,#d7ddda 100%);
-  border:1px solid rgba(31,55,55,.22);
-  border-radius:12px;
-  box-shadow:
-    0 24px 45px rgba(16,34,34,.16),
-    0 7px 14px rgba(16,34,34,.09),
-    inset 0 1px 0 rgba(255,255,255,.95),
-    inset 0 -1px 0 rgba(0,0,0,.05);
-  transform:perspective(1100px) rotateX(.7deg) rotateY(-1.2deg);
+    linear-gradient(115deg,rgba(255,255,255,.72),rgba(255,255,255,.08) 32%,rgba(255,255,255,.34) 67%,rgba(255,255,255,.08)),
+    linear-gradient(180deg,#f4f5f2 0%,#e8ebe7 100%)!important;
+  box-shadow:0 18px 34px rgba(24,42,42,.13),0 3px 8px rgba(24,42,42,.08),inset 0 1px 0 #fff!important;
 }
-#kontakt .business-card:before,
-#kontakt .contact-card:before{
-  content:"";
-  position:absolute;inset:0;
-  pointer-events:none;
-  opacity:.34;
-  background:
-    repeating-linear-gradient(96deg,
-      rgba(255,255,255,.14) 0px,
-      rgba(255,255,255,.14) 1px,
-      rgba(35,58,57,.035) 2px,
-      rgba(35,58,57,.018) 4px);
-  mix-blend-mode:multiply;
+#kontakt .premium-card:before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(42,59,58,.045) 0,rgba(42,59,58,.045) 1px,transparent 1px,transparent 4px);
 }
-#kontakt .business-card:after,
-#kontakt .contact-card:after{
-  content:"";
-  position:absolute;
-  left:-8%;top:-35%;
-  width:58%;height:165%;
-  transform:rotate(14deg);
-  pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.46),transparent);
-  opacity:.38;
+#kontakt .premium-card .card-edge{
+  position:absolute;left:0;right:0;bottom:0;height:5px;
+  background:linear-gradient(180deg,#cfd5d1,#aeb8b3);
+  box-shadow:inset 0 1px rgba(255,255,255,.8);
 }
-#kontakt .business-card>*,
-#kontakt .contact-card>*{position:relative;z-index:1}
-#kontakt .business-card h3,
-#kontakt .contact-card h3{
-  text-shadow:0 1px 0 rgba(255,255,255,.9);
-  letter-spacing:.025em;
+#kontakt .premium-card .card-content{
+  position:relative;z-index:1;
+  padding:34px 38px 30px;
 }
-#kontakt .business-card a,
-#kontakt .contact-card a{
-  text-decoration-thickness:1px;
-  text-underline-offset:3px;
+#kontakt .premium-card .card-brand{
+  font-size:25px;font-weight:700;letter-spacing:.10em;color:#20353a;
+  text-shadow:0 1px rgba(255,255,255,.85);
 }
-@media(max-width:900px){
-  #kontakt .business-card,#kontakt .contact-card{transform:none}
+#kontakt .premium-card .card-brand span{
+  font-size:12px;font-weight:500;letter-spacing:.06em;color:#788789;
+}
+#kontakt .premium-card .card-rule{
+  width:42px;height:2px;margin:18px 0 22px;background:#4f7776;
+}
+#kontakt .premium-card .card-name{
+  color:#263b3f;font-size:15px;line-height:1.55;
+}
+#kontakt .premium-card .card-name span{color:#687a7b;font-size:13px}
+#kontakt .premium-card .card-contact{margin-top:18px;line-height:1.7;font-size:14px}
+#kontakt .premium-card .card-contact a{color:#244f57;text-decoration:none}
+#kontakt .premium-card .card-contact a:hover{text-decoration:underline;text-underline-offset:3px}
+#kontakt .premium-card .card-services{
+  margin-top:24px;padding-top:15px;border-top:1px solid rgba(66,88,87,.18);
+  color:#6f7f80;font-size:11.5px;line-height:1.65;letter-spacing:.01em;
+}
+@media(max-width:700px){
+ #kontakt .premium-card{min-height:0}
+ #kontakt .premium-card .card-content{padding:28px 26px}
 }
 </style></head><body>
 <div class="shell">
@@ -325,12 +321,22 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 </div></div></section>
 
 <section class="section" id="samarbejde"><div class="section-title"><div class="kicker">SAMARBEJDE</div><h2>Indgår dér, hvor der er behov.</h2><p>Opgaverne kan løses direkte for en virksomhed eller som en del af et engineering- eller projektteam. Rollen og omfanget tilpasses den konkrete opgave.</p></div>
-<div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projekt<section class="section" id="kontakt"><div class="contact business-card"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
-<div class="contactbox"><div style="font-size:24px;font-weight:700;letter-spacing:.08em;color:#20353a;margin-bottom:22px">SIMGROVA <span style="font-size:13px;font-weight:400;color:#788789">ApS</span></div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>ring, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
+<div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projektteam.</span></div><div class="step"><span>02</span><b>Afgrænset opgave</b><span>En konkret konstruktions-, udviklings- eller beregningsopgave med et tydeligt teknisk scope.</span></div><div class="step"><span>03</span><b>Projektansvar</b><span>Teknisk koordinering af en mekanisk delopgave med grænseflader til kunde, leverandører og øvrige fag.</span></div><div class="step"><span>04</span><b>On-site / remote</b><span>Arbejdet kan indgå tæt i kundens organisation eller udføres mere selvstændigt efter opgavens karakter.</span></div><div class="step"><span>05</span><b>Engineering house</b><span>Kan indgå som ekstern ressource hos engineeringhuse, der har behov for mekanisk kompetence eller ekstra kapacitet.</span></div></div></section>
+
+<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>Arbejdsområdet er mekanisk udvikling, konstruktion og teknisk projektledelse med fokus på praktiske, gennemarbejdede løsninger.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
 <div class="facts"><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Teamcenter</b><span>PLM / PROJEKTMILJØ</span></div><div class="fact"><b>Engineering</b><span>UDVIKLING / DIMENSIONERING</span></div><div class="fact"><b>Projekt</b><span>TEKNISK KOORDINERING</span></div></div></div></section>
 
 <section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
-<div class="contactbox"><div style="font-size:24px;font-weight:700;letter-spacing:.08em;color:#20353a;margin-bottom:22px">SIMGROVA <span style="font-size:13px;font-weight:400;color:#788789">ApS</span></div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
+<div class="contactbox premium-card">
+  <div class="card-edge"></div>
+  <div class="card-content">
+    <div class="card-brand">SIMGROVA <span>ApS</span></div>
+    <div class="card-rule"></div>
+    <div class="card-name"><b>Søren Noe Christiansen</b><br><span>Maskiningeniør</span></div>
+    <div class="card-contact"><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></div>
+    <div class="card-services">Mekanisk udvikling · Konstruktion · Teknisk projektledelse<br>Dimensionering · Specialmaskiner · Risikovurdering &amp; CE</div>
+  </div>
+</div></div></section>
 
 <div class="footer"><span>SIMGROVA · SIMPLICITY CREATES GROWTH</span><span>MECHANICAL ENGINEERING / DENMARK</span></div>
 </div>
