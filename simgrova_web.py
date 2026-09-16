@@ -48,7 +48,7 @@ h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margi
 @keyframes flow{to{stroke-dashoffset:-30}} @keyframes product{from{transform:translateX(-180px)}to{transform:translateX(520px)}} @keyframes arm{0%,20%,100%{transform:rotate(-16deg)}50%,70%{transform:rotate(17deg)}} @keyframes press{0%,30%,100%{transform:translateY(-35px)}55%,75%{transform:translateY(35px)}} @keyframes blade{from{transform:rotate(-5deg)}to{transform:rotate(12deg)}} @keyframes load{from{transform:translateY(0)}to{transform:translateY(-45px)}}
 .process{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.step{padding:28px 22px;border-right:1px solid var(--line)}.step:last-child{border-right:0}.step b{display:block;font-size:16px;margin:9px 0}.step span{font-size:12px;line-height:1.5;color:var(--muted)}
 .about{display:grid;grid-template-columns:1fr 1fr;gap:60px}.about p{color:var(--muted);line-height:1.7}.facts{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}.fact{padding:25px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.fact:nth-child(even){border-right:0}.fact b{font-size:25px;font-weight:400;display:block}.fact span{font:10px monospace;color:var(--muted)}
-.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:50px}.contactbox{border:1px solid var(--line);padding:30px}.contactbox a{color:var(--blue);text-decoration:none}.footer{padding:35px 0 55px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font:10px monospace;color:var(--muted)}
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:50px}.contactbox{border:1px solid var(--line);padding:30px}.contactbox a{color:var(--blue);text-decoration:none}.footer{margin-left:42px;margin-right:42px;padding:35px 0 55px;border-top:2px solid #c3ced2;display:flex;justify-content:space-between;font:10px monospace;color:var(--muted)}
 #cad3d{position:absolute;inset:45px 10px 8px;cursor:grab;perspective:900px;touch-action:none}.cad-grid{position:absolute;left:8%;right:8%;bottom:7%;height:43%;transform:rotateX(66deg);transform-origin:bottom;background-image:linear-gradient(#cdd8d4 1px,transparent 1px),linear-gradient(90deg,#cdd8d4 1px,transparent 1px);background-size:34px 34px;opacity:.7}.cad-object{position:absolute;left:53%;top:48%;width:270px;height:90px;transform-style:preserve-3d}.face{position:absolute;border:2px solid #5b96c7;background:rgba(120,174,184,.58);display:flex;align-items:center;justify-content:center;color:#3979ad;font-weight:700;letter-spacing:.13em}.front,.back{width:270px;height:90px}.front{transform:translateZ(55px);font-size:26px}.back{transform:rotateY(180deg) translateZ(55px)}.right,.left{width:110px;height:90px;left:80px;font-size:11px}.right{transform:rotateY(90deg) translateZ(135px)}.left{transform:rotateY(-90deg) translateZ(135px)}.top,.bottom{width:270px;height:110px;top:-10px}.top{transform:rotateX(90deg) translateZ(45px)}.bottom{transform:rotateX(-90deg) translateZ(45px)}
 @media(max-width:900px){nav{display:none}.hero,.detail,.about,.contact{grid-template-columns:1fr}.visual,.detail-visual{border-left:0;border-top:1px solid var(--line)}.cards{grid-template-columns:1fr 1fr}.card:nth-child(2){border-right:0}.process{grid-template-columns:1fr}.step{border-right:0;border-bottom:1px solid var(--line)}}
 
@@ -189,7 +189,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 
 .hero-config{margin-top:18px;padding:14px 16px 13px;border:1px solid rgba(38,76,83,.16);background:rgba(255,255,255,.62);backdrop-filter:blur(8px)}
 .hero-config .cfg-title{font-size:10px;letter-spacing:.14em;font-weight:800;color:#587177;margin-bottom:10px}
-.cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#68a9df}.cfg-row input{width:100%;accent-color:#68a9df}
+.cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#68a9df}.cfg-row input{width:100%;accent-color:#626b70}
 .cfg-actions{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}.cfg-btn{border:1px solid #68a9df;background:#68a9df;color:#fff;padding:8px 13px;font:800 10px Arial;letter-spacing:.10em;cursor:pointer}.cfg-btn.secondary{background:transparent;color:#68a9df}.cfg-status{font-size:10px;color:#71868b;margin-left:auto}
 .view-modes{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}.view-modes>span{font:800 9px Arial;letter-spacing:.14em;color:#71868b}.view-modes button[data-view]{border:1px solid rgba(52,126,140,.45);background:transparent;color:#68a9df;padding:7px 10px;font:800 9px Arial;cursor:pointer}.view-modes button[data-view].active{background:#68a9df;color:#fff}
 /* v26 — hero configurator alignment */
@@ -262,7 +262,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 /* v38 — SIMGROVA brand accent + expanded competence matrix */
 .brand{color:#68a9df!important}
 .brand small{color:var(--muted)!important}
-.section h2{color:#68a9df}
+.section h2{color:#20353a}
 #kontakt .premium-card .card-brand{color:#68a9df!important}
 .footer span:first-child{color:#68a9df}
 .competence-matrix .fact{
@@ -274,18 +274,31 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
   padding:24px 22px;
 }
 .competence-matrix .fact b{
-  color:#68a9df;
-  font-size:15px;
-  letter-spacing:.08em;
+  color:#20353a;
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:.075em;
 }
 .competence-matrix .fact span{
-  font-size:11px;
-  line-height:1.75;
-  letter-spacing:.025em;
-  color:#657779;
+  font-size:11.5px;
+  font-weight:600;
+  line-height:1.72;
+  letter-spacing:.018em;
+  color:#52676a;
 }
 @media(max-width:700px){
   .competence-matrix .fact{min-height:0}
+}
+
+.cfg-row input[type="range"]{accent-color:#626b70}
+.cfg-row input[type="range"]::-webkit-slider-runnable-track{background:#d8dde0;height:4px;border-radius:3px}
+.cfg-row input[type="range"]::-webkit-slider-thumb{background:#626b70}
+.cfg-row input[type="range"]::-moz-range-track{background:#d8dde0;height:4px;border-radius:3px}
+.cfg-row input[type="range"]::-moz-range-progress{background:#626b70;height:4px;border-radius:3px}
+.cfg-row input[type="range"]::-moz-range-thumb{background:#626b70;border:0}
+
+@media(max-width:700px){
+  .footer{margin-left:18px;margin-right:18px}
 }
 </style></head><body>
 <div class="shell">
@@ -701,7 +714,7 @@ function setupModel(id,type){
       // Each panel is WIDE ACROSS Z and SHORT in X.
       // Its hinge axis is therefore Z: the panel's long side.
       const pivot=new THREE.Group(); E.add(pivot);
-      pivot.position.set(x,-.47,0);
+      pivot.position.set(x,-.82,0);
 
       const pg=new THREE.Group(); pivot.add(pg);
       const short=.86, long=1.78;
@@ -733,16 +746,10 @@ function setupModel(id,type){
     const pitch=1.56;
     for(const side of [-1,1]){
       for(let i=0;i<5;i++){
-        const center=side*(1.62+i*pitch);
+        const center=side*(2.06+i*pitch);
 
         // transverse ridge/support beam
-        box(center,-.49,0,.10,.10,1.90,MAT.dark,E);
-
-        // low support feet at both ends of ridge
-        for(const z of [-.82,.82]){
-          box(center,-.78,z,.10,.58,.10,MAT.steel,E);
-          box(center,-1.08,z,.28,.05,.28,MAT.dark,E);
-        }
+        box(center,-.86,0,.10,.10,1.90,MAT.dark,E);
 
         // one leaf points toward container, the other away from it
         makeLeaf(center,side,-side);
