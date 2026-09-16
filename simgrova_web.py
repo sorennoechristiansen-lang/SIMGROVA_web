@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="SIMGROVA | Mekanisk udvikling", page_icon="⚙️", layout="wide", initial_sidebar_state="collapsed")
 
@@ -290,12 +289,54 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
   .competence-matrix .fact{min-height:0}
 }
 
-.cfg-row input[type="range"]{accent-color:#626b70}
-.cfg-row input[type="range"]::-webkit-slider-runnable-track{background:#d8dde0;height:4px;border-radius:3px}
-.cfg-row input[type="range"]::-webkit-slider-thumb{background:#626b70}
-.cfg-row input[type="range"]::-moz-range-track{background:#d8dde0;height:4px;border-radius:3px}
-.cfg-row input[type="range"]::-moz-range-progress{background:#626b70;height:4px;border-radius:3px}
-.cfg-row input[type="range"]::-moz-range-thumb{background:#626b70;border:0}
+.cfg-row input[type="range"]{
+  width:100%;
+  height:18px;
+  margin:0;
+  padding:0;
+  background:transparent;
+  accent-color:#626b70;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.cfg-row input[type="range"]::-webkit-slider-runnable-track{
+  width:100%;
+  height:4px;
+  background:#d8dde0;
+  border:0;
+  border-radius:3px;
+}
+.cfg-row input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:14px;
+  height:14px;
+  margin-top:-5px;
+  border:0;
+  border-radius:50%;
+  background:#626b70;
+  box-shadow:none;
+}
+.cfg-row input[type="range"]::-moz-range-track{
+  width:100%;
+  height:4px;
+  background:#d8dde0;
+  border:0;
+  border-radius:3px;
+}
+.cfg-row input[type="range"]::-moz-range-progress{
+  height:4px;
+  background:#626b70;
+  border-radius:3px;
+}
+.cfg-row input[type="range"]::-moz-range-thumb{
+  width:14px;
+  height:14px;
+  border:0;
+  border-radius:50%;
+  background:#626b70;
+  box-shadow:none;
+}
 
 @media(max-width:700px){
   .footer{margin-left:18px;margin-right:18px}
@@ -1118,4 +1159,4 @@ document.getElementById("resetCfg").addEventListener("click",()=>{travelSlider.v
 cfgLabels();heroMechanism.liveUpdate?.(3,1300,1000);
 </script></body></html>
 """
-components.html(page, height=4300, scrolling=True)
+st.iframe(page, width="stretch", height=4300)
