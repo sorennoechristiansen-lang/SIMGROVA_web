@@ -126,6 +126,29 @@ section{background:#fff}
   #samarbejde .process{width:100%!important;max-width:none!important}
   #samarbejde .process{grid-template-columns:1fr!important}
 }
+
+/* v14 — same proven safe width for Baggrund/erfaring and Kontakt */
+#om .about,
+#kontakt .contact{
+  width:calc(100% - 160px)!important;
+  max-width:1180px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+#om .about > *,
+#kontakt .contact > *{min-width:0!important}
+
+@media(max-width:1100px){
+  #om .about,
+  #kontakt .contact{width:calc(100% - 80px)!important}
+}
+@media(max-width:900px){
+  #om .about,
+  #kontakt .contact{
+    width:100%!important;
+    max-width:none!important;
+  }
+}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
