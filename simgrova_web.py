@@ -97,31 +97,34 @@ section{background:#fff}
 .visual,.detail-visual{border-color:#e5eded!important;box-shadow:0 18px 55px rgba(35,72,79,.045)}
 .box3d .f{opacity:1!important}
 
-/* v11: one consistent horizontal safe area across the entire page */
-:root{--page-max:1440px;--page-pad:clamp(32px,5vw,78px)}
-.shell{width:100%!important;max-width:var(--page-max)!important;margin-left:auto!important;margin-right:auto!important;padding-left:var(--page-pad)!important;padding-right:var(--page-pad)!important}
-#services,#branches,#collaboration,#about,#contact,
-.services,.branches,.collaboration,.about,.contact{
-  width:100%!important;
-  max-width:var(--page-max)!important;
-  margin-left:auto!important;
-  margin-right:auto!important;
-  padding-left:var(--page-pad)!important;
-  padding-right:var(--page-pad)!important;
-}
-#collaboration *, .collaboration *{min-width:0}
-@media(max-width:900px){
- :root{--page-pad:24px}
-}
 
-/* v12: SAMARBEJDE has the actual Danish id #samarbejde */
+/* v13 — definitive collaboration geometry */
+#samarbejde{
+  padding-left:0!important;
+  padding-right:0!important;
+}
+#samarbejde .section-title,
 #samarbejde .process{
-  width:calc(100% - clamp(40px,6vw,110px))!important;
+  width:calc(100% - 160px)!important;
+  max-width:1180px!important;
   margin-left:auto!important;
   margin-right:auto!important;
 }
+#samarbejde .process{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+}
+#samarbejde .step{
+  min-width:0!important;
+  overflow-wrap:anywhere;
+}
+@media(max-width:1100px){
+  #samarbejde .section-title,
+  #samarbejde .process{width:calc(100% - 80px)!important}
+}
 @media(max-width:900px){
-  #samarbejde .process{width:100%!important}
+  #samarbejde .section-title,
+  #samarbejde .process{width:100%!important;max-width:none!important}
+  #samarbejde .process{grid-template-columns:1fr!important}
 }
 </style></head><body>
 <div class="shell">
@@ -197,6 +200,26 @@ food:{k:"FØDEVARER / HYGIENISK KONSTRUKTION",t:"Fødevareudstyr og hygiejnisk k
 industry:{k:"INDUSTRI / SPECIALMASKINER",t:"Specialmaskiner og produktionsudstyr",html:`<p>Arbejdet kan omfatte nye specialmaskiner, delsystemer eller ændringer af eksisterende produktionsudstyr med fokus på funktion, fremstilling, montage og service.</p><ul><li>Specialmaskiner og produktionsudstyr</li><li>Automatiserede mekaniske bevægelser og emnehåndtering</li><li>Optimering af eksisterende udstyr og cyklustid</li><li>Design for manufacturing og service</li><li>Layout, konstruktion, leverandørdialog, montage og idriftsættelse</li></ul><p>Erfaringen omfatter bl.a. højhastighedsudstyr med krav til stabil produktion og høj OEE.</p>`},
 cad:{k:"UDVIKLING / CAD + ENGINEERING",t:"Udvikling og konstruktion i 3D",html:`<p>3D CAD bruges gennem udviklingsforløbet til at undersøge funktion, pladsforhold, interfaces, montage og forskellige løsningsmuligheder.</p><ul><li>Siemens NX og Teamcenter</li><li>Konceptmodeller og maskinlayout</li><li>Detaljekonstruktion og produktionsmodning</li><li>Dimensionering og FEM/FEA som udviklingsværktøj</li><li>Teknisk dokumentation og design reviews</li></ul><p>AI kan fremover bruges som ekstra værktøj til hurtigere konceptarbejde og systematisering — mens de mekaniske beslutninger fortsat bygger på ingeniørfaglig vurdering.</p>`}
 };
+
+
+function show(id,el){
+  document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
+  if(el) el.classList.add("active");
+
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  const scene=document.getElementById(id);
+  if(scene) scene.classList.add("active");
+
+  const c=content[id];
+  if(c){
+    document.getElementById("dkicker").textContent=c.k;
+    document.getElementById("dtitle").textContent=c.t;
+    document.getElementById("dtext").innerHTML=c.html;
+  }
+
+  const map={energy:"energy3d",food:"food3d",industry:"industry3d",cad:"cad3d"};
+  setupModel(map[id],id);
+}
 
 const built={};
 
@@ -337,13 +360,8 @@ function setupModel(id,type){
 }
 setupModel("hero3d","hero");
 setupModel("energy3d","energy");
+document.getElementById("dtext").innerHTML=content.energy.html;
 
-const oldShow=show;
-show=function(id,el){
- oldShow(id,el);
- const map={energy:"energy3d",food:"food3d",industry:"industry3d",cad:"cad3d"};
- setTimeout(()=>setupModel(map[id],id),20);
-}
 </script></body></html>
 """
 components.html(page, height=4300, scrolling=True)
