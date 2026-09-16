@@ -16,7 +16,7 @@ page = r"""
 <!doctype html><html lang="da"><head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{--paper:#ffffff;--ink:#20353a;--muted:#68797b;--line:#ccd6d2;--blue:#347e8c;--blue2:#8cb8bd;--warm:#d28a57;--green:#799b80;--panel:#e9ece5}
+:root{--paper:#ffffff;--ink:#20353a;--muted:#68797b;--line:#ccd6d2;--blue:#68a9df;--blue2:#b7d5ee;--warm:#d28a57;--green:#8ebce3;--panel:#e9ece5}
 *{box-sizing:border-box} html{scroll-behavior:smooth}
 body{margin:0;background:#ffffff;color:var(--ink);font-family:Arial,sans-serif}
 .shell{width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(28px,5vw,78px)}
@@ -49,7 +49,7 @@ h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margi
 .process{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.step{padding:28px 22px;border-right:1px solid var(--line)}.step:last-child{border-right:0}.step b{display:block;font-size:16px;margin:9px 0}.step span{font-size:12px;line-height:1.5;color:var(--muted)}
 .about{display:grid;grid-template-columns:1fr 1fr;gap:60px}.about p{color:var(--muted);line-height:1.7}.facts{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}.fact{padding:25px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.fact:nth-child(even){border-right:0}.fact b{font-size:25px;font-weight:400;display:block}.fact span{font:10px monospace;color:var(--muted)}
 .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:50px}.contactbox{border:1px solid var(--line);padding:30px}.contactbox a{color:var(--blue);text-decoration:none}.footer{padding:35px 0 55px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font:10px monospace;color:var(--muted)}
-#cad3d{position:absolute;inset:45px 10px 8px;cursor:grab;perspective:900px;touch-action:none}.cad-grid{position:absolute;left:8%;right:8%;bottom:7%;height:43%;transform:rotateX(66deg);transform-origin:bottom;background-image:linear-gradient(#cdd8d4 1px,transparent 1px),linear-gradient(90deg,#cdd8d4 1px,transparent 1px);background-size:34px 34px;opacity:.7}.cad-object{position:absolute;left:53%;top:48%;width:270px;height:90px;transform-style:preserve-3d}.face{position:absolute;border:2px solid #285863;background:rgba(120,174,184,.58);display:flex;align-items:center;justify-content:center;color:#244b53;font-weight:700;letter-spacing:.13em}.front,.back{width:270px;height:90px}.front{transform:translateZ(55px);font-size:26px}.back{transform:rotateY(180deg) translateZ(55px)}.right,.left{width:110px;height:90px;left:80px;font-size:11px}.right{transform:rotateY(90deg) translateZ(135px)}.left{transform:rotateY(-90deg) translateZ(135px)}.top,.bottom{width:270px;height:110px;top:-10px}.top{transform:rotateX(90deg) translateZ(45px)}.bottom{transform:rotateX(-90deg) translateZ(45px)}
+#cad3d{position:absolute;inset:45px 10px 8px;cursor:grab;perspective:900px;touch-action:none}.cad-grid{position:absolute;left:8%;right:8%;bottom:7%;height:43%;transform:rotateX(66deg);transform-origin:bottom;background-image:linear-gradient(#cdd8d4 1px,transparent 1px),linear-gradient(90deg,#cdd8d4 1px,transparent 1px);background-size:34px 34px;opacity:.7}.cad-object{position:absolute;left:53%;top:48%;width:270px;height:90px;transform-style:preserve-3d}.face{position:absolute;border:2px solid #5b96c7;background:rgba(120,174,184,.58);display:flex;align-items:center;justify-content:center;color:#3979ad;font-weight:700;letter-spacing:.13em}.front,.back{width:270px;height:90px}.front{transform:translateZ(55px);font-size:26px}.back{transform:rotateY(180deg) translateZ(55px)}.right,.left{width:110px;height:90px;left:80px;font-size:11px}.right{transform:rotateY(90deg) translateZ(135px)}.left{transform:rotateY(-90deg) translateZ(135px)}.top,.bottom{width:270px;height:110px;top:-10px}.top{transform:rotateX(90deg) translateZ(45px)}.bottom{transform:rotateX(-90deg) translateZ(45px)}
 @media(max-width:900px){nav{display:none}.hero,.detail,.about,.contact{grid-template-columns:1fr}.visual,.detail-visual{border-left:0;border-top:1px solid var(--line)}.cards{grid-template-columns:1fr 1fr}.card:nth-child(2){border-right:0}.process{grid-template-columns:1fr}.step{border-right:0;border-bottom:1px solid var(--line)}}
 
 .model3d{position:absolute;inset:0;overflow:hidden;perspective:1050px;cursor:grab;touch-action:none;user-select:none}
@@ -63,7 +63,7 @@ background-size:32px 32px;opacity:.55}
 .box3d .f{position:absolute;border:1px solid rgba(40,88,99,.78);background:rgba(116,171,181,.28);backface-visibility:visible}
 .box3d.accent .f{border-color:rgba(183,111,63,.8);background:rgba(210,138,87,.22)}
 .box3d.green .f{border-color:rgba(90,125,97,.78);background:rgba(121,155,128,.22)}
-.cyl3d{position:absolute;border:1.5px solid #347e8c;border-radius:50%;background:rgba(116,171,181,.18);transform-style:preserve-3d}
+.cyl3d{position:absolute;border:1.5px solid #68a9df;border-radius:50%;background:rgba(116,171,181,.18);transform-style:preserve-3d}
 .model-caption{position:absolute;right:24px;bottom:18px;font:10px monospace;letter-spacing:.08em;color:#6b7c7e}
 
 .visual,.detail,.contactbox,.facts,.card{background:rgba(255,255,255,.92)}
@@ -71,9 +71,9 @@ background-size:32px 32px;opacity:.55}
 radial-gradient(circle at 72% 28%,rgba(112,181,194,.08),transparent 34%),
 linear-gradient(145deg,#ffffff 0%,#fbfdfd 100%)}
 .model-grid{opacity:.28!important}
-.box3d .f{background:#dce8ea!important;border-color:#6e939a!important;box-shadow:inset 0 0 18px rgba(255,255,255,.62)}
+.box3d .f{background:#dce8ea!important;border-color:#8ab5d8!important;box-shadow:inset 0 0 18px rgba(255,255,255,.62)}
 .box3d.accent .f{background:#e8c5aa!important;border-color:#b87950!important}
-.box3d.green .f{background:#cbdccf!important;border-color:#78957d!important}
+.box3d.green .f{background:#d8e9f7!important;border-color:#8ebce3!important}
 .tank3d{position:absolute;width:150px;height:215px;transform-style:preserve-3d}
 .tank-body{position:absolute;left:0;top:25px;width:150px;height:160px;border:1.5px solid #6f8e94;
 background:linear-gradient(90deg,#aebfc3 0%,#fdfefe 18%,#d8e3e5 42%,#f8fbfb 60%,#a9bec2 100%);
@@ -189,9 +189,9 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 
 .hero-config{margin-top:18px;padding:14px 16px 13px;border:1px solid rgba(38,76,83,.16);background:rgba(255,255,255,.62);backdrop-filter:blur(8px)}
 .hero-config .cfg-title{font-size:10px;letter-spacing:.14em;font-weight:800;color:#587177;margin-bottom:10px}
-.cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#347e8c}.cfg-row input{width:100%;accent-color:#347e8c}
-.cfg-actions{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}.cfg-btn{border:1px solid #347e8c;background:#347e8c;color:#fff;padding:8px 13px;font:800 10px Arial;letter-spacing:.10em;cursor:pointer}.cfg-btn.secondary{background:transparent;color:#347e8c}.cfg-status{font-size:10px;color:#71868b;margin-left:auto}
-.view-modes{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}.view-modes>span{font:800 9px Arial;letter-spacing:.14em;color:#71868b}.view-modes button[data-view]{border:1px solid rgba(52,126,140,.45);background:transparent;color:#347e8c;padding:7px 10px;font:800 9px Arial;cursor:pointer}.view-modes button[data-view].active{background:#347e8c;color:#fff}
+.cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#68a9df}.cfg-row input{width:100%;accent-color:#68a9df}
+.cfg-actions{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}.cfg-btn{border:1px solid #68a9df;background:#68a9df;color:#fff;padding:8px 13px;font:800 10px Arial;letter-spacing:.10em;cursor:pointer}.cfg-btn.secondary{background:transparent;color:#68a9df}.cfg-status{font-size:10px;color:#71868b;margin-left:auto}
+.view-modes{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}.view-modes>span{font:800 9px Arial;letter-spacing:.14em;color:#71868b}.view-modes button[data-view]{border:1px solid rgba(52,126,140,.45);background:transparent;color:#68a9df;padding:7px 10px;font:800 9px Arial;cursor:pointer}.view-modes button[data-view].active{background:#68a9df;color:#fff}
 /* v26 — hero configurator alignment */
 .hero>div:first-child{height:560px;display:flex;flex-direction:column;padding-right:clamp(22px,3vw,48px)}
 .ai-example{margin-top:auto;margin-bottom:8px;padding-top:18px;font:10px monospace;letter-spacing:.12em;color:#6f8081}
@@ -241,14 +241,14 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
   font-size:12px;font-weight:500;letter-spacing:.06em;color:#788789;
 }
 #kontakt .premium-card .card-rule{
-  width:42px;height:2px;margin:18px 0 22px;background:#4f7776;
+  width:42px;height:2px;margin:18px 0 22px;background:#68a9df;
 }
 #kontakt .premium-card .card-name{
   color:#263b3f;font-size:15px;line-height:1.55;
 }
 #kontakt .premium-card .card-name span{color:#687a7b;font-size:13px}
 #kontakt .premium-card .card-contact{margin-top:18px;line-height:1.7;font-size:14px}
-#kontakt .premium-card .card-contact a{color:#244f57;text-decoration:none}
+#kontakt .premium-card .card-contact a{color:#3979ad;text-decoration:none}
 #kontakt .premium-card .card-contact a:hover{text-decoration:underline;text-underline-offset:3px}
 #kontakt .premium-card .card-services{
   margin-top:24px;padding-top:15px;border-top:1px solid rgba(66,88,87,.18);
@@ -257,6 +257,35 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 @media(max-width:700px){
  #kontakt .premium-card{min-height:0}
  #kontakt .premium-card .card-content{padding:28px 26px}
+}
+
+/* v38 — SIMGROVA brand accent + expanded competence matrix */
+.brand{color:#68a9df!important}
+.brand small{color:var(--muted)!important}
+.section h2{color:#68a9df}
+#kontakt .premium-card .card-brand{color:#68a9df!important}
+.footer span:first-child{color:#68a9df}
+.competence-matrix .fact{
+  min-height:132px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:12px;
+  padding:24px 22px;
+}
+.competence-matrix .fact b{
+  color:#68a9df;
+  font-size:15px;
+  letter-spacing:.08em;
+}
+.competence-matrix .fact span{
+  font-size:11px;
+  line-height:1.75;
+  letter-spacing:.025em;
+  color:#657779;
+}
+@media(max-width:700px){
+  .competence-matrix .fact{min-height:0}
 }
 </style></head><body>
 <div class="shell">
@@ -323,8 +352,13 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <section class="section" id="samarbejde"><div class="section-title"><div class="kicker">SAMARBEJDE</div><h2>Indgår dér, hvor der er behov.</h2><p>Opgaverne kan løses direkte for en virksomhed eller som en del af et engineering- eller projektteam. Rollen og omfanget tilpasses den konkrete opgave.</p></div>
 <div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projektteam.</span></div><div class="step"><span>02</span><b>Afgrænset opgave</b><span>En konkret konstruktions-, udviklings- eller beregningsopgave med et tydeligt teknisk scope.</span></div><div class="step"><span>03</span><b>Projektansvar</b><span>Teknisk koordinering af en mekanisk delopgave med grænseflader til kunde, leverandører og øvrige fag.</span></div><div class="step"><span>04</span><b>On-site / remote</b><span>Arbejdet kan indgå tæt i kundens organisation eller udføres mere selvstændigt efter opgavens karakter.</span></div><div class="step"><span>05</span><b>Engineering house</b><span>Kan indgå som ekstern ressource hos engineeringhuse, der har behov for mekanisk kompetence eller ekstra kapacitet.</span></div></div></section>
 
-<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>Arbejdsområdet er mekanisk udvikling, konstruktion og teknisk projektledelse med fokus på praktiske, gennemarbejdede løsninger.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
-<div class="facts"><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Teamcenter</b><span>PLM / PROJEKTMILJØ</span></div><div class="fact"><b>Engineering</b><span>UDVIKLING / DIMENSIONERING</span></div><div class="fact"><b>Projekt</b><span>TEKNISK KOORDINERING</span></div></div></div></section>
+<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>Arbejdsområdet er mekanisk udvikling, konstruktion og teknisk projektledelse med fokus på praktiske, gennemarbejdede løsninger.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet kan indgå i forskellige CAD-, analyse- og projektmiljøer afhængigt af opgaven.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
+<div class="facts competence-matrix">
+  <div class="fact"><b>CAD</b><span>Siemens NX · SolidWorks · Inventor · AutoCAD<br>Creo / Pro-E · CATIA · Solid Edge</span></div>
+  <div class="fact"><b>CAE / FEM</b><span>ANSYS · ANSYS CFX · SolidWorks Simulation<br>Mathcad · analytisk dimensionering</span></div>
+  <div class="fact"><b>Engineering</b><span>Koncept- &amp; produktudvikling · specialmaskiner<br>Konstruktion · optimering · idriftsættelse</span></div>
+  <div class="fact"><b>Projekt</b><span>Teknisk projektledelse · koordinering · dokumentation<br>Risikovurdering · CE · kunde- &amp; leverandørflader</span></div>
+</div></div></section>
 
 <section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
 <div class="contactbox premium-card">
@@ -459,7 +493,7 @@ function setupModel(id,type){
   const key=new THREE.DirectionalLight(0xffffff,3.1);
   key.position.set(6,9,7); key.castShadow=true;
   key.shadow.mapSize.set(1024,1024); scene.add(key);
-  const rim=new THREE.DirectionalLight(0x9edce5,1.45);
+  const rim=new THREE.DirectionalLight(0xb8dcf5,1.45);
   rim.position.set(-7,4,-6); scene.add(rim);
 
   const root=new THREE.Group();
@@ -469,12 +503,12 @@ function setupModel(id,type){
     steel:new THREE.MeshStandardMaterial({color:0xcbd6d7,metalness:.82,roughness:.25}),
     polished:new THREE.MeshStandardMaterial({color:0xe6eeee,metalness:.94,roughness:.16}),
     dark:new THREE.MeshStandardMaterial({color:0x33464b,metalness:.72,roughness:.30}),
-    blue:new THREE.MeshStandardMaterial({color:0x347e8c,metalness:.48,roughness:.28}),
-    green:new THREE.MeshStandardMaterial({color:0x8eaa78,metalness:.25,roughness:.38}),
+    blue:new THREE.MeshStandardMaterial({color:0x68a9df,metalness:.48,roughness:.28}),
+    green:new THREE.MeshStandardMaterial({color:0x8ebce3,metalness:.25,roughness:.38}),
     brass:new THREE.MeshStandardMaterial({color:0xb49b62,metalness:.78,roughness:.27}),
     black:new THREE.MeshStandardMaterial({color:0x17252a,metalness:.55,roughness:.25}),
     solar:new THREE.MeshStandardMaterial({color:0x102b43,metalness:.38,roughness:.22}),
-    glass:new THREE.MeshPhysicalMaterial({color:0x9ed5df,metalness:.05,roughness:.12,transparent:true,opacity:.42,transmission:.35})
+    glass:new THREE.MeshPhysicalMaterial({color:0xb8dcf5,metalness:.05,roughness:.12,transparent:true,opacity:.42,transmission:.35})
   };
 
   function mesh(geo,mat=MAT.steel,parent=root){
@@ -740,140 +774,163 @@ function setupModel(id,type){
     };
   }
 
-  // FOOD — detailed hygienic process skid; components are deliberately separated
-  // so vessels, heat exchanger, pump train and service equipment remain mechanically readable.
+  // FOOD — detailed hygienic process/CIP skid.
+  // Layout zones: vessels left, valve manifold front, pumps centre-right,
+  // heat exchanger rear-right, utilities rear-left. No major component footprints overlap.
   if(type==="food"){
     const F=new THREE.Group(); root.add(F);
 
-    // Main welded skid with cross-members and adjustable machine feet.
-    box(0,-1.36,0,6.20,.18,3.45,MAT.dark,F);
-    for(const z of [-1.43,1.43]) box(0,-1.14,z,5.92,.18,.16,MAT.steel,F);
-    for(const x of [-2.72,-1.36,0,1.36,2.72]) box(x,-1.14,0,.16,.18,2.88,MAT.steel,F);
-    for(const x of [-2.72,2.72]) for(const z of [-1.38,1.38]){
-      cyl(x,-1.58,z,.09,.50,"y",MAT.dark,F);
-      cyl(x,-1.85,z,.18,.055,"y",MAT.steel,F);
+    // ---- Structural skid -------------------------------------------------
+    box(0,-1.38,0,6.35,.18,3.55,MAT.dark,F);
+    for(const z of [-1.48,1.48]) box(0,-1.16,z,6.05,.18,.16,MAT.steel,F);
+    for(const x of [-2.82,-1.42,0,1.42,2.82]) box(x,-1.16,0,.16,.18,3.00,MAT.steel,F);
+    for(const x of [-2.82,2.82]) for(const z of [-1.43,1.43]){
+      cyl(x,-1.60,z,.09,.52,"y",MAT.dark,F);
+      cyl(x,-1.88,z,.18,.055,"y",MAT.steel,F);
     }
 
-    function vessel(x,z,r,h){
+    function vessel(x,z,r,h,accent=false){
       const T=new THREE.Group(); F.add(T);
-      cyl(x,-.04,z,r,h,"y",MAT.polished,T);
-      const dome=mesh(new THREE.SphereGeometry(r,36,18,0,Math.PI*2,0,Math.PI/2),MAT.polished,T);
-      dome.scale.y=.28; dome.position.set(x,h/2-.04,z);
-      const cone=mesh(new THREE.ConeGeometry(r*.82,.44,36),MAT.polished,T);
-      cone.position.set(x,-h/2-.25,z); cone.rotation.x=Math.PI;
-      for(const ang of [0,2*Math.PI/3,4*Math.PI/3])
-        cyl(x+Math.cos(ang)*r*.58,-h/2-.62,z+Math.sin(ang)*r*.58,.052,.76,"y",MAT.steel,T);
-      // manway, vent and spray/CIP nozzle
+      const bodyMat=accent?MAT.blue:MAT.polished;
+      cyl(x,-.05,z,r,h,"y",bodyMat,T);
+      const dome=mesh(new THREE.SphereGeometry(r,36,18,0,Math.PI*2,0,Math.PI/2),bodyMat,T);
+      dome.scale.y=.27; dome.position.set(x,h/2-.05,z);
+      const cone=mesh(new THREE.ConeGeometry(r*.82,.42,36),bodyMat,T);
+      cone.position.set(x,-h/2-.23,z); cone.rotation.x=Math.PI;
+
+      // three legs + foot pads
+      for(const ang of [0,2*Math.PI/3,4*Math.PI/3]){
+        const lx=x+Math.cos(ang)*r*.58, lz=z+Math.sin(ang)*r*.58;
+        cyl(lx,-h/2-.61,lz,.050,.76,"y",MAT.steel,T);
+        cyl(lx,-h/2-1.00,lz,.11,.045,"y",MAT.dark,T);
+      }
+
+      // manway, vent, CIP spray nozzle
       cyl(x,h/2+.12,z,.20,.10,"y",MAT.dark,T);
-      cyl(x,h/2+.29,z,.075,.24,"y",MAT.polished,T);
-      pipe([[x-.22,h/2+.02,z],[x-.22,h/2+.28,z],[x-.42,h/2+.28,z]],.038,MAT.polished,T);
-      // lower product outlet
-      pipe([[x,-h/2-.45,z],[x,-h/2-.73,z],[x+.32,-h/2-.73,z]],.062,MAT.polished,T);
-      // side temperature transmitter
-      pipe([[x+r,.24,z],[x+r+.20,.24,z]],.028,MAT.polished,T);
-      cyl(x+r+.28,.24,z,.08,.12,"x",MAT.blue,T);
+      cyl(x,h/2+.29,z,.070,.24,"y",MAT.polished,T);
+      pipe([[x-.20,h/2+.02,z],[x-.20,h/2+.30,z],[x-.42,h/2+.30,z]],.034,MAT.polished,T);
+
+      // product outlet and local temperature transmitter
+      pipe([[x,-h/2-.43,z],[x,-h/2-.72,z],[x+.32,-h/2-.72,z]],.060,MAT.polished,T);
+      pipe([[x+r,.22,z],[x+r+.17,.22,z]],.026,MAT.polished,T);
+      cyl(x+r+.24,.22,z,.075,.11,"x",MAT.blue,T);
     }
 
-    // Two vessels, moved to the left/rear half of the skid.
-    vessel(-1.82,-.36,.68,2.18);
-    vessel(-.18,-.44,.53,1.68);
+    // ---- Vessel zone: left half -----------------------------------------
+    vessel(-1.92,-.40,.68,2.18,false);
+    vessel(-.28,-.46,.52,1.66,false);
 
-    // Main hygienic product header along front edge.
-    pipe([[-2.58,-.80,1.12],[-1.82,-.80,1.12],[-.18,-.80,1.12],[1.18,-.80,1.12],[2.48,-.80,1.12]],.066,MAT.polished,F);
-    pipe([[-1.82,-.80,1.12],[-1.82,-.80,.36]],.066,MAT.polished,F);
-    pipe([[-.18,-.80,1.12],[-.18,-.80,.20]],.066,MAT.polished,F);
+    // small blue utility/CIP vessel in its own rear-left footprint
+    vessel(-2.52,-1.10,.31,1.08,true);
 
-    // Four butterfly valve stations.
-    for(const x of [-1.20,-.62,.62,1.42]){
-      cyl(x,-.80,1.12,.13,.11,"x",MAT.blue,F);
-      box(x,-.59,1.12,.055,.30,.055,MAT.dark,F);
-      box(x,-.43,1.12,.28,.045,.065,MAT.green,F);
+    // ---- Product manifold: front edge -----------------------------------
+    pipe([[-2.65,-.82,1.18],[-1.92,-.82,1.18],[-.28,-.82,1.18],[1.15,-.82,1.18],[2.58,-.82,1.18]],.064,MAT.polished,F);
+    pipe([[-1.92,-.82,1.18],[-1.92,-.82,.38]],.064,MAT.polished,F);
+    pipe([[-.28,-.82,1.18],[-.28,-.82,.18]],.064,MAT.polished,F);
+
+    // five hygienic butterfly valves, with actuator/handle detail
+    for(const x of [-1.34,-.82,.48,1.02,1.55]){
+      cyl(x,-.82,1.18,.125,.105,"x",MAT.blue,F);
+      box(x,-.61,1.18,.052,.29,.052,MAT.dark,F);
+      box(x,-.45,1.18,.27,.043,.060,MAT.blue,F);
     }
 
-    // Pump train at front-right, isolated from the heat exchanger.
-    box(1.72,-1.07,.48,1.72,.12,.72,MAT.steel,F);
-    cyl(1.22,-.75,.48,.36,.30,"z",MAT.polished,F);
-    torus(1.22,-.75,.66,.28,.05,"z",MAT.dark,F);
-    cyl(2.04,-.75,.48,.29,.94,"x",MAT.green,F);
-    cyl(1.62,-.75,.48,.09,.44,"x",MAT.dark,F);
-    pipe([[1.22,-.75,.78],[1.22,-.75,1.12]],.068,MAT.polished,F);
+    // flow meter + sample valve + inline strainer
+    cyl(.72,-.82,1.18,.13,.30,"x",MAT.polished,F);
+    box(.72,-.57,1.18,.18,.23,.12,MAT.blue,F);
+    pipe([[-1.34,-.82,1.18],[-1.34,-.55,1.18]],.028,MAT.polished,F);
+    cyl(-1.34,-.42,1.18,.052,.12,"y",MAT.blue,F);
+    cyl(2.28,-.54,1.18,.17,.50,"y",MAT.polished,F);
+    cyl(2.28,-.25,1.18,.10,.08,"y",MAT.dark,F);
 
-    // Plate heat exchanger at rear-right: dedicated clear footprint, no overlap with pump/motor.
-    const hx=new THREE.Group(); F.add(hx); hx.position.set(1.72,-.05,-1.03);
-    for(let i=0;i<16;i++) box(0,0,i*.032,.74,1.26,.020,i%2?MAT.steel:MAT.brass,hx);
-    box(0,0,-.11,.92,1.44,.10,MAT.dark,hx);
-    box(0,0,.62,.92,1.44,.10,MAT.dark,hx);
-    // tie rods
-    for(const xx of [-.36,.36]) for(const yy of [-.56,.56])
-      cyl(xx,yy,.67,.042,.82,"z",MAT.dark,hx);
-    // four hygienic ports
-    for(const yy of [-.38,.38]){
-      cyl(-.50,yy,.12,.085,.22,"x",MAT.polished,hx);
-      cyl(.50,yy,.12,.085,.22,"x",MAT.polished,hx);
+    // ---- Main pump train: centre-right/front ----------------------------
+    box(1.70,-1.08,.42,1.75,.12,.72,MAT.steel,F);
+    cyl(1.18,-.76,.42,.35,.30,"z",MAT.polished,F);
+    torus(1.18,-.76,.60,.27,.050,"z",MAT.dark,F);
+    cyl(2.02,-.76,.42,.28,.94,"x",MAT.blue,F);
+    cyl(1.60,-.76,.42,.085,.44,"x",MAT.dark,F);
+    pipe([[1.18,-.76,.72],[1.18,-.76,1.18]],.066,MAT.polished,F);
+
+    // second small recirculation pump behind main pump
+    box(.72,-1.09,-.44,1.08,.10,.52,MAT.steel,F);
+    cyl(.48,-.87,-.44,.23,.22,"z",MAT.polished,F);
+    cyl(.98,-.87,-.44,.18,.52,"x",MAT.blue,F);
+    pipe([[.48,-.87,-.20],[.48,-.58,-.20],[.48,-.58,.05]],.046,MAT.polished,F);
+
+    // ---- Plate heat exchanger: rear-right, completely separate ----------
+    const hx=new THREE.Group(); F.add(hx); hx.position.set(1.86,-.02,-1.12);
+    for(let i=0;i<18;i++) box(0,0,i*.030,.76,1.30,.018,i%2?MAT.steel:MAT.brass,hx);
+    box(0,0,-.12,.94,1.48,.10,MAT.dark,hx);
+    box(0,0,.66,.94,1.48,.10,MAT.dark,hx);
+    for(const xx of [-.37,.37]) for(const yy of [-.58,.58])
+      cyl(xx,yy,.70,.040,.88,"z",MAT.dark,hx);
+    for(const yy of [-.40,.40]){
+      cyl(-.52,yy,.10,.080,.22,"x",MAT.polished,hx);
+      cyl(.52,yy,.10,.080,.22,"x",MAT.polished,hx);
+    }
+    // HX support feet
+    for(const x of [1.55,2.17]){
+      box(x,-.92,-1.12,.10,.66,.12,MAT.dark,F);
+      box(x,-1.27,-1.12,.26,.06,.26,MAT.dark,F);
     }
 
-    // Separate small green CIP/service tank at far rear-left — clear of HX.
-    const cip=new THREE.Group(); F.add(cip);
-    cyl(-2.45,-.42,-1.00,.34,1.28,"y",MAT.green,cip);
-    const cipTop=mesh(new THREE.SphereGeometry(.34,28,14,0,Math.PI*2,0,Math.PI/2),MAT.green,cip);
-    cipTop.scale.y=.25; cipTop.position.set(-2.45,.22,-1.00);
-    cyl(-2.45,.34,-1.00,.07,.18,"y",MAT.polished,cip);
-    for(const dx of [-.20,.20]) cyl(-2.45+dx,-1.02,-1.00,.04,.36,"y",MAT.steel,cip);
+    // dedicated HX pipework routed around, not through, other components
+    pipe([[1.34,.38,-1.12],[1.08,.38,-1.12],[1.08,.38,-.72],[.48,.38,-.72]],.050,MAT.polished,F);
+    pipe([[2.38,-.40,-1.12],[2.62,-.40,-1.12],[2.62,-.40,.08],[2.58,-.82,.08]],.050,MAT.polished,F);
 
-    // CIP pump beside the service tank.
-    box(-2.32,-1.05,-.42,.82,.10,.50,MAT.steel,F);
-    cyl(-2.45,-.83,-.42,.22,.22,"z",MAT.polished,F);
-    cyl(-2.03,-.83,-.42,.18,.48,"x",MAT.green,F);
-    pipe([[-2.45,-.83,-.20],[-2.45,-.83,.05],[-2.45,-.80,1.12]],.050,MAT.polished,F);
+    // ---- CIP / utility circuit: rear-left -------------------------------
+    // small CIP pump under the utility tank
+    box(-2.42,-1.08,-.56,.92,.10,.48,MAT.steel,F);
+    cyl(-2.55,-.87,-.56,.21,.20,"z",MAT.polished,F);
+    cyl(-2.10,-.87,-.56,.17,.48,"x",MAT.blue,F);
 
-    // Rear CIP/return header, clearly supported.
-    pipe([[-2.45,.48,-1.00],[-2.45,1.18,-1.00],[-1.82,1.18,-1.00],[-.18,1.18,-1.00],[.72,1.18,-1.00]],.052,MAT.polished,F);
-    pipe([[-1.82,1.18,-1.00],[-1.82,1.03,-.36]],.052,MAT.polished,F);
-    pipe([[-.18,1.18,-1.00],[-.18,.82,-.44]],.052,MAT.polished,F);
-    for(const x of [-2.30,-1.05,.42]){
-      box(x,.36,-1.00,.07,1.48,.07,MAT.steel,F);
-      box(x,-.40,-1.00,.22,.06,.22,MAT.dark,F);
+    // rear CIP header with three real supports
+    pipe([[-2.52,.12,-1.10],[-2.52,.92,-1.10],[-1.92,.92,-1.10],[-.28,.92,-1.10],[.62,.92,-1.10]],.050,MAT.polished,F);
+    pipe([[-1.92,.92,-1.10],[-1.92,.92,-.40]],.050,MAT.polished,F);
+    pipe([[-.28,.92,-1.10],[-.28,.72,-.46]],.050,MAT.polished,F);
+    for(const x of [-2.30,-1.10,.34]){
+      box(x,.05,-1.10,.065,1.60,.065,MAT.steel,F);
+      box(x,-.78,-1.10,.22,.06,.22,MAT.dark,F);
     }
 
-    // Instrument rack, fully supported from skid.
+    // ---- Instrumentation -------------------------------------------------
+    // supported instrument rail at front, with impulse lines to manifold
     const inst=new THREE.Group(); F.add(inst);
-    for(const x of [-.72,.72]){
-      box(x,.04,1.38,.075,2.16,.075,MAT.steel,inst);
-      box(x,-1.07,1.38,.28,.07,.28,MAT.dark,inst);
+    for(const x of [-.66,.66]){
+      box(x,.02,1.48,.070,2.10,.070,MAT.steel,inst);
+      box(x,-1.07,1.48,.27,.06,.27,MAT.dark,inst);
     }
-    box(0,1.08,1.38,1.62,.08,.08,MAT.steel,inst);
-    for(const x of [-.52,0,.52]){
-      pipe([[x,1.04,1.38],[x,.74,1.38],[x,.74,1.12],[x,-.76,1.12]],.020,MAT.polished,inst);
-      cyl(x,1.25,1.38,.105,.065,"z",MAT.steel,inst);
-      torus(x,1.25,1.425,.083,.013,"z",MAT.dark,inst);
-      cyl(x,.90,1.30,.050,.11,"y",MAT.blue,inst);
+    box(0,1.05,1.48,1.48,.075,.075,MAT.steel,inst);
+    for(const x of [-.48,0,.48]){
+      pipe([[x,1.00,1.48],[x,.70,1.48],[x,.70,1.18],[x,-.78,1.18]],.018,MAT.polished,inst);
+      cyl(x,1.23,1.48,.100,.060,"z",MAT.steel,inst);
+      torus(x,1.23,1.525,.078,.012,"z",MAT.dark,inst);
     }
 
-    // Control cabinet on rear-right corner, on real legs and away from HX.
+    // conductivity / temperature transmitter on CIP return
+    box(.62,1.10,-1.10,.18,.24,.14,MAT.blue,F);
+    pipe([[.62,.92,-1.10],[.62,1.00,-1.10]],.024,MAT.polished,F);
+
+    // ---- Control and service --------------------------------------------
+    // control cabinet on independent rear-right support, clear of HX
     const ctrl=new THREE.Group(); F.add(ctrl);
-    box(2.58,.02,-.82,.62,1.16,.22,MAT.steel,ctrl);
-    box(2.58,.18,-.695,.40,.34,.026,MAT.glass,ctrl);
-    for(const z of [-.90,-.74]){
-      box(2.38,-.78,z,.065,.78,.065,MAT.dark,ctrl);
-      box(2.38,-1.19,z,.22,.06,.22,MAT.dark,ctrl);
+    box(2.72,.18,-.36,.58,1.10,.22,MAT.steel,ctrl);
+    box(2.72,.34,-.235,.38,.32,.025,MAT.glass,ctrl);
+    for(const x of [2.52,2.92]){
+      box(x,-.70,-.36,.065,.78,.065,MAT.dark,ctrl);
+      box(x,-1.11,-.36,.21,.06,.21,MAT.dark,ctrl);
     }
-    // cable tray to main pump motor
-    pipe([[2.36,-.42,-.72],[2.36,-.42,.05],[2.18,-.58,.34],[2.10,-.70,.46]],.028,MAT.dark,ctrl);
+    pipe([[2.48,-.36,-.36],[2.30,-.36,-.05],[2.12,-.56,.30],[2.08,-.68,.42]],.026,MAT.dark,ctrl);
 
-    // Additional hygienic components: inline filter, sample valve and flow meter.
-    // Filter housing on product header.
-    cyl(2.36,-.52,1.12,.18,.46,"y",MAT.polished,F);
-    cyl(2.36,-.26,1.12,.11,.08,"y",MAT.dark,F);
-    // sample valve
-    pipe([[-1.20,-.80,1.12],[-1.20,-.54,1.12]],.030,MAT.polished,F);
-    cyl(-1.20,-.42,1.12,.055,.12,"y",MAT.green,F);
-    // flow meter body
-    cyl(.95,-.80,1.12,.13,.28,"x",MAT.polished,F);
-    box(.95,-.56,1.12,.18,.22,.12,MAT.blue,F);
+    // hygienic hose station + drain funnel
+    torus(2.72,-.18,.82,.19,.032,"x",MAT.dark,F);
+    pipe([[2.72,-.38,.82],[2.72,-.72,.82]],.024,MAT.dark,F);
+    const drain=mesh(new THREE.ConeGeometry(.18,.26,24),MAT.polished,F);
+    drain.position.set(-.72,-1.02,.78); drain.rotation.x=Math.PI;
+    pipe([[-.72,-1.14,.78],[-.72,-1.30,.78]],.035,MAT.polished,F);
 
-    // Small hose station / service connection.
-    torus(2.62,-.18,.72,.20,.035,"x",MAT.dark,F);
-    pipe([[2.62,-.40,.72],[2.62,-.72,.72]],.025,MAT.dark,F);
+    // nameplate / identification plate on skid
+    box(-.02,-1.28,1.57,1.08,.28,.025,MAT.blue,F);
   }
 
   // INDUSTRY — actual shafts and roll tooling through rigid stands.
