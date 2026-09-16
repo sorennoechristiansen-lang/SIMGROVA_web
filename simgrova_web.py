@@ -54,13 +54,13 @@ h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margi
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
-<nav><button onclick="go('ydelser')">YDELSER</button><button onclick="go('brancher')">BRANCHER</button><button onclick="go('proces')">PROCES</button><button onclick="go('om')">OM SIMGROVA</button><button onclick="go('kontakt')">KONTAKT</button></nav></header>
+<nav><button onclick="go('ydelser')">YDELSER</button><button onclick="go('brancher')">BRANCHER</button><button onclick="go('samarbejde')">SAMARBEJDE</button><button onclick="go('om')">OM SIMGROVA</button><button onclick="go('kontakt')">KONTAKT</button></nav></header>
 
 <section class="hero">
 <div>
 <div class="kicker">MEKANISK UDVIKLING · KONSTRUKTION · PROJEKTLEDELSE</div>
 <h1>Mekanisk udvikling.<br>Fra idé til løsning.</h1>
-<div class="lead">Arbejdet spænder fra de første idéer og krav til konstruktion, beregning, dokumentation, produktion og test. Opgaverne kan være enkelte dele af et projekt eller et samlet mekanisk udviklingsforløb.</div>
+<div class="lead">Mekanisk udvikling, konstruktion og teknisk projektarbejde. Opgaver kan løses direkte for en virksomhed eller som ekstern ressource i et eksisterende engineeringteam.</div>
 <div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div>
 </div>
 <div class="visual">
@@ -74,7 +74,7 @@ h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margi
 <text class="label" x="540" y="405">KONCEPTSTUDIE</text>
 </svg></div></section>
 
-<section class="section" id="ydelser"><div class="section-title"><div class="kicker">YDELSER</div><h2>Mekanisk udvikling og konstruktion.</h2><p>Afhængigt af opgaven kan arbejdet omfatte udvikling, konstruktion, dimensionering eller teknisk projektledelse. Nogle opgaver er afgrænsede, andre følger et længere udviklingsforløb.</p></div>
+<section class="section" id="ydelser"><div class="section-title"><div class="kicker">YDELSER</div><h2>Mekanisk udvikling og konstruktion.</h2><p>Arbejdet kan omfatte mekanisk udvikling, konstruktion, dimensionering og teknisk projektledelse — enten som en afgrænset opgave eller som ekstra kapacitet i et eksisterende projekt.</p></div>
 <div class="process">
 <div class="step"><span>01</span><b>Konceptudvikling</b><span>Funktionsprincipper, løsningsforslag, layout og valg mellem alternativer.</span></div>
 <div class="step"><span>02</span><b>Konstruktion</b><span>3D CAD, maskinelementer, produktionsmodning, tegninger og styklister.</span></div>
@@ -111,13 +111,13 @@ h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margi
 <div class="scene" id="cad"><div style="position:absolute;left:25px;top:20px;font:11px monospace;color:#657779">SIMGROVA 3D · TRÆK FOR AT ROTERE · SCROLL FOR ZOOM</div><div id="cad3d"></div></div>
 </div></div></section>
 
-<section class="section" id="proces"><div class="section-title"><div class="kicker">ARBEJDSFORM</div><h2>Et typisk udviklingsforløb.</h2><p>Forløbet afhænger af opgaven. Ofte begynder det med en afklaring af funktion og rammer og fortsætter gennem koncept, konstruktion og eventuel realisering.</p></div>
-<div class="process"><div class="step"><span>01</span><b>Afklaring</b><span>Behov, krav, grænseflader og de vigtigste risici.</span></div><div class="step"><span>02</span><b>Koncept</b><span>Principper og layout gøres synlige tidligt, så den rigtige retning kan vælges.</span></div><div class="step"><span>03</span><b>Engineering</b><span>Konstruktion, dimensionering, komponentvalg og design reviews.</span></div><div class="step"><span>04</span><b>Realisering</b><span>Produktionsgrundlag, leverandørdialog, montage og test.</span></div><div class="step"><span>05</span><b>Aflevering</b><span>Dokumentation, risikovurdering, CE-input og teknisk overdragelse.</span></div></div></section>
+<section class="section" id="samarbejde"><div class="section-title"><div class="kicker">SAMARBEJDE</div><h2>Indgår dér, hvor der er behov.</h2><p>Opgaverne kan løses direkte for en virksomhed eller som en del af et engineering- eller projektteam. Rollen og omfanget tilpasses den konkrete opgave.</p></div>
+<div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projektteam.</span></div><div class="step"><span>02</span><b>Afgrænset opgave</b><span>En konkret konstruktions-, udviklings- eller beregningsopgave med et tydeligt teknisk scope.</span></div><div class="step"><span>03</span><b>Projektansvar</b><span>Teknisk koordinering af en mekanisk delopgave med grænseflader til kunde, leverandører og øvrige fag.</span></div><div class="step"><span>04</span><b>On-site / remote</b><span>Arbejdet kan indgå tæt i kundens organisation eller udføres mere selvstændigt efter opgavens karakter.</span></div><div class="step"><span>05</span><b>Engineering house</b><span>Kan indgå som ekstern ressource hos engineeringhuse, der har behov for mekanisk kompetence eller ekstra kapacitet.</span></div></div></section>
 
-<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>SIMGROVA ApS er stiftet i 2023 af maskiningeniør Søren Noe Christiansen. Bag virksomheden ligger omkring 25 års arbejde med mekanisk udvikling, konstruktion, beregning og teknisk projektledelse.</p><p>Erfaringen spænder fra koncept og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
-<div class="facts"><div class="fact"><b>≈25 år</b><span>INGENIØRERFARING</span></div><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Fra idé</b><span>TIL PRODUKTION & TEST</span></div><div class="fact"><b>Simplicitet</b><span>SKABER VÆKST</span></div></div></div></section>
+<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>SIMGROVA drives af maskiningeniør Søren Noe Christiansen og arbejder med mekanisk udvikling, konstruktion og teknisk projektledelse.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
+<div class="facts"><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Teamcenter</b><span>PLM / PROJEKTMILJØ</span></div><div class="fact"><b>Engineering</b><span>UDVIKLING / DIMENSIONERING</span></div><div class="fact"><b>Projekt</b><span>TEKNISK KOORDINERING</span></div></div></div></section>
 
-<section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">En kort beskrivelse eller skitse er ofte et fint udgangspunkt for en indledende snak om opgaven og dens rammer.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
+<section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
 <div class="contactbox"><div class="kicker">SIMGROVA ApS</div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
 
 <div class="footer"><span>SIMGROVA · SIMPLICITY CREATES GROWTH</span><span>MECHANICAL ENGINEERING / DENMARK</span></div>
