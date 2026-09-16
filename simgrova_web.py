@@ -239,7 +239,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="card active" onclick="show('energy',this)"><div class="n">01</div><h3>Energi</h3><p>Specialværktøj, løfte- og håndteringsudstyr, mekaniske systemer og udviklingsopgaver til energisektoren.</p></div>
 <div class="card" onclick="show('food',this)"><div class="n">02</div><h3>Fødevarer</h3><p>Hygiejnisk og rengøringsvenlig konstruktion, transport, håndtering, fyldning og pakkeløsninger.</p></div>
 <div class="card" onclick="show('industry',this)"><div class="n">03</div><h3>Industri</h3><p>Specialmaskiner, produktionsudstyr, automatiserede bevægelser og optimering af eksisterende udstyr.</p></div>
-<div class="card" onclick="show('cad',this)"><div class="n">04</div><h3>Konceptudvikling</h3><p>Fra krav og koncept til NX-konstruktion, interfaces, dokumentation og fremtidige AI-understøttede arbejdsgange.</p></div>
+<div class="card" onclick="show('cad',this)"><div class="n">04</div><h3>Konceptudvikling</h3><p>Fra behov og idé til funktionsprincip, mekanisk koncept, 3D-layout og et grundlag for den videre konstruktion.</p></div>
 </div>
 
 <div class="detail"><div class="detail-copy">
@@ -255,7 +255,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="model3d" id="industry3d"><div class="model-note">INDUSTRI · RULLEFORMNING / SPECIALMASKINE</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
 </div>
 <div class="scene" id="cad">
-<div class="model3d" id="cad3d"><div class="model-note">KONCEPTUDVIKLING · DEPLOYERBAR SPECIALMASKINE</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">CAD / ENGINEERING</div></div>
+<div class="model3d" id="cad3d"><div class="model-note">KONCEPTUDVIKLING · MOBIL LØFTEPLATFORM</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">FUNKTION · KINEMATIK · 3D-LAYOUT</div></div>
 </div></div>
 </div></div></section>
 
@@ -278,7 +278,7 @@ const content={
 energy:{k:"ENERGI / MEKANISK UDVIKLING",t:"Mekaniske løsninger til energiområdet",html:`<p>På energiområdet har arbejdet blandt andet omfattet mekaniske udviklingsopgaver, specialværktøj og udstyr, hvor belastning, håndtering og sikkerhed er væsentlige designforhold.</p><ul><li>Specialværktøj og hjælpeudstyr</li><li>Løfte- og håndteringskoncepter</li><li>Dimensionering og strukturel optimering</li><li>Hydrauliske og mekaniske funktioner</li><li>Produktionsgrundlag, test og dokumentation</li></ul><p>Relevant erfaring omfatter bl.a. udviklingsopgaver og hydraulisk specialværktøj til vind-/energisektoren.</p>`},
 food:{k:"FØDEVARER / HYGIENISK KONSTRUKTION",t:"Fødevareudstyr og hygiejnisk konstruktion",html:`<p>Ved fødevareudstyr indgår materialer, geometri, dræning, rengøring og service som naturlige designhensyn. Erfaringen omfatter konstruktion, hvor disse forhold tænkes ind fra starten.</p><ul><li>Hygiejnisk design: drænbar geometri, egnede samlinger og færre døde zoner</li><li>Rengøringsvenlige løsninger og CIP-principper</li><li>Servicevenlig konstruktion med fokus på kontaminationsrisiko</li><li>Køleteknisk udstyr, transportører, pakkemaskiner, Pick & Place, frysere, volumetriske fyldere og mekaniske pakninger</li></ul><p><b>Designgrundlag:</b> EHEDG · 3-A · CIP (Clean In Place).</p>`},
 industry:{k:"INDUSTRI / SPECIALMASKINER",t:"Specialmaskiner og produktionsudstyr",html:`<p>Arbejdet kan omfatte nye specialmaskiner, delsystemer eller ændringer af eksisterende produktionsudstyr med fokus på funktion, fremstilling, montage og service.</p><ul><li>Specialmaskiner og produktionsudstyr</li><li>Automatiserede mekaniske bevægelser og emnehåndtering</li><li>Optimering af eksisterende udstyr og cyklustid</li><li>Design for manufacturing og service</li><li>Layout, konstruktion, leverandørdialog, montage og idriftsættelse</li></ul><p>Erfaringen omfatter bl.a. højhastighedsudstyr med krav til stabil produktion og høj OEE.</p>`},
-cad:{k:"UDVIKLING / CAD + ENGINEERING",t:"Udvikling og konstruktion i 3D",html:`<p>3D CAD bruges gennem udviklingsforløbet til at undersøge funktion, pladsforhold, interfaces, montage og forskellige løsningsmuligheder.</p><ul><li>Siemens NX og Teamcenter</li><li>Konceptmodeller og maskinlayout</li><li>Detaljekonstruktion og produktionsmodning</li><li>Dimensionering og FEM/FEA som udviklingsværktøj</li><li>Teknisk dokumentation og design reviews</li></ul><p>AI kan fremover bruges som ekstra værktøj til hurtigere konceptarbejde og systematisering — mens de mekaniske beslutninger fortsat bygger på ingeniørfaglig vurdering.</p>`}
+cad:{k:"KONCEPTUDVIKLING / MEKANISKE PRINCIPPER",t:"Fra idé til et mekanisk koncept",html:`<p>Konceptudvikling handler om at få de grundlæggende funktioner og bevægelser på plads, før konstruktionen detaljeres. Flere principper kan undersøges i 3D, så pladsforhold, bevægelser, belastningsveje og interfaces bliver synlige tidligt.</p><ul><li>Funktionsprincipper og alternative løsningsforslag</li><li>3D-layout, bevægelse og kinematik</li><li>Interfaces, montageforhold og serviceadgang</li><li>Indledende dimensionering og vurdering af belastninger</li><li>Grundlag for efterfølgende detaljekonstruktion i Siemens NX</li></ul><p>Illustrationen viser et eksempel på et tidligt mekanisk koncept, hvor funktion og bevægelsesprincip undersøges, før løsningen produktionsmodnes.</p>`}
 };
 
 
@@ -807,8 +807,8 @@ function setupModel(id,type){
     const lift=new THREE.Group(); G.add(lift); lift.position.y=-.68;
     function scissorPlane(z){
       const L=2.45, h=1.52;
-      beam(-L/2,0,z,L/2,h,z,.14,MAT.blue,lift);
-      beam(-L/2,h,z,L/2,0,z,.14,MAT.blue,lift);
+      beam([-L/2,0,z],[L/2,h,z],.14,MAT.blue,lift);
+      beam([-L/2,h,z],[L/2,0,z],.14,MAT.blue,lift);
       for(const x of [-L/2,0,L/2]){
         const yy=x===0?h/2:(x<0?0:h);
         cyl(x,yy,z,.13,.24,"z",MAT.brass,lift);
@@ -824,9 +824,11 @@ function setupModel(id,type){
     cyl(-.34,.36,0,.12,1.42,"y",MAT.polished,ram);
     cyl(-.34,.82,0,.075,1.20,"y",MAT.brass,ram);
 
-    // upper work platform
+    // upper work platform with two longitudinal support beams
     box(0,1.68,0,3.25,.18,2.02,MAT.steel,lift);
     box(0,1.83,0,3.10,.10,1.88,MAT.dark,lift);
+    for(const z of [-.72,.72]) box(0,1.53,z,2.90,.14,.16,MAT.polished,lift);
+    for(const x of [-1.18,1.18]) cyl(x,1.53,0,.10,1.62,"z",MAT.brass,lift);
 
     // guard rails
     for(const z of [-.88,.88]){
