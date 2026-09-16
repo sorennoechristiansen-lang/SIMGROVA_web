@@ -1,12 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(
-    page_title="SIMGROVA | Maskinudvikling",
-    page_icon="⚙️",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-)
+st.set_page_config(page_title="SIMGROVA | Mekanisk udvikling", page_icon="⚙️", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
 <style>
@@ -18,296 +13,128 @@ iframe{display:block}
 """, unsafe_allow_html=True)
 
 page = r"""
-<!doctype html>
-<html>
-<head>
+<!doctype html><html lang="da"><head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{
- --paper:#f4f2eb; --ink:#20353a; --muted:#6e7d7e; --line:#ccd6d2;
- --blue:#347e8c; --blue2:#8cb8bd; --warm:#d28a57; --green:#799b80;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif;overflow:hidden}
-.app{height:100vh;min-height:690px;padding:28px 4.5vw 24px;display:grid;grid-template-rows:48px 1fr 92px}
-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
-.brand{font-size:20px;font-weight:700;letter-spacing:.16em}
-.brand small{font:10px monospace;color:var(--blue);margin-left:12px;letter-spacing:.12em}
-nav{display:flex;gap:30px;font:11px monospace;letter-spacing:.1em;color:var(--muted)}
-.main{display:grid;grid-template-columns:42% 58%;align-items:center;min-height:0}
-.copy{padding-right:4vw}
-.kicker{font:11px monospace;letter-spacing:.18em;color:var(--blue);margin-bottom:22px}
-h1{font-size:clamp(44px,5.1vw,78px);font-weight:400;line-height:.96;letter-spacing:-.055em;margin:0 0 25px}
-.lead{font-size:clamp(16px,1.35vw,21px);line-height:1.55;color:#5d6e70;max-width:570px}
-.note{margin-top:28px;font:10px monospace;letter-spacing:.1em;color:#879393}
-.visual{height:min(61vh,570px);min-height:430px;position:relative;border-left:1px solid var(--line)}
-.scene{position:absolute;inset:0;opacity:0;transition:opacity .45s ease;pointer-events:none}
-.scene.active{opacity:1;pointer-events:auto}
-svg{width:100%;height:100%}
-.label{font:11px monospace;fill:#657779;letter-spacing:1px}
-.dim{stroke:#91a6a5;stroke-width:1;fill:none}
-.mechanic{stroke:#347e8c;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.soft{stroke:#8cb8bd;stroke-width:1.4;fill:none}
-.solid{fill:#347e8c}
-.warm{stroke:#d28a57;fill:none;stroke-width:2}
-.green{stroke:#799b80;fill:none;stroke-width:2}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
-.tab{border:0;border-right:1px solid var(--line);background:transparent;text-align:left;padding:18px 24px;color:var(--ink);cursor:pointer;transition:.2s}
-.tab:last-child{border-right:0}
-.tab:hover,.tab.active{background:#e9ece5}
-.tab .n{font:10px monospace;color:#83908f}
-.tab strong{display:block;margin-top:7px;font-size:15px;letter-spacing:.09em}
-.tab span{font-size:11px;color:#738181}
-.sun{animation:sunmove 9s ease-in-out infinite alternate}
-.panel{transform-origin:425px 315px;animation:track 9s ease-in-out infinite alternate}
-.heat{animation:heat 2.4s linear infinite}
-.drill{animation:drill 3.2s ease-in-out infinite alternate}
-.food1{animation:foodmove 5s linear infinite}
-.food2{animation:foodmove 5s linear infinite;animation-delay:-2.5s}
-.picker{transform-origin:410px 160px;animation:pick 4s ease-in-out infinite}
-.gear{transform-origin:445px 285px;animation:spin 9s linear infinite}
-.slider{animation:slide 4s ease-in-out infinite alternate}
-@keyframes sunmove{from{transform:translate(-80px,70px)}to{transform:translate(100px,-40px)}}
-@keyframes track{from{transform:rotate(-10deg)}to{transform:rotate(13deg)}}
-@keyframes heat{to{stroke-dashoffset:-28}}
-@keyframes drill{from{transform:translateY(-25px)}to{transform:translateY(65px)}}
-@keyframes foodmove{from{transform:translateX(-150px)}to{transform:translateX(500px)}}
-@keyframes pick{0%,20%{transform:rotate(-14deg)}45%,65%{transform:rotate(17deg)}100%{transform:rotate(-14deg)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes slide{from{transform:translateX(-55px)}to{transform:translateX(55px)}}
+:root{--paper:#f4f2eb;--ink:#20353a;--muted:#68797b;--line:#ccd6d2;--blue:#347e8c;--blue2:#8cb8bd;--warm:#d28a57;--green:#799b80;--panel:#e9ece5}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif}
+.shell{max-width:1500px;margin:auto;padding:0 4.5vw}
+header{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(244,242,235,.96);z-index:30}
+.brand{font-size:20px;font-weight:700;letter-spacing:.16em}.brand small{font:10px monospace;color:var(--blue);margin-left:12px}
+nav{display:flex;gap:25px} nav button,.ghost{border:0;background:transparent;cursor:pointer;font:11px monospace;letter-spacing:.09em;color:var(--muted)}
+nav button:hover{color:var(--blue)}
+.hero{min-height:690px;display:grid;grid-template-columns:42% 58%;align-items:center}
+.kicker{font:11px monospace;letter-spacing:.18em;color:var(--blue);margin-bottom:20px}
+h1{font-size:clamp(48px,5.2vw,82px);font-weight:400;line-height:.95;letter-spacing:-.055em;margin:0 0 25px}
+.lead{font-size:clamp(16px,1.3vw,20px);line-height:1.6;color:#5d6e70;max-width:600px}
+.actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.btn{border:1px solid var(--blue);background:var(--blue);color:white;padding:13px 17px;font:11px monospace;letter-spacing:.08em;cursor:pointer}
+.btn.alt{background:transparent;color:var(--blue)} .btn:hover{filter:brightness(.96)}
+.visual{height:560px;position:relative;border-left:1px solid var(--line);overflow:hidden}
+.hero-svg{width:100%;height:100%}.mechanic{stroke:var(--blue);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}.soft{stroke:var(--blue2);stroke-width:1.4;fill:none}.dim{stroke:#91a6a5;stroke-width:1;fill:none}.warm{stroke:var(--warm);stroke-width:2;fill:none}.label{font:11px monospace;fill:#657779;letter-spacing:1px}
+.carriage{animation:carriage 6s ease-in-out infinite alternate}.lift{animation:lift 6s ease-in-out infinite alternate}.wheel{transform-origin:465px 300px;animation:spin 9s linear infinite}
+@keyframes carriage{from{transform:translateX(-50px)}to{transform:translateX(60px)}} @keyframes lift{from{transform:translateY(12px)}to{transform:translateY(-35px)}} @keyframes spin{to{transform:rotate(360deg)}}
+.section{padding:88px 0;border-top:1px solid var(--line)} .section-title{max-width:850px;margin-bottom:42px}
+h2{font-size:clamp(34px,3.4vw,54px);font-weight:400;letter-spacing:-.035em;margin:8px 0 14px}.section-title p{color:var(--muted);line-height:1.65}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}
+.card{padding:27px;min-height:250px;border-right:1px solid var(--line);cursor:pointer;transition:.2s}.card:last-child{border-right:0}.card:hover,.card.active{background:var(--panel)}
+.card .n{font:10px monospace;color:#849291}.card h3{font-size:20px;margin:28px 0 12px}.card p{font-size:14px;line-height:1.6;color:var(--muted)}
+.detail{margin-top:26px;display:grid;grid-template-columns:42% 58%;border:1px solid var(--line);min-height:470px}
+.detail-copy{padding:40px}.detail-copy h3{font-size:31px;font-weight:400;margin:5px 0 18px}.detail-copy p,.detail-copy li{font-size:14px;line-height:1.65;color:var(--muted)}.detail-copy ul{padding-left:18px}
+.detail-visual{position:relative;border-left:1px solid var(--line);min-height:470px;overflow:hidden}
+.scene{position:absolute;inset:0;opacity:0;transition:.35s;pointer-events:none}.scene.active{opacity:1;pointer-events:auto}.scene svg{width:100%;height:100%}
+.flow{animation:flow 2s linear infinite}.product{animation:product 6s linear infinite}.arm{transform-origin:405px 155px;animation:arm 5s ease-in-out infinite}.press{animation:press 4s ease-in-out infinite}.blade{animation:blade 5s ease-in-out infinite}.load{animation:load 5s ease-in-out infinite}
+@keyframes flow{to{stroke-dashoffset:-30}} @keyframes product{from{transform:translateX(-180px)}to{transform:translateX(520px)}} @keyframes arm{0%,20%,100%{transform:rotate(-16deg)}50%,70%{transform:rotate(17deg)}} @keyframes press{0%,30%,100%{transform:translateY(-35px)}55%,75%{transform:translateY(35px)}} @keyframes blade{from{transform:rotate(-5deg)}to{transform:rotate(12deg)}} @keyframes load{from{transform:translateY(0)}to{transform:translateY(-45px)}}
+.process{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.step{padding:28px 22px;border-right:1px solid var(--line)}.step:last-child{border-right:0}.step b{display:block;font-size:16px;margin:9px 0}.step span{font-size:12px;line-height:1.5;color:var(--muted)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:60px}.about p{color:var(--muted);line-height:1.7}.facts{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}.fact{padding:25px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.fact:nth-child(even){border-right:0}.fact b{font-size:25px;font-weight:400;display:block}.fact span{font:10px monospace;color:var(--muted)}
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:50px}.contactbox{border:1px solid var(--line);padding:30px}.contactbox a{color:var(--blue);text-decoration:none}.footer{padding:35px 0 55px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font:10px monospace;color:var(--muted)}
+#cad3d{position:absolute;inset:45px 10px 8px;cursor:grab;perspective:900px;touch-action:none}.cad-grid{position:absolute;left:8%;right:8%;bottom:7%;height:43%;transform:rotateX(66deg);transform-origin:bottom;background-image:linear-gradient(#cdd8d4 1px,transparent 1px),linear-gradient(90deg,#cdd8d4 1px,transparent 1px);background-size:34px 34px;opacity:.7}.cad-object{position:absolute;left:53%;top:48%;width:270px;height:90px;transform-style:preserve-3d}.face{position:absolute;border:2px solid #285863;background:rgba(120,174,184,.58);display:flex;align-items:center;justify-content:center;color:#244b53;font-weight:700;letter-spacing:.13em}.front,.back{width:270px;height:90px}.front{transform:translateZ(55px);font-size:26px}.back{transform:rotateY(180deg) translateZ(55px)}.right,.left{width:110px;height:90px;left:80px;font-size:11px}.right{transform:rotateY(90deg) translateZ(135px)}.left{transform:rotateY(-90deg) translateZ(135px)}.top,.bottom{width:270px;height:110px;top:-10px}.top{transform:rotateX(90deg) translateZ(45px)}.bottom{transform:rotateX(-90deg) translateZ(45px)}
+@media(max-width:900px){nav{display:none}.hero,.detail,.about,.contact{grid-template-columns:1fr}.visual,.detail-visual{border-left:0;border-top:1px solid var(--line)}.cards{grid-template-columns:1fr 1fr}.card:nth-child(2){border-right:0}.process{grid-template-columns:1fr}.step{border-right:0;border-bottom:1px solid var(--line)}}
+</style></head><body>
+<div class="shell">
+<header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
+<nav><button onclick="go('ydelser')">YDELSER</button><button onclick="go('brancher')">BRANCHER</button><button onclick="go('proces')">PROCES</button><button onclick="go('om')">OM SIMGROVA</button><button onclick="go('kontakt')">KONTAKT</button></nav></header>
 
-#cad3d{cursor:grab;touch-action:none;user-select:none;perspective:900px;overflow:hidden}
-#cad3d:active{cursor:grabbing}
-.cad-stage{position:absolute;inset:0;perspective:900px;transform-style:preserve-3d}
-.cad-grid{position:absolute;left:8%;right:8%;bottom:7%;height:43%;transform:rotateX(66deg);
- transform-origin:bottom;background-image:linear-gradient(#cdd8d4 1px,transparent 1px),
- linear-gradient(90deg,#cdd8d4 1px,transparent 1px);background-size:34px 34px;opacity:.7}
-.cad-object{position:absolute;left:53%;top:48%;width:240px;height:100px;transform-style:preserve-3d}
-.face{position:absolute;border:2px solid #285863;background:rgba(120,174,184,.58);
- display:flex;align-items:center;justify-content:center;font:10px monospace;color:#244b53;
- backface-visibility:visible}
-.front,.back{width:240px;height:100px}
-.front{transform:translateZ(75px)} .back{transform:rotateY(180deg) translateZ(75px)}
-.right,.left{width:150px;height:100px;left:45px}
-.right{transform:rotateY(90deg) translateZ(120px)} .left{transform:rotateY(-90deg) translateZ(120px)}
-.top,.bottom{width:240px;height:150px;top:-25px}
-.top{transform:rotateX(90deg) translateZ(50px)} .bottom{transform:rotateX(-90deg) translateZ(50px)}
-.axis{position:absolute;font:700 11px monospace;color:#347e8c}
-.ax{right:8%;bottom:15%}.ay{left:17%;bottom:12%}.az{left:13%;top:18%}
-.cad-dim{position:absolute;right:25px;bottom:18px;font:10px monospace;letter-spacing:.08em;color:#657779}
-
-@media(max-width:850px){
- html,body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-rows:auto auto auto;padding:20px}
- header{padding-bottom:14px} nav{display:none}
- .main{grid-template-columns:1fr}.copy{padding:55px 0 25px}
- .visual{border-left:0;border-top:1px solid var(--line);height:430px}
- .tabs{grid-template-columns:1fr}.tab{border-right:0;border-bottom:1px solid var(--line)}
-}
-</style>
-</head>
-<body>
-<div class="app">
-<header>
- <div class="brand">SIMGROVA <small>MASKINUDVIKLING</small></div>
- <nav><span>KONCEPT</span><span>PROTOTYPE</span><span>KONSTRUKTION</span><span>KONTAKT</span></nav>
-</header>
-
-<section class="main">
- <div class="copy">
-   <div class="kicker" id="kicker">ENERGI / KONCEPT 01</div>
-   <h1 id="headline">Mekaniske idéer.<br>Udviklet til virkelighed.</h1>
-   <div class="lead" id="lead">Fra idé og koncept til en robust mekanisk løsning. SIMGROVA hjælper med maskinudvikling, konstruktion og teknisk projektledelse — med fokus på enkle løsninger, der kan bygges og fungere i praksis.</div>
-   <div class="note">IDÉ → KONCEPT → PROTOTYPE → TEST → PRODUKT / MASKINE</div>
-   <div style="margin-top:22px;font:11px monospace;line-height:1.7;color:#657779">
-     SIMGROVA ApS · Skanderborg<br>
-     Søren Noe Christiansen · +45 21 46 76 59 · snc@simgrova.dk
-   </div>
- </div>
-
- <div class="visual">
-   <!-- ENERGY: deliberately recognisable solar tracker + geothermal section -->
-   <div class="scene active" id="energy">
-   <svg viewBox="0 0 720 520">
-     <path class="dim" d="M70 420H665M90 430v-20M645 430v-20"/>
-     <text class="label" x="285" y="451">ENERGI / MEKANISK PRINCIP</text>
-
-     <g class="sun">
-       <circle cx="565" cy="115" r="35" class="warm"/>
-       <path class="warm" d="M565 62v-18M565 186v-18M512 115h-18M636 115h-18M527 77l-13-13M603 153l13 13M603 77l13-13M527 153l-13 13"/>
-     </g>
-
-     <g class="panel">
-       <path class="mechanic" d="M300 245L540 205L555 292L315 332Z"/>
-       <path class="soft" d="M360 235l15 87M420 225l15 87M480 215l15 87M307 273l240-40M312 302l240-40"/>
-       <path class="mechanic" d="M425 315v92M382 407h86"/>
-       <circle cx="425" cy="315" r="12" class="mechanic"/>
-     </g>
-     <path class="dim" d="M425 315A92 92 0 0 1 500 262"/>
-     <text class="label" x="488" y="306">ROTATIONSAKSE</text>
-
-     <g opacity=".75">
-       <path class="green" d="M100 420V310h80"/>
-       <g class="drill">
-         <path class="mechanic" d="M140 315v78"/>
-         <path class="soft" d="M132 330l16 12-16 12 16 12-16 12"/>
-       </g>
-       <path class="green heat" stroke-dasharray="7 9" d="M115 405C80 370 88 335 112 316"/>
-       <text class="label" x="74" y="290">ENERGI</text>
-       <text class="label" x="74" y="305">KONCEPT</text>
-     </g>
-   </svg>
-   </div>
-
-   <!-- FOOD: recognisable conveyor + products + pick arm -->
-   <div class="scene" id="food">
-   <svg viewBox="0 0 720 520">
-     <text class="label" x="205" y="85">HURTIG PRODUKTHÅNDTERING / PRINCIP</text>
-     <path class="mechanic" d="M75 355H650"/>
-     <path class="soft" d="M90 382H635M105 355v27M150 355v27M195 355v27M240 355v27M285 355v27M330 355v27M375 355v27M420 355v27M465 355v27M510 355v27M555 355v27M600 355v27"/>
-     <circle cx="105" cy="369" r="22" class="soft"/><circle cx="620" cy="369" r="22" class="soft"/>
-
-     <g class="food1"><rect x="120" y="317" width="48" height="36" rx="7" class="green"/><circle cx="144" cy="335" r="5" class="solid"/></g>
-     <g class="food2"><rect x="120" y="317" width="48" height="36" rx="7" class="green"/><circle cx="144" cy="335" r="5" class="solid"/></g>
-
-     <g class="picker">
-       <circle cx="410" cy="160" r="24" class="mechanic"/>
-       <path class="mechanic" d="M410 184L455 250L430 305"/>
-       <path class="mechanic" d="M418 303l12 18M442 304l-12 17"/>
-       <circle cx="455" cy="250" r="9" class="mechanic"/>
-     </g>
-     <path class="dim" d="M300 130H520M300 122v16M520 122v16"/>
-     <text class="label" x="357" y="115">PICK / PLACE AKSE</text>
-     <path class="warm" d="M535 330h72v-78h-72z"/>
-     <text class="label" x="540" y="239">SORTÉR / PROCES</text>
-   </svg>
-   </div>
-
-   <!-- INDUSTRY: recognisable gear drive + linear slide + gripper -->
-   <div class="scene" id="industry">
-   <svg viewBox="0 0 720 520">
-     <text class="label" x="205" y="78">SPECIALMASKINE / MEKANISK BEVÆGELSE</text>
-     <rect x="105" y="365" width="510" height="42" class="soft"/>
-     <path class="mechanic" d="M145 365V170h95v195"/>
-     <path class="soft" d="M165 190h55v55h-55z"/>
-
-     <g class="gear">
-       <circle cx="445" cy="285" r="64" class="mechanic"/>
-       <circle cx="445" cy="285" r="20" class="mechanic"/>
-       <path class="mechanic" d="M445 221v-18M445 367v-18M381 285h-18M527 285h-18M400 240l-13-13M503 343l-13-13M490 240l13-13M387 343l13-13"/>
-     </g>
-
-     <path class="mechanic" d="M240 275H365"/>
-     <g class="slider">
-       <rect x="275" y="252" width="70" height="46" rx="5" class="mechanic"/>
-       <path class="mechanic" d="M275 275h-52M223 257v36"/>
-       <path class="mechanic" d="M210 257l13-12M210 293l13 12"/>
-     </g>
-     <path class="dim" d="M240 325h125M240 317v16M365 317v16"/>
-     <text class="label" x="262" y="348">LINEÆR BEVÆGELSE</text>
-     <path class="warm" d="M545 350v-100M530 250h30M530 350h30"/>
-     <text class="label" x="570" y="300">EMNE</text>
-   </svg>
-   </div>
-
-   <!-- AI + CAD: interactive 3D block, drag to rotate -->
-   <div class="scene" id="aicad" style="pointer-events:auto">
-     <div style="position:absolute;left:28px;top:22px;z-index:3;font:11px monospace;color:#657779;letter-spacing:1px">
-       INTERAKTIV 3D / TRÆK FOR AT ROTERE · SCROLL FOR ZOOM
-     </div>
-     <div id="cad3d" style="position:absolute;inset:45px 8px 5px 8px"></div>
-   </div>
- </div>
-</section>
-
-<div class="tabs">
- <button class="tab active" onclick="showScene('energy',this)">
-   <div class="n">01</div><strong>ENERGI</strong><span>Energi · mekanik · specialudstyr</span>
- </button>
- <button class="tab" onclick="showScene('food',this)">
-   <div class="n">02</div><strong>FØDEVARER</strong><span>Håndtering · sortering · automation</span>
- </button>
- <button class="tab" onclick="showScene('industry',this)">
-   <div class="n">03</div><strong>INDUSTRI</strong><span>Specialmaskiner · bevægelse · værktøj</span>
- </button>
- <button class="tab" onclick="showScene('aicad',this)">
-   <div class="n">04</div><strong>AI + CAD</strong><span>Enkel geometri · intelligent udvikling</span>
- </button>
+<section class="hero">
+<div>
+<div class="kicker">MEKANISK UDVIKLING · KONSTRUKTION · PROJEKTLEDELSE</div>
+<h1>Fra idé til<br>virkende mekanik.</h1>
+<div class="lead">SIMGROVA hjælper virksomheder med mekanisk udvikling, konstruktion og teknisk projektledelse — fra den første idé og kravspecifikation til beregning, dokumentation, produktion og test.</div>
+<div class="actions"><button class="btn" onclick="go('kontakt')">FORTÆL OM OPGAVEN →</button><button class="btn alt" onclick="go('brancher')">SE HVAD JEG KAN HJÆLPE MED</button></div>
 </div>
+<div class="visual">
+<svg class="hero-svg" viewBox="0 0 720 520">
+<text class="label" x="205" y="65">FUNKTION → BEVÆGELSE → MASKINE</text>
+<path class="dim" d="M70 420H655"/>
+<path class="mechanic" d="M100 380V190h75v190M175 230H560M560 230v150"/>
+<g class="carriage"><rect x="275" y="205" width="100" height="50" rx="4" class="mechanic"/><circle cx="295" cy="230" r="9" class="soft"/><circle cx="355" cy="230" r="9" class="soft"/><g class="lift"><path class="mechanic" d="M325 255v80M300 335h50"/><path class="warm" d="M300 335l-16 20M350 335l16 20"/></g></g>
+<g class="wheel"><circle cx="465" cy="300" r="48" class="mechanic"/><circle cx="465" cy="300" r="12" class="mechanic"/><path class="mechanic" d="M465 252v96M417 300h96"/></g>
+<path class="soft" d="M465 348v32h100"/><rect x="565" y="345" width="65" height="35" class="warm"/>
+<text class="label" x="540" y="405">KONCEPTSTUDIE</text>
+</svg></div></section>
+
+<section class="section" id="ydelser"><div class="section-title"><div class="kicker">HVAD SIMGROVA KAN BIDRAGE MED</div><h2>Ingeniørarbejde med fokus på den løsning, der faktisk skal fungere.</h2><p>Jeg kan indgå som udviklingsingeniør, konstruktør eller teknisk projektleder — eller tage ansvar for et afgrænset mekanisk udviklingsforløb.</p></div>
+<div class="process">
+<div class="step"><span>01</span><b>Konceptudvikling</b><span>Funktionsprincipper, løsningsforslag, layout og valg mellem alternativer.</span></div>
+<div class="step"><span>02</span><b>Konstruktion</b><span>3D CAD, maskinelementer, produktionsmodning, tegninger og styklister.</span></div>
+<div class="step"><span>03</span><b>Dimensionering</b><span>Belastninger, mekaniske beregninger, FEM/FEA som udviklingsværktøj og optimering.</span></div>
+<div class="step"><span>04</span><b>Projektledelse</b><span>Teknisk koordinering fra krav og design til leverandører, montage, test og idriftsættelse.</span></div>
+<div class="step"><span>05</span><b>Sikkerhed & CE</b><span>Risikovurdering, dokumentation og konstruktion med maskinsikkerhed tænkt ind fra starten.</span></div>
+</div></section>
+
+<section class="section" id="brancher"><div class="section-title"><div class="kicker">ERFARING & ANVENDELSESOMRÅDER</div><h2>Vælg et område.</h2><p>Hvert område viser eksempler på den type mekaniske problemstillinger, SIMGROVA kan hjælpe med. Animationerne illustrerer selve ingeniørprincippet — ikke bare pynt.</p></div>
+<div class="cards">
+<div class="card active" onclick="show('energy',this)"><div class="n">01</div><h3>Energi</h3><p>Specialværktøj, løfte- og håndteringsudstyr, mekaniske systemer og udviklingsopgaver til energisektoren.</p></div>
+<div class="card" onclick="show('food',this)"><div class="n">02</div><h3>Fødevarer</h3><p>Hygiejnisk og rengøringsvenlig konstruktion, transport, håndtering, fyldning og pakkeløsninger.</p></div>
+<div class="card" onclick="show('industry',this)"><div class="n">03</div><h3>Industri</h3><p>Specialmaskiner, produktionsudstyr, automatiserede bevægelser og optimering af eksisterende udstyr.</p></div>
+<div class="card" onclick="show('cad',this)"><div class="n">04</div><h3>Udvikling + CAD</h3><p>Fra krav og koncept til NX-konstruktion, interfaces, dokumentation og fremtidige AI-understøttede arbejdsgange.</p></div>
+</div>
+
+<div class="detail"><div class="detail-copy">
+<div class="kicker" id="dkicker">ENERGI / MEKANISK UDVIKLING</div><h3 id="dtitle">Specialudstyr til krævende mekaniske opgaver</h3><div id="dtext"></div>
+</div><div class="detail-visual">
+<div class="scene active" id="energy"><svg viewBox="0 0 720 470">
+<text class="label" x="210" y="55">LØFT / BELASTNINGSVEJ / KONTROL</text>
+<path class="mechanic" d="M125 105H590M160 105v60M555 105v60"/><path class="soft" d="M160 145h395"/>
+<g class="load"><path class="mechanic" d="M360 105v120M330 225h60"/><path class="mechanic" d="M330 225l-55 90M390 225l55 90"/><rect x="260" y="315" width="200" height="65" class="warm"/></g>
+<path class="dim" d="M245 395h230"/><text class="label" x="286" y="420">KONTROLLERET LAST</text></svg></div>
+<div class="scene" id="food"><svg viewBox="0 0 720 470">
+<text class="label" x="190" y="55">HYGIENISK PRODUKTHÅNDTERING / CIP</text><path class="mechanic" d="M70 340H650"/><path class="soft" d="M85 365H635"/>
+<g class="product"><rect x="120" y="300" width="55" height="38" rx="8" class="warm"/></g>
+<g class="arm"><circle cx="405" cy="150" r="20" class="mechanic"/><path class="mechanic" d="M405 170l45 75-25 55"/><path class="mechanic" d="M415 300h20"/></g>
+<path class="soft flow" stroke-dasharray="8 8" d="M545 120c-50 35-70 85-62 145"/><path class="soft" d="M520 105h55l-20 25z"/><text class="label" x="525" y="90">CIP / SPRAY</text></svg></div>
+<div class="scene" id="industry"><svg viewBox="0 0 720 470">
+<text class="label" x="210" y="55">SPECIALMASKINE / PROCESBEVÆGELSE</text><path class="mechanic" d="M90 370H630M130 370V140h105v230"/><path class="mechanic" d="M235 215H510"/>
+<g class="press"><rect x="340" y="175" width="90" height="60" class="mechanic"/><path class="mechanic" d="M385 235v80"/><rect x="350" y="315" width="70" height="30" class="warm"/></g>
+<path class="dim" d="M280 395h210"/><text class="label" x="330" y="420">GENTAGELIG FUNKTION</text></svg></div>
+<div class="scene" id="cad"><div style="position:absolute;left:25px;top:20px;font:11px monospace;color:#657779">SIMGROVA 3D · TRÆK FOR AT ROTERE · SCROLL FOR ZOOM</div><div id="cad3d"></div></div>
+</div></div></section>
+
+<section class="section" id="proces"><div class="section-title"><div class="kicker">ARBEJDSFORM</div><h2>En enkel vej fra problem til løsning.</h2><p>Projektet kan være en enkelt konstruktionsopgave eller et komplet udviklingsforløb. Omfanget tilpasses opgaven.</p></div>
+<div class="process"><div class="step"><span>01</span><b>Afklaring</b><span>Behov, krav, grænseflader og de vigtigste risici.</span></div><div class="step"><span>02</span><b>Koncept</b><span>Principper og layout gøres synlige tidligt, så den rigtige retning kan vælges.</span></div><div class="step"><span>03</span><b>Engineering</b><span>Konstruktion, dimensionering, komponentvalg og design reviews.</span></div><div class="step"><span>04</span><b>Realisering</b><span>Produktionsgrundlag, leverandørdialog, montage og test.</span></div><div class="step"><span>05</span><b>Aflevering</b><span>Dokumentation, risikovurdering, CE-input og teknisk overdragelse.</span></div></div></section>
+
+<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Erfaringen sidder med ved bordet.</h2><p>SIMGROVA ApS er stiftet i 2023 af maskiningeniør Søren Noe Christiansen. Bag virksomheden ligger omkring 25 års arbejde med mekanisk udvikling, konstruktion, beregning og teknisk projektledelse.</p><p>Erfaringen spænder fra koncept og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Filosofien er enkel: kompleksiteten skal håndteres i udviklingen, så den færdige løsning bliver så enkel, robust og forståelig som muligt.</p></div>
+<div class="facts"><div class="fact"><b>≈25 år</b><span>INGENIØRERFARING</span></div><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Fra idé</b><span>TIL PRODUKTION & TEST</span></div><div class="fact"><b>Simplicitet</b><span>SKABER VÆKST</span></div></div></div></section>
+
+<section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Har I en mekanisk udfordring?</h2><p class="lead">Send en kort beskrivelse, en skitse eller bare ring. Første skridt er at forstå funktionen og finde ud af, om SIMGROVA er den rigtige hjælp til opgaven.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">SEND E-MAIL →</button><button class="btn alt" onclick="location.href='tel:+4521467659'">RING +45 21 46 76 59</button></div></div>
+<div class="contactbox"><div class="kicker">SIMGROVA ApS</div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
+
+<div class="footer"><span>SIMGROVA · SIMPLICITY CREATES GROWTH</span><span>MECHANICAL ENGINEERING / DENMARK</span></div>
 </div>
 
 <script>
-let cadStarted=false;
-function initCad(){
- if(cadStarted) return;
- cadStarted=true;
- const host=document.getElementById("cad3d");
- host.innerHTML=`
-   <div class="cad-stage">
-     <div class="cad-grid"></div>
-     <div class="cad-object" id="cadObject">
-       <div class="face front" style="font-size:25px;font-weight:700;letter-spacing:.14em">SIMGROVA</div>
-       <div class="face back"></div>
-       <div class="face right" style="font-size:13px;font-weight:700;letter-spacing:.12em">SIMGROVA</div>
-       <div class="face left"></div>
-       <div class="face top" style="font-size:16px;font-weight:700;letter-spacing:.12em">SIMGROVA</div>
-       <div class="face bottom"></div>
-     </div>
-     <div class="axis ax">X</div><div class="axis ay">Y</div><div class="axis az">Z</div>
-     <div class="cad-dim">SIMGROVA / INTERAKTIV 3D</div>
-   </div>`;
- const obj=document.getElementById("cadObject");
- let rx=-18, ry=28, scale=1, drag=false, px=0, py=0, autoRotate=true;
- function draw(){obj.style.transform=`translate(-50%,-50%) rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
- draw();
- function animate(){
-   if(autoRotate && !drag){ ry += 0.12; draw(); }
-   requestAnimationFrame(animate);
- }
- animate();
- host.addEventListener("pointerdown",e=>{autoRotate=false;drag=true;px=e.clientX;py=e.clientY;host.setPointerCapture(e.pointerId)});
- host.addEventListener("pointerup",()=>drag=false);
- host.addEventListener("pointercancel",()=>drag=false);
- host.addEventListener("pointermove",e=>{
-   if(!drag)return;
-   ry+=(e.clientX-px)*.55; rx-=(e.clientY-py)*.55; px=e.clientX;py=e.clientY;draw();
- });
- host.addEventListener("wheel",e=>{e.preventDefault();scale*=e.deltaY>0?.92:1.08;scale=Math.max(.55,Math.min(1.8,scale));draw()},{passive:false});
-}
-const data={
- energy:{
-  kicker:"ENERGI / KONCEPT 01",
-  headline:"Mekaniske idéer.<br>Udviklet til virkelighed.",
-  lead:"Fra idé og koncept til en robust mekanisk løsning. SIMGROVA hjælper med maskinudvikling, konstruktion og teknisk projektledelse — med fokus på enkle løsninger, der kan bygges og fungere i praksis."
- },
- food:{
-  kicker:"FØDEVARER / KONCEPT 02",
-  headline:"Flyt det.<br>Placér det. Forbedr det.",
-  lead:"Mekanisk produkt- og emnehåndtering med fokus på høj driftssikkerhed, enkel konstruktion og et layout, der kan udvikles videre fra koncept til færdig maskine."
- },
- industry:{
-  kicker:"INDUSTRI / KONCEPT 03",
-  headline:"Få bevægelsen<br>til at virke enkelt.",
-  lead:"Specialmaskiner og mekaniske systemer udviklet fra den grundlæggende funktion. Først gør vi princippet tydeligt — derefter dimensioneres, konstrueres og modnes løsningen."
- },
- aicad:{
-  kicker:"AI + CAD / UDVIKLING 04",
-  headline:"Enkel geometri.<br>Ingeniørmæssig intelligens.",
-  lead:"En fremtidig SIMGROVA-arbejdsform, hvor CAD, mekanisk erfaring og AI bruges sammen til hurtigere konceptudvikling, varianter og bedre beslutningsgrundlag."
- }
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+const content={
+energy:{k:"ENERGI / MEKANISK UDVIKLING",t:"Specialudstyr til krævende mekaniske opgaver",html:`<p>Udvikling af mekaniske løsninger, hvor belastning, sikkerhed, håndtering og praktisk anvendelse skal gå op i en højere enhed.</p><ul><li>Specialværktøj og hjælpeudstyr</li><li>Løfte- og håndteringskoncepter</li><li>Dimensionering og strukturel optimering</li><li>Hydrauliske og mekaniske funktioner</li><li>Produktionsgrundlag, test og dokumentation</li></ul><p>Relevant erfaring omfatter bl.a. udviklingsopgaver og hydraulisk specialværktøj til vind-/energisektoren.</p>`},
+food:{k:"FØDEVARER / HYGIENISK KONSTRUKTION",t:"Maskiner der kan produceres med — og gøres ordentligt rene",html:`<p>Ved fødevareudstyr er materialer, geometri, dræning, rengøring og service en del af selve konstruktionen. Jeg kan hjælpe med at få disse hensyn ind tidligt i designet.</p><ul><li>Hygiejnisk design: drænbar geometri, egnede samlinger og færre døde zoner</li><li>Rengøringsvenlige løsninger og CIP-principper</li><li>Servicevenlig konstruktion med fokus på kontaminationsrisiko</li><li>Køleteknisk udstyr, transportører, pakkemaskiner, Pick & Place, frysere, volumetriske fyldere og mekaniske pakninger</li></ul><p><b>Designgrundlag:</b> EHEDG · 3-A · CIP (Clean In Place).</p>`},
+industry:{k:"INDUSTRI / SPECIALMASKINER",t:"Når standardudstyret ikke løser opgaven",html:`<p>Fra et konkret produktionsproblem til en maskine eller mekanisme, der kan fremstilles, samles, serviceres og køre stabilt.</p><ul><li>Specialmaskiner og produktionsudstyr</li><li>Automatiserede mekaniske bevægelser og emnehåndtering</li><li>Optimering af eksisterende udstyr og cyklustid</li><li>Design for manufacturing og service</li><li>Layout, konstruktion, leverandørdialog, montage og idriftsættelse</li></ul><p>Erfaringen omfatter bl.a. højhastighedsudstyr med krav til stabil produktion og høj OEE.</p>`},
+cad:{k:"UDVIKLING / CAD + ENGINEERING",t:"Gør idéen synlig — og gør den derefter bygbar",html:`<p>3D CAD bruges ikke kun til at tegne den færdige løsning, men til at undersøge funktion, plads, interfaces, montage og alternativer tidligt i projektet.</p><ul><li>Siemens NX og Teamcenter</li><li>Konceptmodeller og maskinlayout</li><li>Detaljekonstruktion og produktionsmodning</li><li>Dimensionering og FEM/FEA som udviklingsværktøj</li><li>Teknisk dokumentation og design reviews</li></ul><p>AI kan fremover bruges som ekstra værktøj til hurtigere konceptarbejde og systematisering — mens de mekaniske beslutninger fortsat bygger på ingeniørfaglig vurdering.</p>`}
 };
-function showScene(id,btn){
- document.querySelectorAll('.scene').forEach(x=>x.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
- btn.classList.add('active');
- document.getElementById('kicker').innerHTML=data[id].kicker;
- document.getElementById('headline').innerHTML=data[id].headline;
- document.getElementById('lead').innerHTML=data[id].lead;
- if(id==='aicad') setTimeout(initCad,60);
-}
-</script>
-</body>
-</html>
+let cadStarted=false;
+function show(id,el){document.querySelectorAll('.card').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.querySelectorAll('.scene').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('dkicker').textContent=content[id].k;document.getElementById('dtitle').textContent=content[id].t;document.getElementById('dtext').innerHTML=content[id].html;if(id==='cad')setTimeout(initCad,30)}
+document.getElementById('dtext').innerHTML=content.energy.html;
+function initCad(){if(cadStarted)return;cadStarted=true;const host=document.getElementById('cad3d');host.innerHTML=`<div class="cad-grid"></div><div class="cad-object" id="cadObject"><div class="face front">SIMGROVA</div><div class="face back">SIMGROVA</div><div class="face right">ENGINEERING</div><div class="face left">DESIGN</div><div class="face top">SIMPLICITY</div><div class="face bottom"></div></div>`;const obj=document.getElementById('cadObject');let rx=-18,ry=28,scale=1,drag=false,px=0,py=0,auto=true;function draw(){obj.style.transform=`translate(-50%,-50%) rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}function anim(){if(auto&&!drag){ry+=.12;draw()}requestAnimationFrame(anim)}draw();anim();host.addEventListener('pointerdown',e=>{auto=false;drag=true;px=e.clientX;py=e.clientY;host.setPointerCapture(e.pointerId)});host.addEventListener('pointerup',()=>drag=false);host.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.55;rx-=(e.clientY-py)*.55;px=e.clientX;py=e.clientY;draw()});host.addEventListener('wheel',e=>{e.preventDefault();scale*=e.deltaY>0?.92:1.08;scale=Math.max(.55,Math.min(1.8,scale));draw()},{passive:false})}
+</script></body></html>
 """
-
-components.html(page, height=760, scrolling=False)
+components.html(page, height=4300, scrolling=True)
