@@ -464,13 +464,13 @@ function setupModel(id,type){
 
     box(0,-1.05,0,5.4,.28,3.25,MAT.dark,H);
     box(0,-.84,0,5.0,.14,2.85,MAT.steel,H);
-    for(const x of [-2.25,2.25]) for(const z of [-1.15,1.15]) bolt(x,-.64,z,"y",H);
+    for(const x of [-2.25,2.25]) for(const z of [-1.15,1.15]){
+      // Bolt head seated on the upper grey base plate.
+      bolt(x,-.76,z,"y",H);
+    }
 
     // Fixed rotary workstation.
     cyl(-1.55,-.28,0,.92,.72,"y",MAT.blue,H);
-    cyl(-1.55,.12,0,.58,.88,"y",MAT.polished,H);
-    gear(-1.55,.62,0,.62,.22,"y",MAT.steel,H);
-    gear(-.55,.62,0,.34,.22,"y",MAT.brass,H,14);
 
     // Linear axis.
     heroMechanism.rail1=box(.85,-.38,-.82,3.0,.22,.18,MAT.polished,H);
@@ -708,8 +708,8 @@ function setupModel(id,type){
   if(type==="hero") heroMechanism.setView=mode=>{
     // Conventional principal views: no residual oblique tilt.
     if(mode==="top"){yaw=0;pitch=Math.PI/2-.001;dist=P.dist*1.06;}
-    else if(mode==="front"){yaw=0;pitch=0;dist=P.dist;}
-    else if(mode==="side"){yaw=Math.PI/2;pitch=0;dist=P.dist;}
+    else if(mode==="front"){yaw=Math.PI/2;pitch=0;dist=P.dist;}
+    else if(mode==="side"){yaw=0;pitch=0;dist=P.dist;}
     else {yaw=.48;pitch=.32;dist=P.dist;}
     auto=false;
   };
