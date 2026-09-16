@@ -5,7 +5,7 @@ st.set_page_config(page_title="SIMGROVA | Mekanisk udvikling", page_icon="⚙️
 
 st.markdown("""
 <style>
-html,body,[data-testid="stAppViewContainer"],.stApp{background:#f4f2eb!important}
+html,body,[data-testid="stAppViewContainer"],.stApp{background:#ffffff!important}
 [data-testid="stHeader"],[data-testid="stToolbar"],#MainMenu,footer{visibility:hidden}
 .block-container{max-width:100%!important;padding:0!important}
 iframe{display:block}
@@ -74,20 +74,28 @@ linear-gradient(145deg,#ffffff 0%,#fbfdfd 100%)}
 .box3d .f{background:#dce8ea!important;border-color:#6e939a!important;box-shadow:inset 0 0 18px rgba(255,255,255,.62)}
 .box3d.accent .f{background:#e8c5aa!important;border-color:#b87950!important}
 .box3d.green .f{background:#cbdccf!important;border-color:#78957d!important}
-.tank3d{position:absolute;transform-style:preserve-3d}
-.tank-wall{position:absolute;left:-60px;top:-95px;width:120px;height:190px;border:1.5px solid #78949a;
-background:linear-gradient(90deg,#cbd9dc 0%,#f8fbfb 22%,#d4e1e3 52%,#b8cdd1 78%,#eef5f5 100%);
-border-radius:58px/18px;box-shadow:inset -18px 0 25px rgba(70,105,112,.12)}
-.tank-top{position:absolute;left:-60px;top:-103px;width:120px;height:34px;border:1.5px solid #78949a;
-background:linear-gradient(#f8fbfb,#c7d7da);border-radius:50%;transform:rotateX(68deg)}
-.tank-bottom{position:absolute;left:-60px;top:78px;width:120px;height:34px;border:1.5px solid #78949a;
-background:#c4d5d8;border-radius:50%;transform:rotateX(68deg)}
-.pipe3d{position:absolute;height:18px;background:linear-gradient(#f8fbfb,#bdcfd2 48%,#edf4f5);
-border:1px solid #78949a;border-radius:10px;transform-origin:left center}
-.pipeV{position:absolute;width:18px;background:linear-gradient(90deg,#f8fbfb,#bdcfd2 48%,#edf4f5);
-border:1px solid #78949a;border-radius:10px}
-.valve3d{position:absolute;width:30px;height:30px;border-radius:50%;background:#dce8ea;border:2px solid #78949a}
+.tank3d{position:absolute;width:150px;height:215px;transform-style:preserve-3d}
+.tank-body{position:absolute;left:0;top:25px;width:150px;height:160px;border:1.5px solid #6f8e94;
+background:linear-gradient(90deg,#aebfc3 0%,#fdfefe 18%,#d8e3e5 42%,#f8fbfb 60%,#a9bec2 100%);
+border-radius:74px/20px;box-shadow:inset -20px 0 24px rgba(58,86,92,.14)}
+.tank-cap{position:absolute;left:0;top:12px;width:150px;height:40px;border:1.5px solid #6f8e94;
+background:linear-gradient(180deg,#ffffff,#c7d6d9);border-radius:50%}
+.tank-cone{position:absolute;left:20px;top:168px;width:110px;height:55px;
+background:linear-gradient(90deg,#b5c7ca,#f8fbfb 45%,#aebfc3);
+clip-path:polygon(0 0,100% 0,62% 100%,38% 100%);border-top:1.5px solid #6f8e94}
+.pipe3d{position:absolute;height:16px;background:linear-gradient(#ffffff,#b7c9cc 48%,#eef4f5);
+border:1px solid #718f95;border-radius:9px;transform-origin:left center}
+.pipeV{position:absolute;width:16px;background:linear-gradient(90deg,#ffffff,#b7c9cc 48%,#eef4f5);
+border:1px solid #718f95;border-radius:9px}
+.valve3d{position:absolute;width:28px;height:28px;border-radius:50%;background:#d9e5e7;border:2px solid #718f95}
+
 @media(max-width:900px){.shell{padding:0 24px}}
+
+body{background:#fff!important}
+header,.topbar,.nav,.site-header{background:rgba(255,255,255,.96)!important}
+section{background:#fff}
+.visual,.detail-visual{border-color:#e5eded!important;box-shadow:0 18px 55px rgba(35,72,79,.045)}
+.box3d .f{opacity:1!important}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -214,43 +222,56 @@ function setupModel(id,type){
    box(stage,-110,40,-5,220,16,25);
  }
  if(type==="food"){
-   // Hygienic process skid: tank, legs, sanitary pipe runs and valve/pump blocks.
-   box(stage,-235,105,-70,470,20,150);
-   box(stage,-145,45,-30,18,70,18); box(stage,-75,45,-30,18,70,18);
-   box(stage,70,45,-30,18,70,18); box(stage,140,45,-30,18,70,18);
+   // Simplified hygienic food-process skid inspired by real CIP/process equipment:
+   // two vertical stainless vessels, sanitary piping, pump, valves and control cabinet.
+   box(stage,-255,108,-80,510,18,165);
+   box(stage,-235,-118,-72,18,226,18); box(stage,217,-118,-72,18,226,18);
+   box(stage,-235,-132,-72,470,18,18);
 
-   const tank=document.createElement("div"); tank.className="tank3d";
-   tank.style.transform="translate3d(-75px,-30px,10px)";
-   tank.innerHTML='<div class="tank-wall"></div><div class="tank-top"></div><div class="tank-bottom"></div>';
-   stage.appendChild(tank);
-
-   // top agitator / drive
-   box(stage,-28,-150,5,56,48,55,"green");
-   box(stage,-6,-103,8,12,38,12);
-
-   // hygienic pipework: outlet, riser, return line
+   function tank(x,y,z){
+      const t=document.createElement("div"); t.className="tank3d";
+      t.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
+      t.innerHTML='<div class="tank-body"></div><div class="tank-cap"></div><div class="tank-cone"></div>';
+      stage.appendChild(t); return t;
+   }
    function pipe(x,y,z,w,rot=0){
-      const p=document.createElement("div"); p.className="pipe3d";
-      p.style.width=w+"px"; p.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateZ(${rot}deg)`;
+      const p=document.createElement("div"); p.className="pipe3d"; p.style.width=w+"px";
+      p.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateZ(${rot}deg)`;
       stage.appendChild(p); return p;
    }
    function pipeV(x,y,z,h){
-      const p=document.createElement("div"); p.className="pipeV";
-      p.style.height=h+"px"; p.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
-      stage.appendChild(p); return p;
+      const p=document.createElement("div"); p.className="pipeV"; p.style.height=h+"px";
+      p.style.transform=`translate3d(${x}px,${y}px,${z}px)`; stage.appendChild(p); return p;
    }
    function valve(x,y,z){
       const v=document.createElement("div"); v.className="valve3d";
-      v.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateY(25deg)`;
+      v.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
       stage.appendChild(v); return v;
    }
-   pipe(55,35,20,175); pipeV(212,-58,20,102); pipe(105,-58,20,125);
-   pipe(-215,2,-10,155); pipeV(-215,-78,-10,92); pipe(-215,-78,-10,118);
-   valve(145,29,25); valve(-165,-13,-5);
-   // pump/control blocks
-   box(stage,118,62,12,78,42,58,"accent");
-   cyl(stage,155,82,42,22);
-   box(stage,-220,-18,-55,62,105,38);
+
+   tank(-190,-115,0); tank(10,-115,0);
+
+   // vessel legs / supports
+   [-165,-65,35,135].forEach(x=>box(stage,x,82,2,14,42,14));
+
+   // bottom product/CIP header
+   pipe(-205,72,32,390); valve(-25,66,38); valve(95,66,38);
+
+   // return header across the top and drops to vessels
+   pipe(-205,-118,25,390); pipeV(-125,-112,28,75); pipeV(75,-112,28,75);
+   valve(-139,-78,34); valve(61,-78,34);
+
+   // centrifugal pump approximation
+   cyl(stage,-215,55,48,28);
+   box(stage,-250,42,5,58,40,48,"accent");
+   pipe(-185,56,48,62);
+
+   // heat exchanger / small process block
+   box(stage,175,-42,-10,42,122,54,"green");
+   pipe(142,-5,25,74); pipe(142,28,25,74);
+
+   // control cabinet
+   box(stage,205,-96,-55,62,150,40);
  }
  if(type==="industry"){
    box(stage,-225,90,-70,450,22,145);
@@ -267,7 +288,7 @@ function setupModel(id,type){
    main.querySelector(".front").innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 25px Arial;letter-spacing:.14em;color:#244b53'>SIMGROVA</div>";
    main.querySelector(".top").innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 12px monospace;letter-spacing:.12em;color:#244b53'>ENGINEERING</div>";
  }
- let rx=-18,ry=28,scale=1,drag=false,px=0,py=0,auto=true;
+ let rx=-18,ry=28,scale=(type==="food"?0.82:1),drag=false,px=0,py=0,auto=true;
  function draw(){stage.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
  function animate(){if(auto&&!drag){ry+=.055;draw()}requestAnimationFrame(animate)}
  draw(); animate();
