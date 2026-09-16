@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(
-    page_title="SIMGROVA | Mechanical Engineering",
+    page_title="SIMGROVA | Maskinudvikling",
     page_icon="⚙️",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -108,16 +108,20 @@ svg{width:100%;height:100%}
 <body>
 <div class="app">
 <header>
- <div class="brand">SIMGROVA <small>MECHANICAL ENGINEERING</small></div>
- <nav><span>CONCEPT</span><span>PROTOTYPE</span><span>ENGINEERING</span><span>CONTACT</span></nav>
+ <div class="brand">SIMGROVA <small>MASKINUDVIKLING</small></div>
+ <nav><span>KONCEPT</span><span>PROTOTYPE</span><span>KONSTRUKTION</span><span>KONTAKT</span></nav>
 </header>
 
 <section class="main">
  <div class="copy">
-   <div class="kicker" id="kicker">ENERGY / CONCEPT 01</div>
-   <h1 id="headline">Mechanical ideas.<br>Developed into reality.</h1>
-   <div class="lead" id="lead">A solar tracking concept where the panel follows the sun through a simple mechanical rotation. The animation shows the principle — not a completed SIMGROVA project.</div>
-   <div class="note">IDEA → CONCEPT → PROTOTYPE → TEST → PRODUCT / MACHINE</div>
+   <div class="kicker" id="kicker">ENERGI / KONCEPT 01</div>
+   <h1 id="headline">Mekaniske idéer.<br>Udviklet til virkelighed.</h1>
+   <div class="lead" id="lead">Fra idé og koncept til en robust mekanisk løsning. SIMGROVA hjælper med maskinudvikling, konstruktion og teknisk projektledelse — med fokus på enkle løsninger, der kan bygges og fungere i praksis.</div>
+   <div class="note">IDÉ → KONCEPT → PROTOTYPE → TEST → PRODUKT / MASKINE</div>
+   <div style="margin-top:22px;font:11px monospace;line-height:1.7;color:#657779">
+     SIMGROVA ApS · Skanderborg<br>
+     Søren Noe Christiansen · +45 21 46 76 59 · snc@simgrova.dk
+   </div>
  </div>
 
  <div class="visual">
@@ -125,7 +129,7 @@ svg{width:100%;height:100%}
    <div class="scene active" id="energy">
    <svg viewBox="0 0 720 520">
      <path class="dim" d="M70 420H665M90 430v-20M645 430v-20"/>
-     <text class="label" x="285" y="451">SOLAR TRACKING / PRINCIPLE STUDY</text>
+     <text class="label" x="285" y="451">ENERGI / MEKANISK PRINCIP</text>
 
      <g class="sun">
        <circle cx="565" cy="115" r="35" class="warm"/>
@@ -139,7 +143,7 @@ svg{width:100%;height:100%}
        <circle cx="425" cy="315" r="12" class="mechanic"/>
      </g>
      <path class="dim" d="M425 315A92 92 0 0 1 500 262"/>
-     <text class="label" x="488" y="306">TRACKING AXIS</text>
+     <text class="label" x="488" y="306">ROTATIONSAKSE</text>
 
      <g opacity=".75">
        <path class="green" d="M100 420V310h80"/>
@@ -148,8 +152,8 @@ svg{width:100%;height:100%}
          <path class="soft" d="M132 330l16 12-16 12 16 12-16 12"/>
        </g>
        <path class="green heat" stroke-dasharray="7 9" d="M115 405C80 370 88 335 112 316"/>
-       <text class="label" x="74" y="290">GEOTHERMAL</text>
-       <text class="label" x="74" y="305">CONCEPT</text>
+       <text class="label" x="74" y="290">ENERGI</text>
+       <text class="label" x="74" y="305">KONCEPT</text>
      </g>
    </svg>
    </div>
@@ -157,7 +161,7 @@ svg{width:100%;height:100%}
    <!-- FOOD: recognisable conveyor + products + pick arm -->
    <div class="scene" id="food">
    <svg viewBox="0 0 720 520">
-     <text class="label" x="205" y="85">HIGH-SPEED PRODUCT HANDLING / PRINCIPLE</text>
+     <text class="label" x="205" y="85">HURTIG PRODUKTHÅNDTERING / PRINCIP</text>
      <path class="mechanic" d="M75 355H650"/>
      <path class="soft" d="M90 382H635M105 355v27M150 355v27M195 355v27M240 355v27M285 355v27M330 355v27M375 355v27M420 355v27M465 355v27M510 355v27M555 355v27M600 355v27"/>
      <circle cx="105" cy="369" r="22" class="soft"/><circle cx="620" cy="369" r="22" class="soft"/>
@@ -172,16 +176,16 @@ svg{width:100%;height:100%}
        <circle cx="455" cy="250" r="9" class="mechanic"/>
      </g>
      <path class="dim" d="M300 130H520M300 122v16M520 122v16"/>
-     <text class="label" x="357" y="115">PICK / PLACE AXIS</text>
+     <text class="label" x="357" y="115">PICK / PLACE AKSE</text>
      <path class="warm" d="M535 330h72v-78h-72z"/>
-     <text class="label" x="540" y="239">SORT / PROCESS</text>
+     <text class="label" x="540" y="239">SORTÉR / PROCES</text>
    </svg>
    </div>
 
    <!-- INDUSTRY: recognisable gear drive + linear slide + gripper -->
    <div class="scene" id="industry">
    <svg viewBox="0 0 720 520">
-     <text class="label" x="205" y="78">SPECIAL MACHINE / MECHANICAL MOTION</text>
+     <text class="label" x="205" y="78">SPECIALMASKINE / MEKANISK BEVÆGELSE</text>
      <rect x="105" y="365" width="510" height="42" class="soft"/>
      <path class="mechanic" d="M145 365V170h95v195"/>
      <path class="soft" d="M165 190h55v55h-55z"/>
@@ -199,16 +203,16 @@ svg{width:100%;height:100%}
        <path class="mechanic" d="M210 257l13-12M210 293l13 12"/>
      </g>
      <path class="dim" d="M240 325h125M240 317v16M365 317v16"/>
-     <text class="label" x="262" y="348">LINEAR MOTION</text>
+     <text class="label" x="262" y="348">LINEÆR BEVÆGELSE</text>
      <path class="warm" d="M545 350v-100M530 250h30M530 350h30"/>
-     <text class="label" x="570" y="300">WORKPIECE</text>
+     <text class="label" x="570" y="300">EMNE</text>
    </svg>
    </div>
 
    <!-- AI + CAD: interactive 3D block, drag to rotate -->
    <div class="scene" id="aicad" style="pointer-events:auto">
      <div style="position:absolute;left:28px;top:22px;z-index:3;font:11px monospace;color:#657779;letter-spacing:1px">
-       INTERACTIVE 3D / DRAG TO ROTATE · SCROLL TO ZOOM
+       INTERAKTIV 3D / TRÆK FOR AT ROTERE · SCROLL FOR ZOOM
      </div>
      <div id="cad3d" style="position:absolute;inset:45px 8px 5px 8px"></div>
    </div>
@@ -217,16 +221,16 @@ svg{width:100%;height:100%}
 
 <div class="tabs">
  <button class="tab active" onclick="showScene('energy',this)">
-   <div class="n">01</div><strong>ENERGY</strong><span>Solar · geothermal · mechanisms</span>
+   <div class="n">01</div><strong>ENERGI</strong><span>Energi · mekanik · specialudstyr</span>
  </button>
  <button class="tab" onclick="showScene('food',this)">
-   <div class="n">02</div><strong>FOOD</strong><span>Handling · sorting · automation</span>
+   <div class="n">02</div><strong>FØDEVARER</strong><span>Håndtering · sortering · automation</span>
  </button>
  <button class="tab" onclick="showScene('industry',this)">
-   <div class="n">03</div><strong>INDUSTRY</strong><span>Special machines · motion · tooling</span>
+   <div class="n">03</div><strong>INDUSTRI</strong><span>Specialmaskiner · bevægelse · værktøj</span>
  </button>
  <button class="tab" onclick="showScene('aicad',this)">
-   <div class="n">04</div><strong>AI + CAD</strong><span>Simple geometry · intelligent assembly</span>
+   <div class="n">04</div><strong>AI + CAD</strong><span>Enkel geometri · intelligent udvikling</span>
  </button>
 </div>
 </div>
@@ -241,21 +245,26 @@ function initCad(){
    <div class="cad-stage">
      <div class="cad-grid"></div>
      <div class="cad-object" id="cadObject">
-       <div class="face front">240 × 100</div>
+       <div class="face front" style="font-size:25px;font-weight:700;letter-spacing:.14em">SIMGROVA</div>
        <div class="face back"></div>
-       <div class="face right">150 × 100</div>
+       <div class="face right" style="font-size:13px;font-weight:700;letter-spacing:.12em">SIMGROVA</div>
        <div class="face left"></div>
-       <div class="face top">240 × 150</div>
+       <div class="face top" style="font-size:16px;font-weight:700;letter-spacing:.12em">SIMGROVA</div>
        <div class="face bottom"></div>
      </div>
      <div class="axis ax">X</div><div class="axis ay">Y</div><div class="axis az">Z</div>
-     <div class="cad-dim">BLOCK / 240 × 150 × 100 mm</div>
+     <div class="cad-dim">SIMGROVA / INTERAKTIV 3D</div>
    </div>`;
  const obj=document.getElementById("cadObject");
- let rx=-18, ry=28, scale=1, drag=false, px=0, py=0;
+ let rx=-18, ry=28, scale=1, drag=false, px=0, py=0, autoRotate=true;
  function draw(){obj.style.transform=`translate(-50%,-50%) rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
  draw();
- host.addEventListener("pointerdown",e=>{drag=true;px=e.clientX;py=e.clientY;host.setPointerCapture(e.pointerId)});
+ function animate(){
+   if(autoRotate && !drag){ ry += 0.12; draw(); }
+   requestAnimationFrame(animate);
+ }
+ animate();
+ host.addEventListener("pointerdown",e=>{autoRotate=false;drag=true;px=e.clientX;py=e.clientY;host.setPointerCapture(e.pointerId)});
  host.addEventListener("pointerup",()=>drag=false);
  host.addEventListener("pointercancel",()=>drag=false);
  host.addEventListener("pointermove",e=>{
@@ -266,24 +275,24 @@ function initCad(){
 }
 const data={
  energy:{
-  kicker:"ENERGY / CONCEPT 01",
-  headline:"Mechanical ideas.<br>Developed into reality.",
-  lead:"A solar tracking concept where the panel follows the sun through a simple mechanical rotation. The animation shows the principle — not a completed SIMGROVA project."
+  kicker:"ENERGI / KONCEPT 01",
+  headline:"Mekaniske idéer.<br>Udviklet til virkelighed.",
+  lead:"Fra idé og koncept til en robust mekanisk løsning. SIMGROVA hjælper med maskinudvikling, konstruktion og teknisk projektledelse — med fokus på enkle løsninger, der kan bygges og fungere i praksis."
  },
  food:{
-  kicker:"FOOD / CONCEPT 02",
-  headline:"Move it.<br>Position it. Improve it.",
-  lead:"A simple product-handling concept: products travel on a conveyor while a mechanical arm picks, positions or sorts them. A recognisable principle ready to be developed further."
+  kicker:"FØDEVARER / KONCEPT 02",
+  headline:"Flyt det.<br>Placér det. Forbedr det.",
+  lead:"Mekanisk produkt- og emnehåndtering med fokus på høj driftssikkerhed, enkel konstruktion og et layout, der kan udvikles videre fra koncept til færdig maskine."
  },
  industry:{
-  kicker:"INDUSTRY / CONCEPT 03",
-  headline:"Make the movement<br>work simply.",
-  lead:"A special-machine concept combining rotary and linear motion with tooling around a workpiece. The purpose is to make the mechanical idea understandable before details take over."
+  kicker:"INDUSTRI / KONCEPT 03",
+  headline:"Få bevægelsen<br>til at virke enkelt.",
+  lead:"Specialmaskiner og mekaniske systemer udviklet fra den grundlæggende funktion. Først gør vi princippet tydeligt — derefter dimensioneres, konstrueres og modnes løsningen."
  },
  aicad:{
-  kicker:"AI + CAD / R&D CONCEPT 04",
-  headline:"Simple geometry.<br>Engineering intelligence.",
-  lead:"An experimental SIMGROVA approach: describe components by their key specifications, simplified 3D envelopes and mounting interfaces — then let AI reason about how a machine can be assembled."
+  kicker:"AI + CAD / UDVIKLING 04",
+  headline:"Enkel geometri.<br>Ingeniørmæssig intelligens.",
+  lead:"En fremtidig SIMGROVA-arbejdsform, hvor CAD, mekanisk erfaring og AI bruges sammen til hurtigere konceptudvikling, varianter og bedre beslutningsgrundlag."
  }
 };
 function showScene(id,btn){
