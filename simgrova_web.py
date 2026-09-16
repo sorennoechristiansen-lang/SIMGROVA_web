@@ -175,6 +175,17 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 .cyl3d.bearing{background:radial-gradient(circle,#dce4e5 0 20%,#4b5a5e 22% 47%,#c7d1d3 49% 65%,#3a494e 67%)!important;border-color:#3b4d52!important}
 .cyl3d.pipeend{background:radial-gradient(circle,#f9fbfb 0 28%,#9fb2b6 31% 42%,#e6edef 45% 68%,#748c92 72%)!important}
 .detail-visual .model-stage{filter:drop-shadow(0 20px 18px rgba(37,64,70,.12))}
+
+/* v17 — true WebGL 3D */
+.model3d{perspective:none!important}
+.model3d .model-stage{display:none!important}
+.model3d canvas.webgl3d{
+  position:absolute;inset:34px 0 20px 0;width:100%!important;height:calc(100% - 54px)!important;
+  display:block;touch-action:none;cursor:grab;z-index:2;
+}
+.model3d canvas.webgl3d:active{cursor:grabbing}
+.model3d .model-grid{opacity:.22!important}
+.model3d .model-note,.model3d .model-caption{z-index:4}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -189,7 +200,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 </div>
 <div class="visual">
 <div class="model3d" id="hero3d">
- <div class="model-note">3D KONCEPTMODEL · TRÆK FOR AT ROTERE · SCROLL FOR ZOOM</div>
+ <div class="model-note">MEKANISK SYSTEM · ROTATION / LINEÆRAKSE / HÅNDTERING</div>
  <div class="model-grid"></div>
  <div class="model-stage"></div>
  <div class="model-caption">MEKANISK UDVIKLING / KONSTRUKTION</div>
@@ -241,6 +252,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="footer"><span>SIMGROVA · SIMPLICITY CREATES GROWTH</span><span>MECHANICAL ENGINEERING / DENMARK</span></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 const content={
@@ -328,225 +340,350 @@ function faceLabel(obj,html,size=12){
   }
 }
 
+
+const webglModels={};
+
 function setupModel(id,type){
- if(built[id]) return; built[id]=true;
- const host=document.getElementById(id); if(!host)return;
- const stage=host.querySelector(".model-stage");
- if(type==="hero"){
-   box(stage,-230,85,-70,460,22,150);
-   box(stage,-205,-95,-55,24,180,24); box(stage,181,-95,-55,24,180,24);
-   box(stage,-205,-110,-55,410,24,24);
-   box(stage,-75,-75,-25,150,52,80);
-   box(stage,-12,-23,-5,24,115,24,"accent");
-   box(stage,-62,88,10,125,28,70,"green");
-   cyl(stage,125,-35,0,38); cyl(stage,125,-35,5,12);
- }
- if(type==="energy"){
-   // Containerised deployable photovoltaic plant:
-   // transport module, rail beams, hinge/yoke points and accordion panel wings.
-   const cont=box(stage,-105,-42,-55,210,102,110,"steel");
-   faceLabel(cont,"SIMGROVA · ENERGY",11);
+  if(webglModels[id] || typeof THREE==="undefined") return;
+  const host=document.getElementById(id);
+  if(!host) return;
 
-   // ISO-like corner posts and roof/base rails
-   [-105,89].forEach(x=>{
-      box(stage,x,-52,-65,16,122,16,"darksteel");
-      box(stage,x,-52,49,16,122,16,"darksteel");
-   });
-   box(stage,-105,-54,-65,210,14,16,"darksteel");
-   box(stage,-105,56,-65,210,14,16,"darksteel");
-   box(stage,-105,-54,49,210,14,16,"darksteel");
-   box(stage,-105,56,49,210,14,16,"darksteel");
+  const canvas=document.createElement("canvas");
+  canvas.className="webgl3d";
+  host.appendChild(canvas);
 
-   // central deployment cassette
-   box(stage,-82,-18,60,164,50,22,"darksteel");
-   box(stage,-94,38,60,188,12,18,"accent");
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(34,1,.1,3000);
+  camera.position.set(7,5.3,9.5);
 
-   // two long ground rails
-   box(stage,-585,82,-38,1170,10,14,"steel");
-   box(stage,-585,82,42,1170,10,14,"steel");
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.setClearColor(0xffffff,0);
+  renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.08;
+  renderer.shadowMap.enabled=true;
+  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 
-   // accordion-like panel wings. Each module gets a frame + PV face.
-   const pw=106, ph=72, gap=9;
-   for(let side of [-1,1]){
+  scene.add(new THREE.HemisphereLight(0xf8ffff,0x7c8f91,2.25));
+  const key=new THREE.DirectionalLight(0xffffff,3.1);
+  key.position.set(6,9,7); key.castShadow=true;
+  key.shadow.mapSize.set(1024,1024); scene.add(key);
+  const rim=new THREE.DirectionalLight(0x9edce5,1.45);
+  rim.position.set(-7,4,-6); scene.add(rim);
+
+  const root=new THREE.Group();
+  scene.add(root);
+
+  const MAT={
+    steel:new THREE.MeshStandardMaterial({color:0xcbd6d7,metalness:.82,roughness:.25}),
+    polished:new THREE.MeshStandardMaterial({color:0xe6eeee,metalness:.94,roughness:.16}),
+    dark:new THREE.MeshStandardMaterial({color:0x33464b,metalness:.72,roughness:.30}),
+    blue:new THREE.MeshStandardMaterial({color:0x347e8c,metalness:.48,roughness:.28}),
+    green:new THREE.MeshStandardMaterial({color:0x8eaa78,metalness:.25,roughness:.38}),
+    brass:new THREE.MeshStandardMaterial({color:0xb49b62,metalness:.78,roughness:.27}),
+    black:new THREE.MeshStandardMaterial({color:0x17252a,metalness:.55,roughness:.25}),
+    solar:new THREE.MeshStandardMaterial({color:0x102b43,metalness:.38,roughness:.22}),
+    glass:new THREE.MeshPhysicalMaterial({color:0x9ed5df,metalness:.05,roughness:.12,transparent:true,opacity:.42,transmission:.35})
+  };
+
+  function mesh(geo,mat=MAT.steel,parent=root){
+    const m=new THREE.Mesh(geo,mat); m.castShadow=true; m.receiveShadow=true; parent.add(m); return m;
+  }
+  function box(x,y,z,sx,sy,sz,mat=MAT.steel,parent=root){
+    const m=mesh(new THREE.BoxGeometry(sx,sy,sz),mat,parent); m.position.set(x,y,z); return m;
+  }
+  function cyl(x,y,z,r,len,axis="x",mat=MAT.polished,parent=root,segments=32){
+    const m=mesh(new THREE.CylinderGeometry(r,r,len,segments),mat,parent);
+    m.position.set(x,y,z);
+    if(axis==="x") m.rotation.z=Math.PI/2;
+    if(axis==="z") m.rotation.x=Math.PI/2;
+    return m;
+  }
+  function torus(x,y,z,R,r,axis="x",mat=MAT.dark,parent=root){
+    const m=mesh(new THREE.TorusGeometry(R,r,12,36),mat,parent); m.position.set(x,y,z);
+    if(axis==="x") m.rotation.y=Math.PI/2;
+    if(axis==="y") m.rotation.x=Math.PI/2;
+    return m;
+  }
+  function beam(a,b,r=.045,mat=MAT.steel,parent=root){
+    const A=new THREE.Vector3(...a), B=new THREE.Vector3(...b), d=B.clone().sub(A);
+    const m=mesh(new THREE.CylinderGeometry(r,r,d.length(),14),mat,parent);
+    m.position.copy(A.clone().add(B).multiplyScalar(.5));
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.clone().normalize());
+    return m;
+  }
+  function bolt(x,y,z,axis="x",parent=root){
+    cyl(x,y,z,.075,.13,axis,MAT.dark,parent,16);
+    const head=cyl(x+(axis==="x"?.08:0),y+(axis==="y"?.08:0),z+(axis==="z"?.08:0),.115,.055,axis,MAT.steel,parent,6);
+    return head;
+  }
+  function gear(x,y,z,R,width,axis="x",mat=MAT.steel,parent=root,teeth=18){
+    const g=new THREE.Group(); parent.add(g); g.position.set(x,y,z);
+    cyl(0,0,0,R*.72,width,axis,mat,g,32);
+    for(let i=0;i<teeth;i++){
+      const a=i*Math.PI*2/teeth;
+      const t=box(0,0,0,R*.24,width*.92,R*.13,mat,g);
+      if(axis==="x"){ t.position.set(0,Math.cos(a)*R*.84,Math.sin(a)*R*.84); t.rotation.x=-a; }
+      else { t.position.set(Math.cos(a)*R*.84,Math.sin(a)*R*.84,0); t.rotation.z=a; }
+    }
+    return g;
+  }
+  function panel(x,y,z,w,h,rotY=0,parent=root){
+    const g=new THREE.Group(); parent.add(g); g.position.set(x,y,z); g.rotation.y=rotY;
+    box(0,0,0,w+.10,h+.10,.075,MAT.steel,g);
+    box(0,0,.045,w,h,.045,MAT.solar,g);
+    for(let i=1;i<6;i++) box(-w/2+i*w/6,0,.073,.012,h,.012,MAT.polished,g);
+    for(let j=1;j<4;j++) box(0,-h/2+j*h/4,.074,w,.012,.012,MAT.polished,g);
+    return g;
+  }
+  function pipe(points,r=.055,mat=MAT.polished,parent=root){
+    const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));
+    return mesh(new THREE.TubeGeometry(curve,48,r,14,false),mat,parent);
+  }
+  function frameRect(x,y,z,w,h,t=.08,mat=MAT.dark,parent=root){
+    box(x-w/2,y,z,t,h,t,mat,parent); box(x+w/2,y,z,t,h,t,mat,parent);
+    box(x,y-h/2,z,w,t,t,mat,parent); box(x,y+h/2,z,w,t,t,mat,parent);
+  }
+
+  // HERO — compact mechanical development assembly:
+  // base, rotary gearbox, linear rail, carriage and articulated tool head.
+  if(type==="hero"){
+    box(0,-1.05,0,5.4,.28,3.25,MAT.dark);
+    box(0,-.84,0,5.0,.14,2.85,MAT.steel);
+    for(const x of [-2.25,2.25]) for(const z of [-1.15,1.15]) bolt(x,-.64,z,"y");
+
+    // gearbox / rotary axis
+    cyl(-1.55,-.28,0,.92,.72,"y",MAT.blue);
+    cyl(-1.55,.12,0,.58,.88,"y",MAT.polished);
+    gear(-1.55,.62,0,.62,.22,"y",MAT.steel);
+    gear(-.55,.62,0,.34,.22,"y",MAT.brass,root,14);
+    cyl(-.55,.34,0,.16,.72,"y",MAT.dark);
+
+    // linear axis with twin rails
+    box(.85,-.38,-.82,3.0,.22,.18,MAT.polished);
+    box(.85,-.38,.82,3.0,.22,.18,MAT.polished);
+    for(let x=-.35;x<2.2;x+=.5){
+      box(x,-.22,-.82,.20,.14,.34,MAT.blue);
+      box(x,-.22,.82,.20,.14,.34,MAT.blue);
+    }
+    const carriage=box(1.15,.02,0,1.0,.32,2.0,MAT.steel);
+    cyl(1.15,.42,0,.38,.34,"y",MAT.dark);
+    // upright actuator + end effector
+    box(1.15,1.35,0,.34,1.75,.34,MAT.dark);
+    cyl(1.15,2.20,0,.28,.44,"y",MAT.blue);
+    beam([1.15,2.25,0],[2.05,2.75,.15],.13,MAT.steel);
+    cyl(2.05,2.75,.15,.22,.40,"x",MAT.dark);
+    beam([2.05,2.75,.15],[2.55,2.15,.55],.11,MAT.steel);
+    // tool / gripper
+    box(2.55,2.05,.55,.42,.30,.54,MAT.blue);
+    box(2.78,1.86,.38,.10,.48,.12,MAT.dark);
+    box(2.78,1.86,.72,.10,.48,.12,MAT.dark);
+    // exposed lead screw for engineering character
+    cyl(.85,-.12,0,.07,2.8,"x",MAT.brass);
+    root.rotation.y=-.18;
+  }
+
+  // ENERGY — genuinely spatial deployable solar mechanism.
+  if(type==="energy"){
+    // central container
+    box(0,0,0,2.8,1.65,1.55,MAT.steel);
+    for(const x of [-1.32,1.32]) for(const z of [-.69,.69]) box(x,0,z,.16,1.78,.16,MAT.dark);
+    box(0,.73,0,2.65,.12,1.42,MAT.dark);
+    box(0,-.73,0,2.65,.12,1.42,MAT.dark);
+
+    // two telescopic ground rails in true depth
+    box(0,-.96,-1.22,10.8,.10,.12,MAT.polished);
+    box(0,-.96,1.22,10.8,.10,.12,MAT.polished);
+
+    // panel wings: staggered/folded slightly in Y and Z, each on transverse support
+    for(const side of [-1,1]){
       for(let i=0;i<4;i++){
-         let x = side<0 ? -118-(i+1)*(pw+gap) : 118+i*(pw+gap);
-         // support carriage below each panel
-         box(stage,x+10,70,-26,pw-20,8,82,"steel");
-         box(stage,x+3,4,18,pw,ph,7,"solar");
-         // hinge block between modules
-         let hx=side<0 ? x+pw-3 : x-7;
-         box(stage,hx,26,12,10,28,18,"accent");
+        const x=side*(2.15+i*1.58);
+        const y=-.28 + i*.10;
+        const z=(i%2===0?.06:-.06);
+        const ang=side*(i===0?.12:(i===1?.06:0));
+        panel(x,y,z,1.42,2.18,ang);
+        box(x,-.72,z,1.25,.10,2.55,MAT.dark);
+        cyl(x-side*.76,-.58,z,.11,.30,"z",MAT.brass);
       }
-   }
+    }
+    // center deployment cassette and drive
+    box(0,-.34,0,2.25,.48,1.05,MAT.dark);
+    cyl(-.88,-.28,.62,.18,.30,"z",MAT.brass);
+    cyl(.88,-.28,.62,.18,.30,"z",MAT.brass);
+    gear(0,.15,.88,.36,.16,"z",MAT.brass,root,16);
+  }
 
-   // deployment drive / inverter cabinet
-   box(stage,-42,20,-5,84,55,55,"green");
-   cyl(stage,-58,30,58,16,"bearing");
-   cyl(stage,26,30,58,16,"bearing");
- }
- if(type==="food"){
-   // Hygienic CIP/process skid: polished vessels, sanitary headers, pump,
-   // plate heat exchanger, valve cluster and control cabinet.
-   box(stage,-255,110,-82,510,16,170,"steel");
-   box(stage,-242,90,-64,484,12,18,"steel");
-   box(stage,-242,90,50,484,12,18,"steel");
+  // FOOD — full-volume hygienic skid.
+  if(type==="food"){
+    box(0,-1.15,0,5.5,.18,3.2,MAT.steel);
+    // frame feet
+    for(const x of [-2.35,2.35]) for(const z of [-1.25,1.25]) box(x,-1.48,z,.18,.65,.18,MAT.dark);
 
-   function vessel(cx){
-      // faceted stainless vessel silhouette with top/bottom bands
-      box(stage,cx-50,-92,-12,100,120,94,"steel");
-      box(stage,cx-46,-126,-8,92,34,86,"steel");
-      box(stage,cx-38,28,-2,76,28,78,"steel");
-      box(stage,cx-32,56,2,14,52,14,"darksteel");
-      box(stage,cx+18,56,2,14,52,14,"darksteel");
-      // top manway and agitator drive
-      cyl(stage,cx-22,-137,46,22,"pipeend");
-      box(stage,cx-24,-166,8,48,36,46,"green");
-      box(stage,cx-6,-132,10,12,30,12,"darksteel");
-      // level / instrument block
-      box(stage,cx+34,-55,42,18,46,16,"accent");
-   }
-   vessel(-108); vessel(78);
+    function vessel(x,z,r=0.72,h=2.35){
+      cyl(x,.10,z,r,h,"y",MAT.polished);
+      const top=mesh(new THREE.SphereGeometry(r,32,16,0,Math.PI*2,0,Math.PI/2),MAT.polished);
+      top.scale.y=.35; top.position.set(x,1.28,z); root.add(top);
+      const cone=mesh(new THREE.ConeGeometry(r*.92,.55,32),MAT.polished);
+      cone.position.set(x,-1.25,z); cone.rotation.x=Math.PI; root.add(cone);
+      cyl(x,1.58,z,.18,.28,"y",MAT.dark);
+      cyl(x,1.88,z,.26,.34,"y",MAT.green);
+      pipe([[x,-1.48,z],[x,-1.72,z],[x+.45,-1.72,z]],.07);
+      torus(x,.92,z+r+.02,.18,.035,"x",MAT.dark);
+    }
+    vessel(-1.35,0,.72,2.35); vessel(.45,.15,.62,2.0);
 
-   // sanitary lower product header
-   box(stage,-220,50,60,372,14,14,"steel");
-   box(stage,-108,25,60,14,40,14,"steel");
-   box(stage,78,25,60,14,40,14,"steel");
+    // sanitary pipe network with real round tubes and bends
+    pipe([[-2.25,-.78,1.08],[-1.35,-.78,1.08],[-1.35,-.20,1.08],[.45,-.20,1.08],[.45,-.72,1.08],[2.05,-.72,1.08]],.075);
+    pipe([[-1.35,1.55,-.75],[-1.35,1.55,-1.15],[1.95,1.55,-1.15],[1.95,.55,-1.15]],.065);
+    // butterfly valves
+    for(const x of [-.45,.65,1.45]){
+      cyl(x,-.72,1.08,.16,.13,"x",MAT.blue);
+      box(x,.0+(-.45),1.08,.07,.36,.07,MAT.dark);
+    }
+    // centrifugal pump and motor
+    cyl(1.55,-.62,-.48,.42,.34,"z",MAT.polished);
+    cyl(2.08,-.62,-.48,.34,.78,"x",MAT.green);
+    pipe([[1.55,-.62,-.25],[1.55,-.62,.42],[2.15,-.62,.42]],.085);
+    // plate heat exchanger
+    for(let i=0;i<10;i++) box(2.10,-.05,-.90+i*.055,.72,1.28,.025,i%2?MAT.steel:MAT.brass);
+    box(2.10,-.05,-1.20,.86,1.45,.12,MAT.dark);
+    box(2.10,-.05,-.25,.86,1.45,.12,MAT.dark);
+  }
 
-   // upper CIP return header
-   box(stage,-216,-120,64,370,12,12,"steel");
-   box(stage,-108,-120,64,12,48,12,"steel");
-   box(stage,78,-120,64,12,48,12,"steel");
+  // INDUSTRY — actual shafts and roll tooling through rigid stands.
+  if(type==="industry"){
+    box(0,-1.25,0,6.4,.30,3.1,MAT.dark);
+    box(0,-1.02,0,6.0,.16,2.75,MAT.steel);
+    const xs=[-2.45,-1.48,-.50,.48,1.46,2.44];
+    xs.forEach((x,i)=>{
+      // stand frames on both sides of strip
+      frameRect(x,.05,-1.05,.64,2.15,.16,MAT.dark);
+      frameRect(x,.05,1.05,.64,2.15,.16,MAT.dark);
+      // cross ties
+      box(x,1.05,0,.16,.18,2.1,MAT.dark);
+      // top/bottom shafts along Z
+      cyl(x,.43,0,.105,2.45,"z",MAT.polished);
+      cyl(x,-.38,0,.105,2.45,"z",MAT.polished);
+      // bearing housings at both ends
+      for(const z of [-1.05,1.05]){
+        box(x,.43,z,.46,.42,.22,MAT.brass);
+        box(x,-.38,z,.46,.42,.22,MAT.brass);
+        torus(x,.43,z+(z>0?.13:-.13),.15,.035,"z",MAT.dark);
+        torus(x,-.38,z+(z>0?.13:-.13),.15,.035,"z",MAT.dark);
+        // adjustment screw
+        cyl(x,1.30,z,.07,.48,"y",MAT.polished);
+        cyl(x,1.56,z,.13,.10,"y",MAT.dark,root,6);
+      }
+      // changing roll tooling — several discs per shaft
+      const widths=[.18,.22,.26];
+      const spread=.24+i*.025;
+      for(const yy of [.43,-.38]){
+        cyl(x,yy,-spread,.34-i*.012,widths[1],"z",MAT.polished);
+        cyl(x,yy,0,.46-i*.018,widths[2],"z",MAT.dark);
+        cyl(x,yy,spread,.34-i*.012,widths[1],"z",MAT.polished);
+      }
+    });
+    // strip in pass line
+    box(0,.02,0,6.9,.055,.92,MAT.blue);
+    // drive side shaft couplings
+    for(const x of xs) cyl(x,-.38,-1.42,.15,.48,"z",MAT.dark);
+  }
 
-   // hygienic valves / clamp-like faces
-   [[-22,42],[118,42],[-122,-96],[64,-96]].forEach(p=>{
-      box(stage,p[0],p[1],54,30,30,28,"accent");
-      cyl(stage,p[0]+1,p[1]+1,72,14,"pipeend");
-   });
+  // CAD — containerised special machine with true open volume and deployed mechanism.
+  if(type==="cad"){
+    const g=new THREE.Group(); root.add(g);
+    // open structural container frame rather than a solid box
+    const L=4.8,H=2.25,W=2.25,t=.12;
+    for(const x of [-L/2,L/2]) for(const z of [-W/2,W/2]) box(x,0,z,t,H,t,MAT.dark,g);
+    for(const y of [-H/2,H/2]){
+      box(0,y,-W/2,L,t,t,MAT.dark,g); box(0,y,W/2,L,t,t,MAT.dark,g);
+      box(-L/2,y,0,t,t,W,MAT.dark,g); box(L/2,y,0,t,t,W,MAT.dark,g);
+    }
+    // rear wall ribs
+    box(0,0,-W/2+.05,L-.2,H-.2,.08,MAT.steel,g);
+    for(let x=-2.0;x<=2.0;x+=.4) box(x,0,-W/2+.11,.035,H-.25,.06,MAT.dark,g);
 
-   // centrifugal pump + motor
-   box(stage,-232,42,2,78,50,60,"darksteel");
-   cyl(stage,-170,54,40,28,"pipeend");
-   box(stage,-244,92,-2,126,10,72,"steel");
+    // two opened side doors, actually rotated in 3D around vertical hinges
+    const dl=new THREE.Group(); g.add(dl); dl.position.set(-L/2,0,W/2);
+    const doorL=box(-.82,0,0,1.62,H-.18,.08,MAT.green,dl); dl.rotation.y=-1.15;
+    const dr=new THREE.Group(); g.add(dr); dr.position.set(L/2,0,W/2);
+    const doorR=box(.82,0,0,1.62,H-.18,.08,MAT.green,dr); dr.rotation.y=1.15;
 
-   // plate heat exchanger
-   box(stage,150,-50,-12,46,128,62,"yellow");
-   box(stage,140,-60,-18,66,12,74,"darksteel");
-   box(stage,140,78,-18,66,12,74,"darksteel");
-   for(let yy=-36;yy<58;yy+=18) box(stage,155,yy,51,36,4,5,"steel");
+    // telescopic rails and deployed platform coming out of container
+    box(.65,-.88,1.85,3.4,.12,.12,MAT.dark,g);
+    box(.65,-.88,2.55,3.4,.12,.12,MAT.dark,g);
+    box(1.15,-.72,2.18,2.75,.16,1.25,MAT.steel,g);
 
-   // controls
-   const cab=box(stage,208,-108,-58,68,170,48,"steel");
-   faceLabel(cab,"CIP",15);
- }
- if(type==="industry"){
-   // Roll-forming machine inspired by real modular forming stands:
-   // bed, uprights, bearing blocks, adjustment screws, shafts and changing roll tooling.
-   box(stage,-285,112,-88,570,18,190,"darksteel");
-   box(stage,-270,88,-70,540,16,30,"steel");
-   box(stage,-270,88,56,540,16,30,"steel");
+    // compact machine on platform: rotary base + column + articulated arm
+    cyl(1.05,-.48,2.18,.48,.24,"y",MAT.blue,g);
+    cyl(1.05,.08,2.18,.27,.90,"y",MAT.dark,g);
+    cyl(1.05,.62,2.18,.24,.30,"z",MAT.brass,g);
+    beam([1.05,.62,2.18],[1.72,1.08,2.18],.13,MAT.steel,g);
+    cyl(1.72,1.08,2.18,.20,.30,"z",MAT.dark,g);
+    beam([1.72,1.08,2.18],[2.22,.72,2.58],.11,MAT.steel,g);
+    box(2.22,.72,2.58,.42,.32,.42,MAT.blue,g);
+    // deployed stabilisers
+    for(const x of [.05,2.25]){
+      box(x,-1.12,2.05,.12,.62,.12,MAT.dark,g);
+      box(x,-1.43,2.05,.55,.08,.55,MAT.steel,g);
+    }
+  }
 
-   const xs=[-235,-145,-55,35,125,215];
-   xs.forEach((x,i)=>{
-      // rigid C/portal stand
-      box(stage,x,-92,-58,18,180,28,"darksteel");
-      box(stage,x+62,-92,-58,18,180,28,"darksteel");
-      box(stage,x,-102,-58,80,20,28,"darksteel");
+  // floor shadow catcher
+  const floor=new THREE.Mesh(new THREE.PlaneGeometry(30,30),
+      new THREE.ShadowMaterial({color:0x49666c,opacity:.10}));
+  floor.rotation.x=-Math.PI/2; floor.position.y=-1.62; floor.receiveShadow=true; scene.add(floor);
 
-      // upper/lower bearing housings
-      box(stage,x+4,-51,-14,26,44,38,"yellow");
-      box(stage,x+50,-51,-14,26,44,38,"yellow");
-      box(stage,x+4,22,-14,26,44,38,"yellow");
-      box(stage,x+50,22,-14,26,44,38,"yellow");
+  const presets={
+    hero:{dist:10.5,target:[0,.35,0]},
+    energy:{dist:12.8,target:[0,-.25,0]},
+    food:{dist:9.7,target:[0,.05,0]},
+    industry:{dist:10.8,target:[0,.05,0]},
+    cad:{dist:10.4,target:[.35,0,.55]}
+  };
+  const P=presets[type]||presets.hero;
+  let yaw=type==="energy"?.18:.48, pitch=type==="industry"?.25:.32, dist=P.dist;
+  let dragging=false,lastX=0,lastY=0,auto=true;
 
-      // vertical adjustment screws + caps
-      box(stage,x+15,-80,4,9,32,9,"steel");
-      box(stage,x+56,-80,4,9,32,9,"steel");
-      cyl(stage,x+7,-91,12,10,"bearing");
-      cyl(stage,x+48,-91,12,10,"bearing");
+  function resize(){
+    const w=Math.max(10,host.clientWidth), h=Math.max(10,host.clientHeight-54);
+    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+  function view(){
+    const t=new THREE.Vector3(...P.target);
+    camera.position.set(
+      t.x+dist*Math.sin(yaw)*Math.cos(pitch),
+      t.y+dist*Math.sin(pitch),
+      t.z+dist*Math.cos(yaw)*Math.cos(pitch)
+    );
+    camera.lookAt(t);
+  }
+  canvas.addEventListener("pointerdown",e=>{dragging=true;auto=false;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId)});
+  canvas.addEventListener("pointermove",e=>{
+    if(!dragging)return;
+    yaw-=(e.clientX-lastX)*.008; pitch=Math.max(-.15,Math.min(1.15,pitch+(e.clientY-lastY)*.006));
+    lastX=e.clientX;lastY=e.clientY;
+  });
+  canvas.addEventListener("pointerup",()=>dragging=false);
+  canvas.addEventListener("wheel",e=>{e.preventDefault();auto=false;dist=Math.max(5.5,Math.min(18,dist+e.deltaY*.008))},{passive:false});
 
-      // shaft ends / bearings
-      cyl(stage,x+5,-39,30,13,"bearing");
-      cyl(stage,x+49,-39,30,13,"bearing");
-      cyl(stage,x+5,34,30,13,"bearing");
-      cyl(stage,x+49,34,30,13,"bearing");
-
-      // progressively narrower roll tooling
-      const rr=24-i*1.7;
-      cyl(stage,x+27,-41,43,rr,"roller");
-      cyl(stage,x+27,32,43,rr,"roller");
-      cyl(stage,x+27,-41,47,Math.max(9,rr-10),"black");
-      cyl(stage,x+27,32,47,Math.max(9,rr-10),"black");
-   });
-
-   // sheet/profile path
-   box(stage,-310,4,47,625,7,58,"green");
-   // entry guide and exit profile supports
-   box(stage,-318,-18,34,44,50,12,"steel");
-   box(stage,280,-18,34,44,50,12,"steel");
- }
- if(type==="cad"){
-   // Deployable containerised machine concept:
-   // ISO-like structural frame, opened side doors, telescopic rails,
-   // slide-out machine platform and compact handling mechanism.
-   const cont=box(stage,-170,-72,-62,340,144,124,"steel");
-   faceLabel(cont,"SIMGROVA",18);
-
-   // corner posts + top/bottom rails
-   [-170,154].forEach(x=>{
-      box(stage,x,-82,-72,16,164,16,"darksteel");
-      box(stage,x,-82,52,16,164,16,"darksteel");
-   });
-   box(stage,-170,-82,-72,340,16,16,"darksteel");
-   box(stage,-170,66,-72,340,16,16,"darksteel");
-   box(stage,-170,-82,52,340,16,16,"darksteel");
-   box(stage,-170,66,52,340,16,16,"darksteel");
-
-   // corrugation/ribs to make the container readable as a container
-   for(let x=-142;x<145;x+=28){
-      box(stage,x,-66,57,5,130,5,"darksteel");
-   }
-
-   // large side doors opened outward
-   panel(stage,-272,-62,-8,96,126,9,"green");
-   panel(stage,176,-62,-8,96,126,9,"green");
-   // door frames / hinges
-   box(stage,-184,-62,-8,10,126,14,"accent");
-   box(stage,166,-62,-8,10,126,14,"accent");
-
-   // telescopic slide rails
-   box(stage,-90,74,-42,310,10,18,"darksteel");
-   box(stage,-90,74,30,310,10,18,"darksteel");
-   box(stage,5,88,-52,245,14,104,"steel");
-
-   // machine module on slide-out platform
-   box(stage,92,26,-20,112,62,82,"accent");
-   box(stage,106,-18,-8,84,42,58,"steel");
-   box(stage,128,-56,2,20,40,20,"darksteel");
-
-   // compact articulated handling arm
-   box(stage,150,-82,12,18,54,18,"darksteel");
-   box(stage,150,-84,12,74,16,16,"accent");
-   cyl(stage,143,-90,28,14,"bearing");
-   cyl(stage,207,-90,28,12,"bearing");
-   box(stage,212,-82,15,16,48,16,"darksteel");
-
-   // deployed support feet
-   box(stage,18,100,-48,14,48,14,"darksteel");
-   box(stage,210,100,-48,14,48,14,"darksteel");
-   box(stage,18,140,-58,42,8,34,"steel");
-   box(stage,196,140,-58,42,8,34,"steel");
- }
- let rx=(type==="industry"?-14:-18),ry=(type==="energy"?18:28),scale=(type==="energy"?0.58:type==="food"?0.82:type==="industry"?0.66:type==="cad"?0.74:1),drag=false,px=0,py=0,auto=true;
- function draw(){stage.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
- function animate(){if(auto&&!drag){ry+=.055;draw()}requestAnimationFrame(animate)}
- draw(); animate();
- host.addEventListener("pointerdown",ev=>{auto=false;drag=true;px=ev.clientX;py=ev.clientY;host.setPointerCapture(ev.pointerId)});
- host.addEventListener("pointerup",()=>drag=false); host.addEventListener("pointercancel",()=>drag=false);
- host.addEventListener("pointermove",ev=>{if(!drag)return;ry+=(ev.clientX-px)*.45;rx-=(ev.clientY-py)*.45;px=ev.clientX;py=ev.clientY;draw()});
- host.addEventListener("wheel",ev=>{ev.preventDefault();scale*=ev.deltaY>0?.92:1.08;scale=Math.max(.55,Math.min(1.7,scale));draw()},{passive:false});
+  const ro=new ResizeObserver(resize); ro.observe(host); resize();
+  function animate(){
+    requestAnimationFrame(animate);
+    if(auto) yaw+=.0010;
+    view(); renderer.render(scene,camera);
+  }
+  animate();
+  webglModels[id]={renderer,scene,camera,root};
 }
+
 setupModel("hero3d","hero");
 setupModel("energy3d","energy");
+setupModel("food3d","food");
+setupModel("industry3d","industry");
+setupModel("cad3d","cad");
 document.getElementById("dtext").innerHTML=content.energy.html;
 
 </script></body></html>
