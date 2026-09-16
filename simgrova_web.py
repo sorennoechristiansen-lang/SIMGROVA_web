@@ -96,6 +96,23 @@ header,.topbar,.nav,.site-header{background:rgba(255,255,255,.96)!important}
 section{background:#fff}
 .visual,.detail-visual{border-color:#e5eded!important;box-shadow:0 18px 55px rgba(35,72,79,.045)}
 .box3d .f{opacity:1!important}
+
+/* v11: one consistent horizontal safe area across the entire page */
+:root{--page-max:1440px;--page-pad:clamp(32px,5vw,78px)}
+.shell{width:100%!important;max-width:var(--page-max)!important;margin-left:auto!important;margin-right:auto!important;padding-left:var(--page-pad)!important;padding-right:var(--page-pad)!important}
+#services,#branches,#collaboration,#about,#contact,
+.services,.branches,.collaboration,.about,.contact{
+  width:100%!important;
+  max-width:var(--page-max)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  padding-left:var(--page-pad)!important;
+  padding-right:var(--page-pad)!important;
+}
+#collaboration *, .collaboration *{min-width:0}
+@media(max-width:900px){
+ :root{--page-pad:24px}
+}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -222,56 +239,55 @@ function setupModel(id,type){
    box(stage,-110,40,-5,220,16,25);
  }
  if(type==="food"){
-   // Simplified hygienic food-process skid inspired by real CIP/process equipment:
-   // two vertical stainless vessels, sanitary piping, pump, valves and control cabinet.
-   box(stage,-255,108,-80,510,18,165);
-   box(stage,-235,-118,-72,18,226,18); box(stage,217,-118,-72,18,226,18);
-   box(stage,-235,-132,-72,470,18,18);
+   // Robust process-equipment model built entirely with the same proven 3D box engine.
+   // Stainless process skid, two vessels, sanitary pipe headers, pump and cabinet.
+   box(stage,-250,108,-80,500,18,165);
 
-   function tank(x,y,z){
-      const t=document.createElement("div"); t.className="tank3d";
-      t.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
-      t.innerHTML='<div class="tank-body"></div><div class="tank-cap"></div><div class="tank-cone"></div>';
-      stage.appendChild(t); return t;
+   // skid rails
+   box(stage,-235,88,-62,470,14,20);
+   box(stage,-235,88,48,470,14,20);
+
+   // two simplified vertical process vessels: stacked solid sections
+   function vessel(cx){
+      box(stage,cx-48,-92,-12,96,118,92);
+      box(stage,cx-40,-126,-8,80,34,82);
+      box(stage,cx-34,26,-5,68,28,74);
+      box(stage,cx-31,54,0,14,54,14);
+      box(stage,cx+17,54,0,14,54,14);
+      // top agitator / drive
+      box(stage,cx-22,-160,4,44,34,44,"green");
+      box(stage,cx-6,-128,5,12,28,12);
    }
-   function pipe(x,y,z,w,rot=0){
-      const p=document.createElement("div"); p.className="pipe3d"; p.style.width=w+"px";
-      p.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateZ(${rot}deg)`;
-      stage.appendChild(p); return p;
-   }
-   function pipeV(x,y,z,h){
-      const p=document.createElement("div"); p.className="pipeV"; p.style.height=h+"px";
-      p.style.transform=`translate3d(${x}px,${y}px,${z}px)`; stage.appendChild(p); return p;
-   }
-   function valve(x,y,z){
-      const v=document.createElement("div"); v.className="valve3d";
-      v.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
-      stage.appendChild(v); return v;
-   }
+   vessel(-105); vessel(80);
 
-   tank(-190,-115,0); tank(10,-115,0);
+   // lower sanitary pipe header
+   box(stage,-215,48,58,365,16,16);
+   box(stage,-105,24,58,16,38,16);
+   box(stage,80,24,58,16,38,16);
 
-   // vessel legs / supports
-   [-165,-65,35,135].forEach(x=>box(stage,x,82,2,14,42,14));
+   // upper CIP/return header and vertical drops
+   box(stage,-210,-118,62,360,14,14);
+   box(stage,-105,-118,62,14,46,14);
+   box(stage,80,-118,62,14,46,14);
 
-   // bottom product/CIP header
-   pipe(-205,72,32,390); valve(-25,66,38); valve(95,66,38);
+   // valve bodies
+   box(stage,-20,40,53,28,28,28,"accent");
+   box(stage,120,40,53,28,28,28,"accent");
+   box(stage,-119,-94,56,28,28,28,"accent");
+   box(stage,66,-94,56,28,28,28,"accent");
 
-   // return header across the top and drops to vessels
-   pipe(-205,-118,25,390); pipeV(-125,-112,28,75); pipeV(75,-112,28,75);
-   valve(-139,-78,34); valve(61,-78,34);
+   // pump + motor
+   box(stage,-220,42,5,72,48,58,"accent");
+   cyl(stage,-170,58,38,25);
+   box(stage,-240,90,0,112,12,70);
 
-   // centrifugal pump approximation
-   cyl(stage,-215,55,48,28);
-   box(stage,-250,42,5,58,40,48,"accent");
-   pipe(-185,56,48,62);
-
-   // heat exchanger / small process block
-   box(stage,175,-42,-10,42,122,54,"green");
-   pipe(142,-5,25,74); pipe(142,28,25,74);
+   // plate heat exchanger/process module
+   box(stage,155,-45,-12,42,122,58,"green");
+   box(stage,145,-56,-18,62,12,70);
+   box(stage,145,77,-18,62,12,70);
 
    // control cabinet
-   box(stage,205,-96,-55,62,150,40);
+   box(stage,205,-105,-58,64,165,44);
  }
  if(type==="industry"){
    box(stage,-225,90,-70,450,22,145);
@@ -288,7 +304,7 @@ function setupModel(id,type){
    main.querySelector(".front").innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 25px Arial;letter-spacing:.14em;color:#244b53'>SIMGROVA</div>";
    main.querySelector(".top").innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 12px monospace;letter-spacing:.12em;color:#244b53'>ENGINEERING</div>";
  }
- let rx=-18,ry=28,scale=(type==="food"?0.82:1),drag=false,px=0,py=0,auto=true;
+ let rx=-18,ry=28,scale=(type==="food"?0.86:1),drag=false,px=0,py=0,auto=true;
  function draw(){stage.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
  function animate(){if(auto&&!drag){ry+=.055;draw()}requestAnimationFrame(animate)}
  draw(); animate();
