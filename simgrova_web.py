@@ -202,7 +202,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <h1>Mekanisk udvikling<br>og konstruktion.</h1>
 <div class="lead">Mekanisk udvikling, konstruktion og teknisk projektarbejde. Opgaver kan løses direkte for en virksomhed eller som ekstern ressource i et eksisterende engineeringteam.</div>
 <div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div><div class="hero-config"><div class="cfg-title">KONCEPTKONFIGURATOR · LIVE 3D</div>
-<div class="cfg-row"><label>Slædeposition</label><input id="travelSlider" type="range" min="-100" max="100" value="20"><output id="travelOut">20%</output></div>
+<div class="cfg-row"><label>Slædeposition</label><input id="travelSlider" type="range" min="-1100" max="1100" value="220" step="10"><output id="travelOut">220 mm</output></div>
 <div class="cfg-row"><label>Modelstørrelse</label><input id="sizeSlider" type="range" min="1" max="5" value="3" step="1"><output id="sizeOut">M</output></div>
 <div class="cfg-row"><label>Arbejdshøjde</label><input id="heightSlider" type="range" min="700" max="1900" value="1300" step="50"><output id="heightOut">1300 mm</output></div>
 <div class="cfg-row"><label>Robot-rækkevidde</label><input id="reachSlider" type="range" min="500" max="1500" value="1000" step="50"><output id="reachOut">1000 mm</output></div>
@@ -464,28 +464,45 @@ function setupModel(id,type){
 
     box(0,-1.05,0,5.4,.28,3.25,MAT.dark,H);
     box(0,-.84,0,5.0,.14,2.85,MAT.steel,H);
-    for(const x of [-2.25,2.25]) for(const z of [-1.15,1.15]){
-      // Bolt head seated on the upper grey base plate.
-      bolt(x,-.76,z,"y",H);
-    }
+    
 
     // Fixed rotary workstation.
     cyl(-1.55,-.28,0,.92,.72,"y",MAT.blue,H);
 
     // Linear axis.
-    heroMechanism.rail1=box(.85,-.38,-.82,3.0,.22,.18,MAT.polished,H);
-    heroMechanism.rail2=box(.85,-.38,.82,3.0,.22,.18,MAT.polished,H);
-    heroMechanism.screw=cyl(.85,-.12,0,.07,2.8,"x",MAT.brass,H);
+    // The guides are mounted ABOVE the machine plate on proper support blocks.
+    // Supports sit between the upper plate and each guide — not as loose corner fasteners.
+    const railY=-.27;
+    heroMechanism.rail1=box(.85,railY,-.82,3.0,.22,.18,MAT.polished,H);
+    heroMechanism.rail2=box(.85,railY,.82,3.0,.22,.18,MAT.polished,H);
+    // Lead screw emerges from inside the large rotary drive housing.
+    // Extended to the left while keeping the original right-hand end position.
+    heroMechanism.screw=cyl(.30,-.04,0,.07,3.90,"x",MAT.brass,H);
+
+    // Four mounting/support blocks under each guide.
+    const supportXs=[-.35,.45,1.25,2.05];
+    supportXs.forEach(x=>{
+      box(x,-.55,-.82,.30,.34,.42,MAT.dark,H);
+      box(x,-.55,.82,.30,.34,.42,MAT.dark,H);
+      // small seated fixing heads on the support blocks
+      bolt(x,-.34,-.82,"y",H);
+      bolt(x,-.34,.82,"y",H);
+    });
 
     // Entire robot travels as one assembly.
     const moving=new THREE.Group(); H.add(moving);
-    heroMechanism.moving=moving; moving.position.set(1.15,0,0);
+    heroMechanism.moving=moving; moving.position.set(1.15,-.02,0);
     box(0,.02,0,1.0,.32,2.0,MAT.steel,moving);
+    // guide shoes below the carriage, aligned directly over both rails
+    box(-.28,-.19,-.82,.34,.18,.34,MAT.blue,moving);
+    box(.28,-.19,-.82,.34,.18,.34,MAT.blue,moving);
+    box(-.28,-.19,.82,.34,.18,.34,MAT.blue,moving);
+    box(.28,-.19,.82,.34,.18,.34,MAT.blue,moving);
     cyl(0,.42,0,.38,.34,"y",MAT.dark,moving);
 
     // Cylinder 1 starts at carriage.
     const lift=new THREE.Group(); moving.add(lift);
-    lift.position.set(0,.48,0);
+    lift.position.set(0,.35,0);
     heroMechanism.cyl1=cyl(0,.875,0,.23,1.75,"y",MAT.polished,lift);
 
     // Joint 1 is parented to the END of cylinder 1.
@@ -517,9 +534,12 @@ function setupModel(id,type){
 
     heroMechanism.L1=1.75; heroMechanism.L2=.96; heroMechanism.L3=.78;
     heroMechanism.travel=2.45;
-    heroMechanism.applyTravel=v=>{
-      const p=Math.max(-100,Math.min(100,+v||0))/100;
-      moving.position.x=1.15+p*heroMechanism.travel*.46;
+    heroMechanism.maxTravelMm=1100;
+    heroMechanism.maxTravelModel=heroMechanism.travel*.46;
+    heroMechanism.applyTravel=mm=>{
+      const value=Math.max(-heroMechanism.maxTravelMm,Math.min(heroMechanism.maxTravelMm,+mm||0));
+      const dx=(value/heroMechanism.maxTravelMm)*heroMechanism.maxTravelModel;
+      moving.position.set(1.15+dx,-.02,0);
     };
     heroMechanism.liveUpdate=(sizeStep,heightMm,reachMm)=>{
       const sc=[.78,.89,1,1.12,1.25][Math.max(1,Math.min(5,+sizeStep||3))-1];
@@ -540,7 +560,7 @@ function setupModel(id,type){
       heroMechanism.link3Body.position.x=L3/2;
       heroMechanism.toolGroup.position.x=L3;
 
-      heroMechanism.applyTravel(document.getElementById("travelSlider")?.value||20);
+      heroMechanism.applyTravel(document.getElementById("travelSlider")?.value||220);
     };
   }
 
@@ -756,12 +776,12 @@ document.getElementById("dtext").innerHTML=content.energy.html;
 
 
 const travelSlider=document.getElementById("travelSlider"),sizeSlider=document.getElementById("sizeSlider"),heightSlider=document.getElementById("heightSlider"),reachSlider=document.getElementById("reachSlider");
-function cfgLabels(){document.getElementById("travelOut").textContent=travelSlider.value+"%";document.getElementById("sizeOut").textContent=["XS","S","M","L","XL"][+sizeSlider.value-1];document.getElementById("heightOut").textContent=heightSlider.value+" mm";document.getElementById("reachOut").textContent=reachSlider.value+" mm";}
+function cfgLabels(){document.getElementById("travelOut").textContent=travelSlider.value+" mm";document.getElementById("sizeOut").textContent=["XS","S","M","L","XL"][+sizeSlider.value-1];document.getElementById("heightOut").textContent=heightSlider.value+" mm";document.getElementById("reachOut").textContent=reachSlider.value+" mm";}
 function liveGeometry(){cfgLabels();heroMechanism.liveUpdate?.(sizeSlider.value,heightSlider.value,reachSlider.value);}
 travelSlider.addEventListener("input",()=>{cfgLabels();heroMechanism.applyTravel?.(travelSlider.value);});
 [sizeSlider,heightSlider,reachSlider].forEach(s=>s.addEventListener("input",liveGeometry));
 document.querySelectorAll(".view-modes button[data-view]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".view-modes button[data-view]").forEach(x=>x.classList.remove("active"));b.classList.add("active");heroMechanism.setView?.(b.dataset.view);}));
-document.getElementById("resetCfg").addEventListener("click",()=>{travelSlider.value=20;sizeSlider.value=3;heightSlider.value=1300;reachSlider.value=1000;cfgLabels();heroMechanism.liveUpdate?.(3,1300,1000);heroMechanism.applyTravel?.(20);heroMechanism.setView?.("iso");document.querySelectorAll(".view-modes button[data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view==="iso"));});
+document.getElementById("resetCfg").addEventListener("click",()=>{travelSlider.value=220;sizeSlider.value=3;heightSlider.value=1300;reachSlider.value=1000;cfgLabels();heroMechanism.liveUpdate?.(3,1300,1000);heroMechanism.applyTravel?.(220);heroMechanism.setView?.("iso");document.querySelectorAll(".view-modes button[data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view==="iso"));});
 cfgLabels();heroMechanism.liveUpdate?.(3,1300,1000);
 </script></body></html>
 """
