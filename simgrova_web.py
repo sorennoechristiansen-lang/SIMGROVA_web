@@ -573,68 +573,99 @@ function setupModel(id,type){
     };
   }
 
-  // ENERGY — deployable solar field: repeated shallow inverted-V modules.
-  // Long panel dimension remains horizontal; the short panel dimension forms the /\ profile.
+  // ENERGY — deployable solar field based on the supplied reference:
+  // central transport unit, long wings in ±X, panel long edge transverse (Z),
+  // and repeated shallow /\ profiles along the deployment direction.
   if(type==="energy"){
     const E=new THREE.Group(); root.add(E);
-    const movingPanels=[];
+    const leaves=[];
 
-    // compact central deployment / transport module
-    box(0,-.78,0,2.55,.70,1.35,MAT.steel,E);
-    box(0,-.38,0,2.30,.12,1.15,MAT.dark,E);
-    for(const z of [-.58,.58]) box(0,-1.12,z,11.4,.10,.12,MAT.polished,E);
+    // central transport / deployment container
+    box(0,-.72,0,2.35,1.12,1.70,MAT.steel,E);
+    box(0,-.12,0,2.18,.10,1.54,MAT.dark,E);
+    for(const x of [-1.05,1.05]) for(const z of [-.72,.72])
+      box(x,-.70,z,.12,1.30,.12,MAT.dark,E);
 
-    function pvLeaf(parent,side){
-      // Hinge axis is X: the long side of the panel.
-      const pivot=new THREE.Group(); parent.add(pivot);
-      pivot.position.z=0;
-      const leaf=new THREE.Group(); pivot.add(leaf);
-
-      // panel 2.45 long (X) x 1.02 short (Z), hinged at its long inner edge
-      leaf.position.z=side*.51;
-      panel(0,0,0,2.45,1.02,0,leaf);
-
-      // two hinge barrels along the long hinge edge
-      for(const x of [-.72,.72]){
-        cyl(x,-.02,-side*.51,.055,.28,"x",MAT.brass,leaf,18);
-        box(x,-.07,-side*.47,.32,.08,.14,MAT.dark,leaf);
-      }
-      return pivot;
+    // longitudinal deployment rails under both solar wings
+    for(const side of [-1,1]){
+      const cx=side*4.95;
+      for(const z of [-.78,.78])
+        box(cx,-1.05,z,7.55,.10,.10,MAT.polished,E);
     }
 
-    // Five repeated /\ modules along X.
-    for(let i=0;i<5;i++){
-      const module=new THREE.Group(); E.add(module);
-      module.position.set(-4.90+i*2.45,-.30,0);
+    function makeLeaf(x,side,half){
+      // Each panel is WIDE ACROSS Z and SHORT in X.
+      // Its hinge axis is therefore Z: the panel's long side.
+      const pivot=new THREE.Group(); E.add(pivot);
+      pivot.position.set(x,-.47,0);
 
-      // ridge beam and low feet
-      box(0,-.18,0,2.34,.10,.10,MAT.dark,module);
-      for(const x of [-.92,.92]){
-        box(x,-.72,-.62,.12,.72,.12,MAT.steel,module);
-        box(x,-.72,.62,.12,.72,.12,MAT.steel,module);
+      const pg=new THREE.Group(); pivot.add(pg);
+      const short=.86, long=1.78;
+      pg.position.x=half*short/2;
+
+      // real PV panel mesh, long dimension across the strip
+      const frame=box(0,0,0,short,.055,long,MAT.dark,pg);
+      box(0,.035,0,short-.07,.025,long-.07,MAT.solar,pg);
+
+      // simple cell grid
+      for(let iz=-2;iz<=2;iz++){
+        box(0,.052,iz*(long-.10)/5,short-.10,.008,.012,MAT.polished,pg);
+      }
+      for(const xx of [-.22,.22]){
+        box(xx,.052,0,.012,.008,long-.10,MAT.polished,pg);
       }
 
-      const left=pvLeaf(module,-1);
-      const right=pvLeaf(module,1);
-      movingPanels.push({pivot:left,side:-1,i});
-      movingPanels.push({pivot:right,side:1,i});
+      // two hinges along the LONG Z hinge edge
+      for(const z of [-.52,.52]){
+        cyl(-half*short/2,-.025,z,.045,.20,"z",MAT.brass,pg,18);
+        box(-half*(short/2-.06),-.07,z,.14,.08,.28,MAT.dark,pg);
+      }
+
+      leaves.push({pivot,side,half,x});
     }
 
-    // deployed target = shallow inverted V, almost horizontal
-    movingPanels.forEach(p=>p.pivot.rotation.x=p.side*.22);
+    // Eight shallow /\ modules on each side of the central container.
+    // Each /\ consists of two short-X leaves sharing a transverse long-Z ridge hinge.
+    const pitch=1.56;
+    for(const side of [-1,1]){
+      for(let i=0;i<5;i++){
+        const center=side*(1.62+i*pitch);
 
-    // Short one-time deployment demonstration: leaves rotate about their LONG X hinge axis.
+        // transverse ridge/support beam
+        box(center,-.49,0,.10,.10,1.90,MAT.dark,E);
+
+        // low support feet at both ends of ridge
+        for(const z of [-.82,.82]){
+          box(center,-.78,z,.10,.58,.10,MAT.steel,E);
+          box(center,-1.08,z,.28,.05,.28,MAT.dark,E);
+        }
+
+        // one leaf points toward container, the other away from it
+        makeLeaf(center,side,-side);
+        makeLeaf(center,side, side);
+      }
+    }
+
+    // Deployed state: shallow repeated inverted V, almost flat.
+    leaves.forEach(p=>{
+      // slope is determined by whether leaf extends toward -X or +X
+      p.pivot.rotation.z=-p.half*.18;
+    });
+
+    // One-time unfolding demonstration: rotation is around Z,
+    // i.e. the LONG side of every panel.
     const t0=performance.now();
     webglModels._energyAnimate=()=>{
       const elapsed=(performance.now()-t0)/1000;
-      const t=Math.min(1,elapsed/4.2);
+      const t=Math.min(1,elapsed/4.6);
       const s=t*t*(3-2*t);
-      movingPanels.forEach((p,k)=>{
-        const delay=(p.i*.055);
+      leaves.forEach((p,k)=>{
+        const idx=Math.floor(k/2)%5;
+        const delay=idx*.055;
         const u=Math.max(0,Math.min(1,(s-delay)/(1-delay)));
-        const folded=p.side*1.18;
-        const deployed=p.side*.22;
-        p.pivot.rotation.x=folded+(deployed-folded)*u;
+        const folded=-p.half*1.18;
+        const deployed=-p.half*.18;
+        p.pivot.rotation.z=folded+(deployed-folded)*u;
       });
     };
   }
