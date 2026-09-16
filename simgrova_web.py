@@ -151,6 +151,30 @@ section{background:#fff}
 }
 
 footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,95px)!important}
+
+/* v16 — engineering-model material/detail pass */
+.box3d.steel .f{
+  background:linear-gradient(135deg,#f9fcfc 0%,#c8d6d9 32%,#eef4f5 58%,#aebfc3 100%)!important;
+  border-color:#789097!important;
+}
+.box3d.darksteel .f{
+  background:linear-gradient(135deg,#59676b 0%,#26383d 48%,#718084 100%)!important;
+  border-color:#263d43!important;
+}
+.box3d.solar .f{background:#132c43!important;border-color:#7794a6!important;box-shadow:inset 0 0 0 2px #213e54!important}
+.box3d.solar .front,.box3d.solar .back{
+  background-color:#122a41!important;
+  background-image:
+    linear-gradient(rgba(225,239,247,.62) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(225,239,247,.62) 1px,transparent 1px)!important;
+  background-size:18px 16px!important;
+}
+.box3d.yellow .f{background:#d5b879!important;border-color:#8e7442!important}
+.box3d.black .f{background:#273338!important;border-color:#172125!important}
+.cyl3d.roller{background:radial-gradient(circle at 38% 32%,#f8fbfb 0%,#aab8bb 38%,#435156 72%,#1f2a2e 100%)!important;border:2px solid #34464b!important}
+.cyl3d.bearing{background:radial-gradient(circle,#dce4e5 0 20%,#4b5a5e 22% 47%,#c7d1d3 49% 65%,#3a494e 67%)!important;border-color:#3b4d52!important}
+.cyl3d.pipeend{background:radial-gradient(circle,#f9fbfb 0 28%,#9fb2b6 31% 42%,#e6edef 45% 68%,#748c92 72%)!important}
+.detail-visual .model-stage{filter:drop-shadow(0 20px 18px rgba(37,64,70,.12))}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -192,16 +216,16 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="kicker" id="dkicker">ENERGI / MEKANISK UDVIKLING</div><h3 id="dtitle">Mekaniske løsninger til energiområdet</h3><div id="dtext"></div>
 </div><div class="detail-visual">
 <div class="scene active" id="energy">
-<div class="model3d" id="energy3d"><div class="model-note">ENERGI · SPECIALVÆRKTØJ / HÅNDTERING</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
+<div class="model3d" id="energy3d"><div class="model-note">ENERGI · DEPLOYERBART SOLSYSTEM</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
 </div>
 <div class="scene" id="food">
 <div class="model3d" id="food3d"><div class="model-note">FØDEVARER · TANK / PROCESRØR</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">HYGIENISK PRINCIPMODEL</div></div>
 </div>
 <div class="scene" id="industry">
-<div class="model3d" id="industry3d"><div class="model-note">INDUSTRI · SPECIALMASKINE / AKSER</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
+<div class="model3d" id="industry3d"><div class="model-note">INDUSTRI · RULLEFORMNING / SPECIALMASKINE</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
 </div>
 <div class="scene" id="cad">
-<div class="model3d" id="cad3d"><div class="model-note">SIMGROVA 3D · TRÆK FOR AT ROTERE · SCROLL FOR ZOOM</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">CAD / ENGINEERING</div></div>
+<div class="model3d" id="cad3d"><div class="model-note">UDVIKLING + CAD · DEPLOYERBAR SPECIALMASKINE</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">CAD / ENGINEERING</div></div>
 </div></div>
 </div></div></section>
 
@@ -291,6 +315,19 @@ function panel(stage,x,y,z,w,h,d=7,kind=""){
   return box(stage,x,y,z,w,h,d,kind);
 }
 
+function faceLabel(obj,html,size=12){
+  const f=obj && obj.querySelector(".front");
+  if(f){
+    f.innerHTML=html;
+    f.style.display="flex";
+    f.style.alignItems="center";
+    f.style.justifyContent="center";
+    f.style.font=`700 ${size}px Arial`;
+    f.style.letterSpacing=".12em";
+    f.style.color="#28474e";
+  }
+}
+
 function setupModel(id,type){
  if(built[id]) return; built[id]=true;
  const host=document.getElementById(id); if(!host)return;
@@ -305,124 +342,201 @@ function setupModel(id,type){
    cyl(stage,125,-35,0,38); cyl(stage,125,-35,5,12);
  }
  if(type==="energy"){
-   // Deployable solar-array concept: central container/module with folding panel wings.
-   box(stage,-92,35,-45,184,72,90);               // central module
-   box(stage,-82,20,48,164,10,18,"accent");       // hinge beam
-   box(stage,-82,-30,-35,164,55,72);              // upper equipment housing
+   // Containerised deployable photovoltaic plant:
+   // transport module, rail beams, hinge/yoke points and accordion panel wings.
+   const cont=box(stage,-105,-42,-55,210,102,110,"steel");
+   faceLabel(cont,"SIMGROVA · ENERGY",11);
 
-   // long panel wings, simplified as solid thin modules
-   const pw=112, ph=62, gap=7;
-   for(let i=0;i<4;i++){
-      panel(stage,-105-(i+1)*(pw+gap),8,20,pw,ph,7);
-      panel(stage,105+i*(pw+gap),8,20,pw,ph,7);
-      // pale cell strips
-      for(let c=1;c<4;c++){
-         box(stage,-105-(i+1)*(pw+gap)+c*25,10,24,2,58,3,"green");
-         box(stage,105+i*(pw+gap)+c*25,10,24,2,58,3,"green");
+   // ISO-like corner posts and roof/base rails
+   [-105,89].forEach(x=>{
+      box(stage,x,-52,-65,16,122,16,"darksteel");
+      box(stage,x,-52,49,16,122,16,"darksteel");
+   });
+   box(stage,-105,-54,-65,210,14,16,"darksteel");
+   box(stage,-105,56,-65,210,14,16,"darksteel");
+   box(stage,-105,-54,49,210,14,16,"darksteel");
+   box(stage,-105,56,49,210,14,16,"darksteel");
+
+   // central deployment cassette
+   box(stage,-82,-18,60,164,50,22,"darksteel");
+   box(stage,-94,38,60,188,12,18,"accent");
+
+   // two long ground rails
+   box(stage,-585,82,-38,1170,10,14,"steel");
+   box(stage,-585,82,42,1170,10,14,"steel");
+
+   // accordion-like panel wings. Each module gets a frame + PV face.
+   const pw=106, ph=72, gap=9;
+   for(let side of [-1,1]){
+      for(let i=0;i<4;i++){
+         let x = side<0 ? -118-(i+1)*(pw+gap) : 118+i*(pw+gap);
+         // support carriage below each panel
+         box(stage,x+10,70,-26,pw-20,8,82,"steel");
+         box(stage,x+3,4,18,pw,ph,7,"solar");
+         // hinge block between modules
+         let hx=side<0 ? x+pw-3 : x-7;
+         box(stage,hx,26,12,10,28,18,"accent");
       }
    }
-   // support rails
-   box(stage,-585,76,-30,1170,12,18);
-   box(stage,-585,76,42,1170,12,18);
+
+   // deployment drive / inverter cabinet
+   box(stage,-42,20,-5,84,55,55,"green");
+   cyl(stage,-58,30,58,16,"bearing");
+   cyl(stage,26,30,58,16,"bearing");
  }
  if(type==="food"){
-   // Robust process-equipment model built entirely with the same proven 3D box engine.
-   // Stainless process skid, two vessels, sanitary pipe headers, pump and cabinet.
-   box(stage,-250,108,-80,500,18,165);
+   // Hygienic CIP/process skid: polished vessels, sanitary headers, pump,
+   // plate heat exchanger, valve cluster and control cabinet.
+   box(stage,-255,110,-82,510,16,170,"steel");
+   box(stage,-242,90,-64,484,12,18,"steel");
+   box(stage,-242,90,50,484,12,18,"steel");
 
-   // skid rails
-   box(stage,-235,88,-62,470,14,20);
-   box(stage,-235,88,48,470,14,20);
-
-   // two simplified vertical process vessels: stacked solid sections
    function vessel(cx){
-      box(stage,cx-48,-92,-12,96,118,92);
-      box(stage,cx-40,-126,-8,80,34,82);
-      box(stage,cx-34,26,-5,68,28,74);
-      box(stage,cx-31,54,0,14,54,14);
-      box(stage,cx+17,54,0,14,54,14);
-      // top agitator / drive
-      box(stage,cx-22,-160,4,44,34,44,"green");
-      box(stage,cx-6,-128,5,12,28,12);
+      // faceted stainless vessel silhouette with top/bottom bands
+      box(stage,cx-50,-92,-12,100,120,94,"steel");
+      box(stage,cx-46,-126,-8,92,34,86,"steel");
+      box(stage,cx-38,28,-2,76,28,78,"steel");
+      box(stage,cx-32,56,2,14,52,14,"darksteel");
+      box(stage,cx+18,56,2,14,52,14,"darksteel");
+      // top manway and agitator drive
+      cyl(stage,cx-22,-137,46,22,"pipeend");
+      box(stage,cx-24,-166,8,48,36,46,"green");
+      box(stage,cx-6,-132,10,12,30,12,"darksteel");
+      // level / instrument block
+      box(stage,cx+34,-55,42,18,46,16,"accent");
    }
-   vessel(-105); vessel(80);
+   vessel(-108); vessel(78);
 
-   // lower sanitary pipe header
-   box(stage,-215,48,58,365,16,16);
-   box(stage,-105,24,58,16,38,16);
-   box(stage,80,24,58,16,38,16);
+   // sanitary lower product header
+   box(stage,-220,50,60,372,14,14,"steel");
+   box(stage,-108,25,60,14,40,14,"steel");
+   box(stage,78,25,60,14,40,14,"steel");
 
-   // upper CIP/return header and vertical drops
-   box(stage,-210,-118,62,360,14,14);
-   box(stage,-105,-118,62,14,46,14);
-   box(stage,80,-118,62,14,46,14);
+   // upper CIP return header
+   box(stage,-216,-120,64,370,12,12,"steel");
+   box(stage,-108,-120,64,12,48,12,"steel");
+   box(stage,78,-120,64,12,48,12,"steel");
 
-   // valve bodies
-   box(stage,-20,40,53,28,28,28,"accent");
-   box(stage,120,40,53,28,28,28,"accent");
-   box(stage,-119,-94,56,28,28,28,"accent");
-   box(stage,66,-94,56,28,28,28,"accent");
+   // hygienic valves / clamp-like faces
+   [[-22,42],[118,42],[-122,-96],[64,-96]].forEach(p=>{
+      box(stage,p[0],p[1],54,30,30,28,"accent");
+      cyl(stage,p[0]+1,p[1]+1,72,14,"pipeend");
+   });
 
-   // pump + motor
-   box(stage,-220,42,5,72,48,58,"accent");
-   cyl(stage,-170,58,38,25);
-   box(stage,-240,90,0,112,12,70);
+   // centrifugal pump + motor
+   box(stage,-232,42,2,78,50,60,"darksteel");
+   cyl(stage,-170,54,40,28,"pipeend");
+   box(stage,-244,92,-2,126,10,72,"steel");
 
-   // plate heat exchanger/process module
-   box(stage,155,-45,-12,42,122,58,"green");
-   box(stage,145,-56,-18,62,12,70);
-   box(stage,145,77,-18,62,12,70);
+   // plate heat exchanger
+   box(stage,150,-50,-12,46,128,62,"yellow");
+   box(stage,140,-60,-18,66,12,74,"darksteel");
+   box(stage,140,78,-18,66,12,74,"darksteel");
+   for(let yy=-36;yy<58;yy+=18) box(stage,155,yy,51,36,4,5,"steel");
 
-   // control cabinet
-   box(stage,205,-105,-58,64,165,44);
+   // controls
+   const cab=box(stage,208,-108,-58,68,170,48,"steel");
+   faceLabel(cab,"CIP",15);
  }
  if(type==="industry"){
-   // Roll-forming line: repeated stands, upper/lower roller shafts and strip path.
-   box(stage,-255,105,-80,510,18,170);             // machine bed
-   box(stage,-245,82,-62,490,18,26);
-   const xs=[-205,-125,-45,35,115,195];
+   // Roll-forming machine inspired by real modular forming stands:
+   // bed, uprights, bearing blocks, adjustment screws, shafts and changing roll tooling.
+   box(stage,-285,112,-88,570,18,190,"darksteel");
+   box(stage,-270,88,-70,540,16,30,"steel");
+   box(stage,-270,88,56,540,16,30,"steel");
+
+   const xs=[-235,-145,-55,35,125,215];
    xs.forEach((x,i)=>{
-      // portal stand
-      box(stage,x,-75,-52,18,160,22);
-      box(stage,x+58,-75,-52,18,160,22);
-      box(stage,x,-88,-52,76,18,22);
-      // bearing blocks
-      box(stage,x+5,-42,-10,24,42,34,"accent");
-      box(stage,x+47,-42,-10,24,42,34,"accent");
-      box(stage,x+5,20,-10,24,42,34,"accent");
-      box(stage,x+47,20,-10,24,42,34,"accent");
-      // upper/lower rollers represented as shafts + discs
-      box(stage,x+20,-25,6,42,12,12);
-      box(stage,x+20,37,6,42,12,12);
-      cyl(stage,x+35,-27,22,20);
-      cyl(stage,x+35,35,22,20);
+      // rigid C/portal stand
+      box(stage,x,-92,-58,18,180,28,"darksteel");
+      box(stage,x+62,-92,-58,18,180,28,"darksteel");
+      box(stage,x,-102,-58,80,20,28,"darksteel");
+
+      // upper/lower bearing housings
+      box(stage,x+4,-51,-14,26,44,38,"yellow");
+      box(stage,x+50,-51,-14,26,44,38,"yellow");
+      box(stage,x+4,22,-14,26,44,38,"yellow");
+      box(stage,x+50,22,-14,26,44,38,"yellow");
+
+      // vertical adjustment screws + caps
+      box(stage,x+15,-80,4,9,32,9,"steel");
+      box(stage,x+56,-80,4,9,32,9,"steel");
+      cyl(stage,x+7,-91,12,10,"bearing");
+      cyl(stage,x+48,-91,12,10,"bearing");
+
+      // shaft ends / bearings
+      cyl(stage,x+5,-39,30,13,"bearing");
+      cyl(stage,x+49,-39,30,13,"bearing");
+      cyl(stage,x+5,34,30,13,"bearing");
+      cyl(stage,x+49,34,30,13,"bearing");
+
+      // progressively narrower roll tooling
+      const rr=24-i*1.7;
+      cyl(stage,x+27,-41,43,rr,"roller");
+      cyl(stage,x+27,32,43,rr,"roller");
+      cyl(stage,x+27,-41,47,Math.max(9,rr-10),"black");
+      cyl(stage,x+27,32,47,Math.max(9,rr-10),"black");
    });
-   // strip being formed through the stands
-   box(stage,-275,8,36,565,7,52,"green");
+
+   // sheet/profile path
+   box(stage,-310,4,47,625,7,58,"green");
+   // entry guide and exit profile supports
+   box(stage,-318,-18,34,44,50,12,"steel");
+   box(stage,280,-18,34,44,50,12,"steel");
  }
  if(type==="cad"){
-   // Containerized deployable concept: container body, opened side panels and slide-out module.
-   box(stage,-155,-68,-58,310,136,116);            // main container
-   // end frames / corner posts
-   box(stage,-155,-76,-66,16,152,16); box(stage,139,-76,-66,16,152,16);
-   box(stage,-155,-76,50,16,152,16);  box(stage,139,-76,50,16,152,16);
+   // Deployable containerised machine concept:
+   // ISO-like structural frame, opened side doors, telescopic rails,
+   // slide-out machine platform and compact handling mechanism.
+   const cont=box(stage,-170,-72,-62,340,144,124,"steel");
+   faceLabel(cont,"SIMGROVA",18);
 
-   // opened side doors/panels, offset like wings
-   panel(stage,-245,-58,-5,88,116,8,"green");
-   panel(stage,157,-58,-5,88,116,8,"green");
+   // corner posts + top/bottom rails
+   [-170,154].forEach(x=>{
+      box(stage,x,-82,-72,16,164,16,"darksteel");
+      box(stage,x,-82,52,16,164,16,"darksteel");
+   });
+   box(stage,-170,-82,-72,340,16,16,"darksteel");
+   box(stage,-170,66,-72,340,16,16,"darksteel");
+   box(stage,-170,-82,52,340,16,16,"darksteel");
+   box(stage,-170,66,52,340,16,16,"darksteel");
 
-   // slide-out platform and equipment
-   box(stage,-72,70,-12,245,14,92);
-   box(stage,72,30,-2,92,54,70,"accent");
-   box(stage,92,-5,5,52,35,48,"green");
-
-   const main=stage.querySelector(".box3d");
-   if(main){
-      const f=main.querySelector(".front");
-      if(f) f.innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 22px Arial;letter-spacing:.14em;color:#244b53'>SIMGROVA</div>";
+   // corrugation/ribs to make the container readable as a container
+   for(let x=-142;x<145;x+=28){
+      box(stage,x,-66,57,5,130,5,"darksteel");
    }
+
+   // large side doors opened outward
+   panel(stage,-272,-62,-8,96,126,9,"green");
+   panel(stage,176,-62,-8,96,126,9,"green");
+   // door frames / hinges
+   box(stage,-184,-62,-8,10,126,14,"accent");
+   box(stage,166,-62,-8,10,126,14,"accent");
+
+   // telescopic slide rails
+   box(stage,-90,74,-42,310,10,18,"darksteel");
+   box(stage,-90,74,30,310,10,18,"darksteel");
+   box(stage,5,88,-52,245,14,104,"steel");
+
+   // machine module on slide-out platform
+   box(stage,92,26,-20,112,62,82,"accent");
+   box(stage,106,-18,-8,84,42,58,"steel");
+   box(stage,128,-56,2,20,40,20,"darksteel");
+
+   // compact articulated handling arm
+   box(stage,150,-82,12,18,54,18,"darksteel");
+   box(stage,150,-84,12,74,16,16,"accent");
+   cyl(stage,143,-90,28,14,"bearing");
+   cyl(stage,207,-90,28,12,"bearing");
+   box(stage,212,-82,15,16,48,16,"darksteel");
+
+   // deployed support feet
+   box(stage,18,100,-48,14,48,14,"darksteel");
+   box(stage,210,100,-48,14,48,14,"darksteel");
+   box(stage,18,140,-58,42,8,34,"steel");
+   box(stage,196,140,-58,42,8,34,"steel");
  }
- let rx=-18,ry=28,scale=(type==="energy"?0.62:type==="food"?0.86:type==="industry"?0.72:type==="cad"?0.82:1),drag=false,px=0,py=0,auto=true;
+ let rx=(type==="industry"?-14:-18),ry=(type==="energy"?18:28),scale=(type==="energy"?0.58:type==="food"?0.82:type==="industry"?0.66:type==="cad"?0.74:1),drag=false,px=0,py=0,auto=true;
  function draw(){stage.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
  function animate(){if(auto&&!drag){ry+=.055;draw()}requestAnimationFrame(animate)}
  draw(); animate();
