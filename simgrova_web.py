@@ -191,7 +191,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 .hero-config .cfg-title{font-size:10px;letter-spacing:.14em;font-weight:800;color:#587177;margin-bottom:10px}
 .cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#347e8c}.cfg-row input{width:100%;accent-color:#347e8c}
 .cfg-actions{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}.cfg-btn{border:1px solid #347e8c;background:#347e8c;color:#fff;padding:8px 13px;font:800 10px Arial;letter-spacing:.10em;cursor:pointer}.cfg-btn.secondary{background:transparent;color:#347e8c}.cfg-status{font-size:10px;color:#71868b;margin-left:auto}
-</style></head><body>
+.view-modes{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}.view-modes>span{font:800 9px Arial;letter-spacing:.14em;color:#71868b}.view-modes button[data-view]{border:1px solid rgba(52,126,140,.45);background:transparent;color:#347e8c;padding:7px 10px;font:800 9px Arial;cursor:pointer}.view-modes button[data-view].active{background:#347e8c;color:#fff}</style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
 <nav><button onclick="go('ydelser')">YDELSER</button><button onclick="go('brancher')">BRANCHER</button><button onclick="go('samarbejde')">SAMARBEJDE</button><button onclick="go('om')">OM SIMGROVA</button><button onclick="go('kontakt')">KONTAKT</button></nav></header>
@@ -203,10 +203,10 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="lead">Mekanisk udvikling, konstruktion og teknisk projektarbejde. Opgaver kan løses direkte for en virksomhed eller som ekstern ressource i et eksisterende engineeringteam.</div>
 <div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div><div class="hero-config"><div class="cfg-title">KONCEPTKONFIGURATOR · LIVE 3D</div>
 <div class="cfg-row"><label>Slædeposition</label><input id="travelSlider" type="range" min="-100" max="100" value="20"><output id="travelOut">20%</output></div>
-<div class="cfg-row"><label>Slaglængde</label><input id="railSlider" type="range" min="1800" max="3600" value="2800" step="100"><output id="railOut">2800 mm</output></div>
-<div class="cfg-row"><label>Arbejdshøjde</label><input id="heightSlider" type="range" min="900" max="1900" value="1400" step="50"><output id="heightOut">1400 mm</output></div>
-<div class="cfg-row"><label>Robot-rækkevidde</label><input id="reachSlider" type="range" min="700" max="1500" value="1050" step="50"><output id="reachOut">1050 mm</output></div>
-<div class="cfg-actions"><button class="cfg-btn" id="constructBtn" type="button">KONSTRUER MODEL</button><button class="cfg-btn secondary" id="resetCfg" type="button">RESET</button><span class="cfg-status" id="cfgStatus">Slædeposition opdateres live</span></div></div>
+<div class="cfg-row"><label>Modelstørrelse</label><input id="sizeSlider" type="range" min="1" max="5" value="3" step="1"><output id="sizeOut">M</output></div>
+<div class="cfg-row"><label>Arbejdshøjde</label><input id="heightSlider" type="range" min="700" max="1900" value="1300" step="50"><output id="heightOut">1300 mm</output></div>
+<div class="cfg-row"><label>Robot-rækkevidde</label><input id="reachSlider" type="range" min="500" max="1500" value="1000" step="50"><output id="reachOut">1000 mm</output></div>
+<div class="view-modes"><span>VIEW</span><button type="button" data-view="top">TOP</button><button type="button" data-view="front">FRONT</button><button type="button" data-view="side">SIDE</button><button type="button" data-view="iso" class="active">3D</button><button class="cfg-btn secondary" id="resetCfg" type="button">RESET</button></div></div>
 </div>
 <div class="visual">
 <div class="model3d" id="hero3d">
@@ -482,6 +482,7 @@ function setupModel(id,type){
     heroMechanism.rotary=cyl(1.15,.42,0,.38,.34,"y",MAT.dark);
     // upright actuator + end effector
     heroMechanism.column=box(1.15,1.35,0,.34,1.75,.34,MAT.dark);
+    heroMechanism.cyl1=cyl(1.15,1.35,0,.23,1.75,"y",MAT.polished);
     heroMechanism.joint1=cyl(1.15,2.20,0,.28,.44,"y",MAT.blue);
     heroMechanism.arm1=beam([1.15,2.25,0],[2.05,2.75,.15],.13,MAT.steel);
     heroMechanism.joint2=cyl(2.05,2.75,.15,.22,.40,"x",MAT.dark);
@@ -501,11 +502,15 @@ function setupModel(id,type){
     heroMechanism.parts=[heroMechanism.carriage,heroMechanism.rotary,heroMechanism.column,heroMechanism.joint1,heroMechanism.arm1,heroMechanism.joint2,heroMechanism.arm2,heroMechanism.tool,heroMechanism.grip1,heroMechanism.grip2];
     heroMechanism.baseX=heroMechanism.parts.map(p=>p.position.x);
     heroMechanism.applyTravel=v=>{const dx=(Math.max(-100,Math.min(100,+v||0))/100)*heroMechanism.travel*.46;heroMechanism.parts.forEach((p,i)=>p.position.x=heroMechanism.baseX[i]+dx);};
-    heroMechanism.rebuild=(travelMm,heightMm,reachMm)=>{
-      const travel=Math.max(1800,Math.min(3600,+travelMm||2800)), hs=Math.max(900,Math.min(1900,+heightMm||1400))/1400, rs=Math.max(700,Math.min(1500,+reachMm||1050))/1050;
-      const railScale=.78+(travel-1800)/1800*.58; heroMechanism.rail1.scale.x=railScale;heroMechanism.rail2.scale.x=railScale;heroMechanism.screw.scale.y=railScale;heroMechanism.travel=2.45*railScale;
-      heroMechanism.column.scale.y=hs;heroMechanism.joint1.scale.y=hs;
-      [heroMechanism.arm1,heroMechanism.arm2,heroMechanism.tool,heroMechanism.grip1,heroMechanism.grip2].forEach(p=>p.scale.x=rs);
+    heroMechanism.liveUpdate=(sizeStep,heightMm,reachMm)=>{
+      const modelScale=[.78,.89,1,1.12,1.25][Math.max(1,Math.min(5,+sizeStep||3))-1];
+      const hs=Math.max(700,Math.min(1900,+heightMm||1300))/1300;
+      const rs=Math.max(500,Math.min(1500,+reachMm||1000))/1000;
+      root.scale.setScalar(modelScale);
+      heroMechanism.cyl1.scale.y=hs;
+      heroMechanism.column.scale.y=hs;
+      heroMechanism.arm1.scale.y=rs;
+      heroMechanism.arm2.scale.y=rs;
       heroMechanism.applyTravel(document.getElementById("travelSlider")?.value||20);
     };
   }
@@ -671,6 +676,13 @@ function setupModel(id,type){
   };
   const P=presets[type]||presets.hero;
   let yaw=type==="energy"?.18:.48, pitch=type==="industry"?.25:.32, dist=P.dist;
+  if(type==="hero") heroMechanism.setView=mode=>{
+    if(mode==="top"){yaw=0;pitch=1.53;dist=P.dist*1.05;}
+    else if(mode==="front"){yaw=0;pitch=.03;dist=P.dist;}
+    else if(mode==="side"){yaw=Math.PI/2;pitch=.03;dist=P.dist;}
+    else {yaw=.48;pitch=.32;dist=P.dist;}
+    auto=false;
+  };
   let dragging=false,lastX=0,lastY=0,auto=true;
 
   function resize(){
@@ -713,13 +725,14 @@ setupModel("cad3d","cad");
 document.getElementById("dtext").innerHTML=content.energy.html;
 
 
-const travelSlider=document.getElementById("travelSlider"),railSlider=document.getElementById("railSlider"),heightSlider=document.getElementById("heightSlider"),reachSlider=document.getElementById("reachSlider");
-function cfgLabels(){travelOut.textContent=travelSlider.value+"%";railOut.textContent=railSlider.value+" mm";heightOut.textContent=heightSlider.value+" mm";reachOut.textContent=reachSlider.value+" mm";}
-travelSlider.addEventListener("input",()=>{cfgLabels();heroMechanism.applyTravel?.(travelSlider.value);cfgStatus.textContent="Slædeposition opdateres live";});
-[railSlider,heightSlider,reachSlider].forEach(s=>s.addEventListener("input",()=>{cfgLabels();cfgStatus.textContent="Dimensioner klar · tryk KONSTRUER MODEL";}));
-constructBtn.addEventListener("click",()=>{heroMechanism.rebuild?.(railSlider.value,heightSlider.value,reachSlider.value);cfgStatus.textContent="3D-model konstrueret";});
-resetCfg.addEventListener("click",()=>{travelSlider.value=20;railSlider.value=2800;heightSlider.value=1400;reachSlider.value=1050;cfgLabels();heroMechanism.rebuild?.(2800,1400,1050);heroMechanism.applyTravel?.(20);cfgStatus.textContent="Standardgeometri gendannet";});
-cfgLabels();heroMechanism.rebuild?.(2800,1400,1050);
+const travelSlider=document.getElementById("travelSlider"),sizeSlider=document.getElementById("sizeSlider"),heightSlider=document.getElementById("heightSlider"),reachSlider=document.getElementById("reachSlider");
+function cfgLabels(){document.getElementById("travelOut").textContent=travelSlider.value+"%";document.getElementById("sizeOut").textContent=["XS","S","M","L","XL"][+sizeSlider.value-1];document.getElementById("heightOut").textContent=heightSlider.value+" mm";document.getElementById("reachOut").textContent=reachSlider.value+" mm";}
+function liveGeometry(){cfgLabels();heroMechanism.liveUpdate?.(sizeSlider.value,heightSlider.value,reachSlider.value);}
+travelSlider.addEventListener("input",()=>{cfgLabels();heroMechanism.applyTravel?.(travelSlider.value);});
+[sizeSlider,heightSlider,reachSlider].forEach(s=>s.addEventListener("input",liveGeometry));
+document.querySelectorAll(".view-modes button[data-view]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".view-modes button[data-view]").forEach(x=>x.classList.remove("active"));b.classList.add("active");heroMechanism.setView?.(b.dataset.view);}));
+document.getElementById("resetCfg").addEventListener("click",()=>{travelSlider.value=20;sizeSlider.value=3;heightSlider.value=1300;reachSlider.value=1000;cfgLabels();heroMechanism.liveUpdate?.(3,1300,1000);heroMechanism.applyTravel?.(20);heroMechanism.setView?.("iso");document.querySelectorAll(".view-modes button[data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view==="iso"));});
+cfgLabels();heroMechanism.liveUpdate?.(3,1300,1000);
 </script></body></html>
 """
 components.html(page, height=4300, scrolling=True)
