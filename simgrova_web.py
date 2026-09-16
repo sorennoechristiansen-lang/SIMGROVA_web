@@ -6,6 +6,8 @@ st.markdown("""
 <style>
 html,body,[data-testid="stAppViewContainer"],.stApp{background:#ffffff!important}
 [data-testid="stHeader"],[data-testid="stToolbar"],#MainMenu,footer{visibility:hidden}
+[data-testid="stStatusWidget"],[data-testid="stAppDeployButton"],[data-testid="stManageAppButton"],
+.stAppDeployButton,.stAppManageButton{display:none!important}
 .block-container{max-width:100%!important;padding:0!important}
 iframe{display:block}
 </style>
