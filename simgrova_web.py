@@ -191,7 +191,16 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 .hero-config .cfg-title{font-size:10px;letter-spacing:.14em;font-weight:800;color:#587177;margin-bottom:10px}
 .cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#347e8c}.cfg-row input{width:100%;accent-color:#347e8c}
 .cfg-actions{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}.cfg-btn{border:1px solid #347e8c;background:#347e8c;color:#fff;padding:8px 13px;font:800 10px Arial;letter-spacing:.10em;cursor:pointer}.cfg-btn.secondary{background:transparent;color:#347e8c}.cfg-status{font-size:10px;color:#71868b;margin-left:auto}
-.view-modes{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}.view-modes>span{font:800 9px Arial;letter-spacing:.14em;color:#71868b}.view-modes button[data-view]{border:1px solid rgba(52,126,140,.45);background:transparent;color:#347e8c;padding:7px 10px;font:800 9px Arial;cursor:pointer}.view-modes button[data-view].active{background:#347e8c;color:#fff}</style></head><body>
+.view-modes{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:12px}.view-modes>span{font:800 9px Arial;letter-spacing:.14em;color:#71868b}.view-modes button[data-view]{border:1px solid rgba(52,126,140,.45);background:transparent;color:#347e8c;padding:7px 10px;font:800 9px Arial;cursor:pointer}.view-modes button[data-view].active{background:#347e8c;color:#fff}
+/* v26 — hero configurator alignment */
+.hero>div:first-child{height:560px;display:flex;flex-direction:column;padding-right:clamp(22px,3vw,48px)}
+.ai-example{margin-top:auto;margin-bottom:8px;font:10px monospace;letter-spacing:.12em;color:#6f8081}
+.hero-config{margin-top:0!important}
+@media(max-width:900px){
+  .hero>div:first-child{height:auto;min-height:0;padding-right:0;padding-bottom:28px}
+  .ai-example{margin-top:28px}
+}
+</style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
 <nav><button onclick="go('ydelser')">YDELSER</button><button onclick="go('brancher')">BRANCHER</button><button onclick="go('samarbejde')">SAMARBEJDE</button><button onclick="go('om')">OM SIMGROVA</button><button onclick="go('kontakt')">KONTAKT</button></nav></header>
@@ -201,7 +210,7 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="kicker">MEKANISK UDVIKLING · KONSTRUKTION · PROJEKTLEDELSE</div>
 <h1>Mekanisk udvikling<br>og konstruktion.</h1>
 <div class="lead">Mekanisk udvikling, konstruktion og teknisk projektarbejde. Opgaver kan løses direkte for en virksomhed eller som ekstern ressource i et eksisterende engineeringteam.</div>
-<div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div><div class="hero-config"><div class="cfg-title">KONCEPTKONFIGURATOR · LIVE 3D</div>
+<div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div><div class="ai-example">EKSEMPEL PÅ AI-UNDERSTØTTET KONSTRUKTION</div><div class="hero-config"><div class="cfg-title">KONCEPTKONFIGURATOR · LIVE 3D</div>
 <div class="cfg-row"><label>Slædeposition</label><input id="travelSlider" type="range" min="-1100" max="1100" value="220" step="10"><output id="travelOut">220 mm</output></div>
 <div class="cfg-row"><label>Modelstørrelse</label><input id="sizeSlider" type="range" min="1" max="5" value="3" step="1"><output id="sizeOut">M</output></div>
 <div class="cfg-row"><label>Arbejdshøjde</label><input id="heightSlider" type="range" min="700" max="1900" value="1300" step="50"><output id="heightOut">1300 mm</output></div>
@@ -564,72 +573,148 @@ function setupModel(id,type){
     };
   }
 
-  // ENERGY — genuinely spatial deployable solar mechanism.
+  // ENERGY — deployable PV wings with real long-edge hinge axes.
   if(type==="energy"){
-    // central container
-    box(0,0,0,2.8,1.65,1.55,MAT.steel);
-    for(const x of [-1.32,1.32]) for(const z of [-.69,.69]) box(x,0,z,.16,1.78,.16,MAT.dark);
-    box(0,.73,0,2.65,.12,1.42,MAT.dark);
-    box(0,-.73,0,2.65,.12,1.42,MAT.dark);
+    const E=new THREE.Group(); root.add(E);
+    const energyPanels=[];
 
-    // two telescopic ground rails in true depth
-    box(0,-.96,-1.22,10.8,.10,.12,MAT.polished);
-    box(0,-.96,1.22,10.8,.10,.12,MAT.polished);
+    // central transport / deployment module
+    box(0,-.10,0,2.75,1.45,1.50,MAT.steel,E);
+    for(const x of [-1.30,1.30]) for(const z of [-.67,.67]) box(x,-.10,z,.14,1.58,.14,MAT.dark,E);
+    box(0,.60,0,2.58,.12,1.34,MAT.dark,E);
+    box(0,-.78,0,2.58,.12,1.34,MAT.dark,E);
 
-    // panel wings: staggered/folded slightly in Y and Z, each on transverse support
+    // longitudinal deployment rails
+    for(const z of [-1.05,1.05]) box(0,-.98,z,11.2,.11,.12,MAT.polished,E);
+
+    function hingedPV(x,z,side,index){
+      const g=new THREE.Group(); E.add(g);
+      g.position.set(x,-.67,z);
+
+      // support carriage beneath panel
+      box(0,-.17,0,1.50,.10,2.34,MAT.dark,g);
+      box(0,-.24,-.92,.34,.16,.26,MAT.blue,g);
+      box(0,-.24,.92,.34,.16,.26,MAT.blue,g);
+
+      // pivot group runs along one LONG edge of panel
+      const pivot=new THREE.Group(); g.add(pivot);
+      const hingeEdge=side>0 ? -1.06 : 1.06;
+      pivot.position.z=hingeEdge;
+
+      const pg=new THREE.Group(); pivot.add(pg);
+      pg.position.z=-hingeEdge;
+      panel(0,0,0,1.46,2.12,0,pg);
+
+      // two hinges on EACH long side (four visible hinge barrels per panel)
+      for(const zz of [-1.06,1.06]){
+        for(const xx of [-.46,.46]){
+          cyl(xx,-.02,zz,.055,.24,"x",MAT.brass,pg,18);
+          box(xx,-.08,zz,.30,.08,.14,MAT.dark,pg);
+        }
+      }
+
+      // deployed panel sits only slightly inclined from horizontal.
+      pivot.rotation.x=side*(index%2===0 ? .12 : .08);
+      energyPanels.push({pivot,side,index});
+    }
+
     for(const side of [-1,1]){
       for(let i=0;i<4;i++){
-        const x=side*(2.15+i*1.58);
-        const y=-.28 + i*.10;
-        const z=(i%2===0?.06:-.06);
-        const ang=side*(i===0?.12:(i===1?.06:0));
-        panel(x,y,z,1.42,2.18,ang);
-        box(x,-.72,z,1.25,.10,2.55,MAT.dark);
-        cyl(x-side*.76,-.58,z,.11,.30,"z",MAT.brass);
+        const x=side*(2.10+i*1.55);
+        hingedPV(x,0,side,i);
       }
     }
-    // center deployment cassette and drive
-    box(0,-.34,0,2.25,.48,1.05,MAT.dark);
-    cyl(-.88,-.28,.62,.18,.30,"z",MAT.brass);
-    cyl(.88,-.28,.62,.18,.30,"z",MAT.brass);
-    gear(0,.15,.88,.36,.16,"z",MAT.brass,root,16);
+
+    // central deployment drive
+    box(0,-.42,0,2.10,.42,1.00,MAT.dark,E);
+    cyl(-.82,-.31,.55,.16,.28,"z",MAT.brass,E);
+    cyl(.82,-.31,.55,.16,.28,"z",MAT.brass,E);
+
+    // One smooth initial deployment: each panel rotates about its long edge,
+    // then remains nearly horizontal.
+    const t0=performance.now();
+    webglModels._energyAnimate=()=>{
+      const t=Math.min(1,(performance.now()-t0)/4200);
+      const s=t*t*(3-2*t);
+      energyPanels.forEach((p,i)=>{
+        const delay=i*.055;
+        const u=Math.max(0,Math.min(1,(s-delay)/(1-delay)));
+        const folded=p.side*(1.22 + (i%2)*.10);
+        const deployed=p.side*(i%2===0?.12:.08);
+        p.pivot.rotation.x=folded+(deployed-folded)*u;
+      });
+    };
   }
 
-  // FOOD — full-volume hygienic skid.
+  // FOOD — sanitary process/CIP skid with coherent piping and instrumentation.
   if(type==="food"){
-    box(0,-1.15,0,5.5,.18,3.2,MAT.steel);
-    // frame feet
-    for(const x of [-2.35,2.35]) for(const z of [-1.25,1.25]) box(x,-1.48,z,.18,.65,.18,MAT.dark);
+    const F=new THREE.Group(); root.add(F);
 
-    function vessel(x,z,r=0.72,h=2.35){
-      cyl(x,.10,z,r,h,"y",MAT.polished);
-      const top=mesh(new THREE.SphereGeometry(r,32,16,0,Math.PI*2,0,Math.PI/2),MAT.polished);
-      top.scale.y=.35; top.position.set(x,1.28,z); root.add(top);
-      const cone=mesh(new THREE.ConeGeometry(r*.92,.55,32),MAT.polished);
-      cone.position.set(x,-1.25,z); cone.rotation.x=Math.PI; root.add(cone);
-      cyl(x,1.58,z,.18,.28,"y",MAT.dark);
-      cyl(x,1.88,z,.26,.34,"y",MAT.green);
-      pipe([[x,-1.48,z],[x,-1.72,z],[x+.45,-1.72,z]],.07);
-      torus(x,.92,z+r+.02,.18,.035,"x",MAT.dark);
+    // welded skid base
+    box(0,-1.28,0,5.65,.16,3.15,MAT.dark,F);
+    for(const z of [-1.28,1.28]) box(0,-1.08,z,5.35,.18,.16,MAT.steel,F);
+    for(const x of [-2.42,-.82,.82,2.42]) box(x,-1.08,0,.16,.18,2.55,MAT.steel,F);
+    for(const x of [-2.45,2.45]) for(const z of [-1.22,1.22]){
+      cyl(x,-1.48,z,.10,.38,"y",MAT.dark,F);
+      cyl(x,-1.68,z,.18,.05,"y",MAT.steel,F);
     }
-    vessel(-1.35,0,.72,2.35); vessel(.45,.15,.62,2.0);
 
-    // sanitary pipe network with real round tubes and bends
-    pipe([[-2.25,-.78,1.08],[-1.35,-.78,1.08],[-1.35,-.20,1.08],[.45,-.20,1.08],[.45,-.72,1.08],[2.05,-.72,1.08]],.075);
-    pipe([[-1.35,1.55,-.75],[-1.35,1.55,-1.15],[1.95,1.55,-1.15],[1.95,.55,-1.15]],.065);
-    // butterfly valves
-    for(const x of [-.45,.65,1.45]){
-      cyl(x,-.72,1.08,.16,.13,"x",MAT.blue);
-      box(x,.0+(-.45),1.08,.07,.36,.07,MAT.dark);
+    function sanitaryVessel(x,z,r,h){
+      const vg=new THREE.Group(); F.add(vg);
+      cyl(x,.02,z,r,h,"y",MAT.polished,vg);
+      const top=mesh(new THREE.SphereGeometry(r,36,18,0,Math.PI*2,0,Math.PI/2),MAT.polished,vg);
+      top.scale.y=.30; top.position.set(x,h/2+.02,z);
+      const cone=mesh(new THREE.ConeGeometry(r*.88,.48,36),MAT.polished,vg);
+      cone.position.set(x,-h/2-.24,z); cone.rotation.x=Math.PI;
+      // four vessel legs
+      for(const dx of [-r*.55,r*.55]) for(const dz of [-r*.45,r*.45])
+        cyl(x+dx,-h/2-.62,z+dz,.055,.78,"y",MAT.steel,vg);
+      // top manway + nozzle
+      cyl(x,h/2+.25,z,.22,.12,"y",MAT.dark,vg);
+      cyl(x,h/2+.42,z,.12,.22,"y",MAT.polished,vg);
+      // side level sight / instrument
+      pipe([[x+r+.05,.52,z],[x+r+.22,.52,z],[x+r+.22,-.45,z],[x+r+.05,-.45,z]],.035,MAT.glass,vg);
+      // outlet
+      pipe([[x,-h/2-.47,z],[x,-h/2-.72,z],[x+.40,-h/2-.72,z]],.065,MAT.polished,vg);
     }
-    // centrifugal pump and motor
-    cyl(1.55,-.62,-.48,.42,.34,"z",MAT.polished);
-    cyl(2.08,-.62,-.48,.34,.78,"x",MAT.green);
-    pipe([[1.55,-.62,-.25],[1.55,-.62,.42],[2.15,-.62,.42]],.085);
-    // plate heat exchanger
-    for(let i=0;i<10;i++) box(2.10,-.05,-.90+i*.055,.72,1.28,.025,i%2?MAT.steel:MAT.brass);
-    box(2.10,-.05,-1.20,.86,1.45,.12,MAT.dark);
-    box(2.10,-.05,-.25,.86,1.45,.12,MAT.dark);
+    sanitaryVessel(-1.45,-.18,.70,2.25);
+    sanitaryVessel(.35,.18,.58,1.85);
+
+    // coherent sanitary header
+    pipe([[-2.28,-.70,1.02],[-1.45,-.70,1.02],[-1.45,-.18,1.02],[.35,-.18,1.02],[.35,-.70,1.02],[1.48,-.70,1.02]],.072,MAT.polished,F);
+    pipe([[-1.45,1.30,-.72],[-1.45,1.52,-.72],[1.90,1.52,-.72],[1.90,.48,-.72]],.062,MAT.polished,F);
+
+    // hygienic butterfly valves with handles
+    for(const x of [-.55,.52,1.25]){
+      cyl(x,-.70,1.02,.14,.12,"x",MAT.blue,F);
+      box(x,-.48,1.02,.06,.34,.06,MAT.dark,F);
+      box(x,-.31,1.02,.30,.045,.07,MAT.green,F);
+    }
+
+    // centrifugal pump + motor on common base
+    box(1.72,-1.00,-.45,1.55,.12,.78,MAT.steel,F);
+    cyl(1.35,-.68,-.45,.40,.32,"z",MAT.polished,F);
+    torus(1.35,-.68,-.28,.31,.06,"z",MAT.dark,F);
+    cyl(2.00,-.68,-.45,.31,.92,"x",MAT.green,F);
+    cyl(1.58,-.68,-.45,.11,.42,"x",MAT.dark,F);
+    pipe([[1.35,-.68,-.18],[1.35,-.68,.38],[1.50,-.68,.62]],.078,MAT.polished,F);
+
+    // plate heat exchanger with tie rods and ports
+    const hx=new THREE.Group(); F.add(hx); hx.position.set(2.02,.05,-.92);
+    for(let i=0;i<12;i++) box(0,0,i*.045,.76,1.26,.022,i%2?MAT.steel:MAT.brass,hx);
+    box(0,0,-.10,.90,1.42,.10,MAT.dark,hx);
+    box(0,0,.62,.90,1.42,.10,MAT.dark,hx);
+    for(const xx of [-.34,.34]) for(const yy of [-.55,.55]) cyl(xx,yy,.70,.055,.82,"z",MAT.dark,hx);
+    for(const yy of [-.38,.38]) cyl(-.48,yy,.18,.09,.22,"x",MAT.polished,hx);
+
+    // compact control/instrument panel and pressure gauges
+    box(2.34,.70,.62,.72,1.25,.20,MAT.steel,F);
+    box(2.34,.88,.74,.48,.42,.035,MAT.glass,F);
+    for(const x of [-1.05,.72]){
+      cyl(x,1.32,.88,.12,.08,"z",MAT.steel,F);
+      torus(x,1.32,.93,.10,.018,"z",MAT.dark,F);
+      pipe([[x,1.20,.88],[x,1.05,.88]],.025,MAT.polished,F);
+    }
   }
 
   // INDUSTRY — actual shafts and roll tooling through rigid stands.
@@ -671,44 +756,88 @@ function setupModel(id,type){
     for(const x of xs) cyl(x,-.38,-1.42,.15,.48,"z",MAT.dark);
   }
 
-  // CAD — containerised special machine with true open volume and deployed mechanism.
+  // CAD / DEVELOPMENT — two-stage self-advancing vertical boring "mole".
   if(type==="cad"){
-    const g=new THREE.Group(); root.add(g);
-    // open structural container frame rather than a solid box
-    const L=4.8,H=2.25,W=2.25,t=.12;
-    for(const x of [-L/2,L/2]) for(const z of [-W/2,W/2]) box(x,0,z,t,H,t,MAT.dark,g);
-    for(const y of [-H/2,H/2]){
-      box(0,y,-W/2,L,t,t,MAT.dark,g); box(0,y,W/2,L,t,t,MAT.dark,g);
-      box(-L/2,y,0,t,t,W,MAT.dark,g); box(L/2,y,0,t,t,W,MAT.dark,g);
+    const G=new THREE.Group(); root.add(G);
+
+    // surface guide frame over bore
+    box(0,-1.18,0,4.5,.22,3.0,MAT.dark,G);
+    box(0,-.98,0,4.15,.12,2.65,MAT.steel,G);
+    for(const x of [-1.65,1.65]) for(const z of [-1.05,1.05]) cyl(x,-.73,z,.10,.42,"y",MAT.dark,G);
+
+    // transparent bore / soil reference volume
+    const bore=mesh(new THREE.CylinderGeometry(.72,.72,4.8,40,1,true),
+      new THREE.MeshPhysicalMaterial({color:0x9bb3ad,transparent:true,opacity:.13,roughness:.55,side:THREE.DoubleSide}),G);
+    bore.position.set(0,-3.25,0);
+
+    // machine group descends in the bore
+    const mole=new THREE.Group(); G.add(mole); mole.position.set(0,-1.05,0);
+
+    // upper and lower gripping stages
+    const upper=new THREE.Group(); mole.add(upper); upper.position.y=0;
+    const lower=new THREE.Group(); mole.add(lower); lower.position.y=-1.45;
+
+    function clampStage(parent){
+      cyl(0,0,0,.46,.34,"y",MAT.dark,parent);
+      cyl(0,0,0,.34,.42,"y",MAT.blue,parent);
+      // four radial shoes
+      for(let i=0;i<4;i++){
+        const ang=i*Math.PI/2;
+        const shoe=box(Math.cos(ang)*.53,0,Math.sin(ang)*.53,.26,.22,.18,MAT.brass,parent);
+        shoe.rotation.y=-ang;
+      }
     }
-    // rear wall ribs
-    box(0,0,-W/2+.05,L-.2,H-.2,.08,MAT.steel,g);
-    for(let x=-2.0;x<=2.0;x+=.4) box(x,0,-W/2+.11,.035,H-.25,.06,MAT.dark,g);
+    clampStage(upper); clampStage(lower);
 
-    // two opened side doors, actually rotated in 3D around vertical hinges
-    const dl=new THREE.Group(); g.add(dl); dl.position.set(-L/2,0,W/2);
-    const doorL=box(-.82,0,0,1.62,H-.18,.08,MAT.green,dl); dl.rotation.y=-1.15;
-    const dr=new THREE.Group(); g.add(dr); dr.position.set(L/2,0,W/2);
-    const doorR=box(.82,0,0,1.62,H-.18,.08,MAT.green,dr); dr.rotation.y=1.15;
+    // telescopic actuator connecting both gripping stages
+    cyl(0,-.72,0,.18,1.46,"y",MAT.polished,mole);
+    cyl(0,-.72,0,.10,1.62,"y",MAT.dark,mole);
 
-    // telescopic rails and deployed platform coming out of container
-    box(.65,-.88,1.85,3.4,.12,.12,MAT.dark,g);
-    box(.65,-.88,2.55,3.4,.12,.12,MAT.dark,g);
-    box(1.15,-.72,2.18,2.75,.16,1.25,MAT.steel,g);
+    // rotary drive below lower stage
+    cyl(0,-1.84,0,.40,.48,"y",MAT.green,mole);
+    cyl(0,-2.20,0,.16,.48,"y",MAT.polished,mole);
 
-    // compact machine on platform: rotary base + column + articulated arm
-    cyl(1.05,-.48,2.18,.48,.24,"y",MAT.blue,g);
-    cyl(1.05,.08,2.18,.27,.90,"y",MAT.dark,g);
-    cyl(1.05,.62,2.18,.24,.30,"z",MAT.brass,g);
-    beam([1.05,.62,2.18],[1.72,1.08,2.18],.13,MAT.steel,g);
-    cyl(1.72,1.08,2.18,.20,.30,"z",MAT.dark,g);
-    beam([1.72,1.08,2.18],[2.22,.72,2.58],.11,MAT.steel,g);
-    box(2.22,.72,2.58,.42,.32,.42,MAT.blue,g);
-    // deployed stabilisers
-    for(const x of [.05,2.25]){
-      box(x,-1.12,2.05,.12,.62,.12,MAT.dark,g);
-      box(x,-1.43,2.05,.55,.08,.55,MAT.steel,g);
+    // drill head: stepped cone + cutting ribs
+    const head=new THREE.Group(); mole.add(head); head.position.y=-2.62;
+    const cone=mesh(new THREE.ConeGeometry(.48,.92,32),MAT.dark,head);
+    cone.rotation.x=Math.PI;
+    for(let i=0;i<4;i++){
+      const a=i*Math.PI/2;
+      const tooth=box(Math.cos(a)*.34,-.16,Math.sin(a)*.34,.12,.62,.10,MAT.brass,head);
+      tooth.rotation.y=-a;
+      tooth.rotation.z=.22;
     }
+    // helical-looking cutter rings
+    torus(0,-.05,0,.38,.045,"y",MAT.brass,head);
+    torus(0,-.28,0,.29,.040,"y",MAT.brass,head);
+
+    // cable / hose entering from surface
+    pipe([[0,-.90,.30],[0,.05,.30],[1.15,.55,.30],[1.75,.55,.30]],.045,MAT.dark,G);
+
+    // Inchworm animation: one clamp anchors while the other advances,
+    // then roles swap. Net machine position moves downward continuously.
+    const start=performance.now();
+    webglModels._cadAnimate=()=>{
+      const sec=(performance.now()-start)/1000;
+      const cyc=sec%4.0;
+      const phase=cyc/4.0;
+      const stroke=.48;
+      const step=Math.floor(sec/4.0)%5;
+      mole.position.y=-1.05-step*.18-phase*.18;
+
+      let ext;
+      if(cyc<2) ext=(cyc/2)*stroke;
+      else ext=(1-(cyc-2)/2)*stroke;
+
+      lower.position.y=-1.45-ext;
+      // gripping shoes visually alternate by slight radial scaling
+      const upperGrip=cyc<2 ? 1.08 : .94;
+      const lowerGrip=cyc<2 ? .94 : 1.08;
+      upper.scale.x=upper.scale.z=upperGrip;
+      lower.scale.x=lower.scale.z=lowerGrip;
+
+      head.rotation.y-=.055;
+    };
   }
 
   // floor shadow catcher
@@ -721,7 +850,7 @@ function setupModel(id,type){
     energy:{dist:12.8,target:[0,-.25,0]},
     food:{dist:9.7,target:[0,.05,0]},
     industry:{dist:10.8,target:[0,.05,0]},
-    cad:{dist:10.4,target:[.35,0,.55]}
+    cad:{dist:10.6,target:[0,-1.35,0]}
   };
   const P=presets[type]||presets.hero;
   let yaw=type==="energy"?.18:.48, pitch=type==="industry"?.25:.32, dist=P.dist;
@@ -761,6 +890,8 @@ function setupModel(id,type){
   function animate(){
     requestAnimationFrame(animate);
     if(auto) yaw+=.0010;
+    if(type==="energy" && webglModels._energyAnimate) webglModels._energyAnimate();
+    if(type==="cad" && webglModels._cadAnimate) webglModels._cadAnimate();
     view(); renderer.render(scene,camera);
   }
   animate();
