@@ -16,10 +16,10 @@ page = r"""
 <!doctype html><html lang="da"><head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{--paper:#f4f2eb;--ink:#20353a;--muted:#68797b;--line:#ccd6d2;--blue:#347e8c;--blue2:#8cb8bd;--warm:#d28a57;--green:#799b80;--panel:#e9ece5}
+:root{--paper:#ffffff;--ink:#20353a;--muted:#68797b;--line:#ccd6d2;--blue:#347e8c;--blue2:#8cb8bd;--warm:#d28a57;--green:#799b80;--panel:#e9ece5}
 *{box-sizing:border-box} html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif}
-.shell{width:min(1500px,92vw);margin:0 auto;padding:0 18px}
+body{margin:0;background:#ffffff;color:var(--ink);font-family:Arial,sans-serif}
+.shell{width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(28px,5vw,78px)}
 header{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(244,242,235,.96);z-index:30}
 .brand{font-size:20px;font-weight:700;letter-spacing:.16em}.brand small{font:10px monospace;color:var(--blue);margin-left:12px}
 nav{display:flex;gap:25px} nav button,.ghost{border:0;background:transparent;cursor:pointer;font:11px monospace;letter-spacing:.09em;color:var(--muted)}
@@ -65,6 +65,29 @@ background-size:32px 32px;opacity:.55}
 .box3d.green .f{border-color:rgba(90,125,97,.78);background:rgba(121,155,128,.22)}
 .cyl3d{position:absolute;border:1.5px solid #347e8c;border-radius:50%;background:rgba(116,171,181,.18);transform-style:preserve-3d}
 .model-caption{position:absolute;right:24px;bottom:18px;font:10px monospace;letter-spacing:.08em;color:#6b7c7e}
+
+.visual,.detail,.contactbox,.facts,.card{background:rgba(255,255,255,.92)}
+.visual,.detail-visual{background:
+radial-gradient(circle at 72% 28%,rgba(112,181,194,.08),transparent 34%),
+linear-gradient(145deg,#ffffff 0%,#fbfdfd 100%)}
+.model-grid{opacity:.28!important}
+.box3d .f{background:#dce8ea!important;border-color:#6e939a!important;box-shadow:inset 0 0 18px rgba(255,255,255,.62)}
+.box3d.accent .f{background:#e8c5aa!important;border-color:#b87950!important}
+.box3d.green .f{background:#cbdccf!important;border-color:#78957d!important}
+.tank3d{position:absolute;transform-style:preserve-3d}
+.tank-wall{position:absolute;left:-60px;top:-95px;width:120px;height:190px;border:1.5px solid #78949a;
+background:linear-gradient(90deg,#cbd9dc 0%,#f8fbfb 22%,#d4e1e3 52%,#b8cdd1 78%,#eef5f5 100%);
+border-radius:58px/18px;box-shadow:inset -18px 0 25px rgba(70,105,112,.12)}
+.tank-top{position:absolute;left:-60px;top:-103px;width:120px;height:34px;border:1.5px solid #78949a;
+background:linear-gradient(#f8fbfb,#c7d7da);border-radius:50%;transform:rotateX(68deg)}
+.tank-bottom{position:absolute;left:-60px;top:78px;width:120px;height:34px;border:1.5px solid #78949a;
+background:#c4d5d8;border-radius:50%;transform:rotateX(68deg)}
+.pipe3d{position:absolute;height:18px;background:linear-gradient(#f8fbfb,#bdcfd2 48%,#edf4f5);
+border:1px solid #78949a;border-radius:10px;transform-origin:left center}
+.pipeV{position:absolute;width:18px;background:linear-gradient(90deg,#f8fbfb,#bdcfd2 48%,#edf4f5);
+border:1px solid #78949a;border-radius:10px}
+.valve3d{position:absolute;width:30px;height:30px;border-radius:50%;background:#dce8ea;border:2px solid #78949a}
+@media(max-width:900px){.shell{padding:0 24px}}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -109,7 +132,7 @@ background-size:32px 32px;opacity:.55}
 <div class="model3d" id="energy3d"><div class="model-note">ENERGI · SPECIALVÆRKTØJ / HÅNDTERING</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
 </div>
 <div class="scene" id="food">
-<div class="model3d" id="food3d"><div class="model-note">FØDEVARER · TRANSPORT / HÅNDTERING</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">HYGIENISK PRINCIPMODEL</div></div>
+<div class="model3d" id="food3d"><div class="model-note">FØDEVARER · TANK / PROCESRØR</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">HYGIENISK PRINCIPMODEL</div></div>
 </div>
 <div class="scene" id="industry">
 <div class="model3d" id="industry3d"><div class="model-note">INDUSTRI · SPECIALMASKINE / AKSER</div><div class="model-grid"></div><div class="model-stage"></div><div class="model-caption">PRINCIPMODEL</div></div>
@@ -122,11 +145,11 @@ background-size:32px 32px;opacity:.55}
 <section class="section" id="samarbejde"><div class="section-title"><div class="kicker">SAMARBEJDE</div><h2>Indgår dér, hvor der er behov.</h2><p>Opgaverne kan løses direkte for en virksomhed eller som en del af et engineering- eller projektteam. Rollen og omfanget tilpasses den konkrete opgave.</p></div>
 <div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projektteam.</span></div><div class="step"><span>02</span><b>Afgrænset opgave</b><span>En konkret konstruktions-, udviklings- eller beregningsopgave med et tydeligt teknisk scope.</span></div><div class="step"><span>03</span><b>Projektansvar</b><span>Teknisk koordinering af en mekanisk delopgave med grænseflader til kunde, leverandører og øvrige fag.</span></div><div class="step"><span>04</span><b>On-site / remote</b><span>Arbejdet kan indgå tæt i kundens organisation eller udføres mere selvstændigt efter opgavens karakter.</span></div><div class="step"><span>05</span><b>Engineering house</b><span>Kan indgå som ekstern ressource hos engineeringhuse, der har behov for mekanisk kompetence eller ekstra kapacitet.</span></div></div></section>
 
-<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>SIMGROVA drives af maskiningeniør Søren Noe Christiansen og arbejder med mekanisk udvikling, konstruktion og teknisk projektledelse.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
+<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>Arbejdsområdet er mekanisk udvikling, konstruktion og teknisk projektledelse med fokus på praktiske, gennemarbejdede løsninger.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
 <div class="facts"><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Teamcenter</b><span>PLM / PROJEKTMILJØ</span></div><div class="fact"><b>Engineering</b><span>UDVIKLING / DIMENSIONERING</span></div><div class="fact"><b>Projekt</b><span>TEKNISK KOORDINERING</span></div></div></div></section>
 
 <section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
-<div class="contactbox"><div class="kicker">SIMGROVA ApS</div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
+<div class="contactbox"><div style="font-size:24px;font-weight:700;letter-spacing:.08em;color:#20353a;margin-bottom:22px">SIMGROVA <span style="font-size:13px;font-weight:400;color:#788789">ApS</span></div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>
 
 <div class="footer"><span>SIMGROVA · SIMPLICITY CREATES GROWTH</span><span>MECHANICAL ENGINEERING / DENMARK</span></div>
 </div>
@@ -191,12 +214,43 @@ function setupModel(id,type){
    box(stage,-110,40,-5,220,16,25);
  }
  if(type==="food"){
-   box(stage,-230,70,-65,460,24,130);
-   for(let i=-190;i<=190;i+=55) box(stage,i,38,-15,34,18,90);
-   box(stage,-190,-5,-30,20,75,20); box(stage,170,-5,-30,20,75,20);
-   box(stage,95,-85,-5,95,95,95,"green");
-   box(stage,-20,-72,5,18,95,18,"accent");
-   box(stage,-52,8,8,82,22,45,"accent");
+   // Hygienic process skid: tank, legs, sanitary pipe runs and valve/pump blocks.
+   box(stage,-235,105,-70,470,20,150);
+   box(stage,-145,45,-30,18,70,18); box(stage,-75,45,-30,18,70,18);
+   box(stage,70,45,-30,18,70,18); box(stage,140,45,-30,18,70,18);
+
+   const tank=document.createElement("div"); tank.className="tank3d";
+   tank.style.transform="translate3d(-75px,-30px,10px)";
+   tank.innerHTML='<div class="tank-wall"></div><div class="tank-top"></div><div class="tank-bottom"></div>';
+   stage.appendChild(tank);
+
+   // top agitator / drive
+   box(stage,-28,-150,5,56,48,55,"green");
+   box(stage,-6,-103,8,12,38,12);
+
+   // hygienic pipework: outlet, riser, return line
+   function pipe(x,y,z,w,rot=0){
+      const p=document.createElement("div"); p.className="pipe3d";
+      p.style.width=w+"px"; p.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateZ(${rot}deg)`;
+      stage.appendChild(p); return p;
+   }
+   function pipeV(x,y,z,h){
+      const p=document.createElement("div"); p.className="pipeV";
+      p.style.height=h+"px"; p.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
+      stage.appendChild(p); return p;
+   }
+   function valve(x,y,z){
+      const v=document.createElement("div"); v.className="valve3d";
+      v.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateY(25deg)`;
+      stage.appendChild(v); return v;
+   }
+   pipe(55,35,20,175); pipeV(212,-58,20,102); pipe(105,-58,20,125);
+   pipe(-215,2,-10,155); pipeV(-215,-78,-10,92); pipe(-215,-78,-10,118);
+   valve(145,29,25); valve(-165,-13,-5);
+   // pump/control blocks
+   box(stage,118,62,12,78,42,58,"accent");
+   cyl(stage,155,82,42,22);
+   box(stage,-220,-18,-55,62,105,38);
  }
  if(type==="industry"){
    box(stage,-225,90,-70,450,22,145);
