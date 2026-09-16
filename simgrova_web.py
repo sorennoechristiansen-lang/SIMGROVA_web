@@ -186,6 +186,11 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 .model3d canvas.webgl3d:active{cursor:grabbing}
 .model3d .model-grid{opacity:.22!important}
 .model3d .model-note,.model3d .model-caption{z-index:4}
+
+.hero-config{margin-top:18px;padding:14px 16px 13px;border:1px solid rgba(38,76,83,.16);background:rgba(255,255,255,.62);backdrop-filter:blur(8px)}
+.hero-config .cfg-title{font-size:10px;letter-spacing:.14em;font-weight:800;color:#587177;margin-bottom:10px}
+.cfg-row{display:grid;grid-template-columns:132px 1fr 66px;gap:12px;align-items:center;margin:8px 0}.cfg-row label{font-size:11px;color:#38545a;font-weight:700}.cfg-row output{font-size:11px;text-align:right;color:#347e8c}.cfg-row input{width:100%;accent-color:#347e8c}
+.cfg-actions{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}.cfg-btn{border:1px solid #347e8c;background:#347e8c;color:#fff;padding:8px 13px;font:800 10px Arial;letter-spacing:.10em;cursor:pointer}.cfg-btn.secondary{background:transparent;color:#347e8c}.cfg-status{font-size:10px;color:#71868b;margin-left:auto}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -196,7 +201,12 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 <div class="kicker">MEKANISK UDVIKLING · KONSTRUKTION · PROJEKTLEDELSE</div>
 <h1>Mekanisk udvikling<br>og konstruktion.</h1>
 <div class="lead">Mekanisk udvikling, konstruktion og teknisk projektarbejde. Opgaver kan løses direkte for en virksomhed eller som ekstern ressource i et eksisterende engineeringteam.</div>
-<div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div>
+<div class="actions"><button class="btn" onclick="go('kontakt')">KONTAKT</button><button class="btn alt" onclick="go('brancher')">SE OMRÅDER</button></div><div class="hero-config"><div class="cfg-title">KONCEPTKONFIGURATOR · LIVE 3D</div>
+<div class="cfg-row"><label>Slædeposition</label><input id="travelSlider" type="range" min="-100" max="100" value="20"><output id="travelOut">20%</output></div>
+<div class="cfg-row"><label>Slaglængde</label><input id="railSlider" type="range" min="1800" max="3600" value="2800" step="100"><output id="railOut">2800 mm</output></div>
+<div class="cfg-row"><label>Arbejdshøjde</label><input id="heightSlider" type="range" min="900" max="1900" value="1400" step="50"><output id="heightOut">1400 mm</output></div>
+<div class="cfg-row"><label>Robot-rækkevidde</label><input id="reachSlider" type="range" min="700" max="1500" value="1050" step="50"><output id="reachOut">1050 mm</output></div>
+<div class="cfg-actions"><button class="cfg-btn" id="constructBtn" type="button">KONSTRUER MODEL</button><button class="cfg-btn secondary" id="resetCfg" type="button">RESET</button><span class="cfg-status" id="cfgStatus">Slædeposition opdateres live</span></div></div>
 </div>
 <div class="visual">
 <div class="model3d" id="hero3d">
@@ -342,6 +352,7 @@ function faceLabel(obj,html,size=12){
 
 
 const webglModels={};
+const heroMechanism={};
 
 function setupModel(id,type){
   if(webglModels[id] || typeof THREE==="undefined") return;
@@ -461,27 +472,42 @@ function setupModel(id,type){
     cyl(-.55,.34,0,.16,.72,"y",MAT.dark);
 
     // linear axis with twin rails
-    box(.85,-.38,-.82,3.0,.22,.18,MAT.polished);
-    box(.85,-.38,.82,3.0,.22,.18,MAT.polished);
+    heroMechanism.rail1=box(.85,-.38,-.82,3.0,.22,.18,MAT.polished);
+    heroMechanism.rail2=box(.85,-.38,.82,3.0,.22,.18,MAT.polished);
     for(let x=-.35;x<2.2;x+=.5){
       box(x,-.22,-.82,.20,.14,.34,MAT.blue);
       box(x,-.22,.82,.20,.14,.34,MAT.blue);
     }
-    const carriage=box(1.15,.02,0,1.0,.32,2.0,MAT.steel);
-    cyl(1.15,.42,0,.38,.34,"y",MAT.dark);
+    const carriage=box(1.15,.02,0,1.0,.32,2.0,MAT.steel); heroMechanism.carriage=carriage;
+    heroMechanism.rotary=cyl(1.15,.42,0,.38,.34,"y",MAT.dark);
     // upright actuator + end effector
-    box(1.15,1.35,0,.34,1.75,.34,MAT.dark);
-    cyl(1.15,2.20,0,.28,.44,"y",MAT.blue);
-    beam([1.15,2.25,0],[2.05,2.75,.15],.13,MAT.steel);
-    cyl(2.05,2.75,.15,.22,.40,"x",MAT.dark);
-    beam([2.05,2.75,.15],[2.55,2.15,.55],.11,MAT.steel);
+    heroMechanism.column=box(1.15,1.35,0,.34,1.75,.34,MAT.dark);
+    heroMechanism.joint1=cyl(1.15,2.20,0,.28,.44,"y",MAT.blue);
+    heroMechanism.arm1=beam([1.15,2.25,0],[2.05,2.75,.15],.13,MAT.steel);
+    heroMechanism.joint2=cyl(2.05,2.75,.15,.22,.40,"x",MAT.dark);
+    heroMechanism.arm2=beam([2.05,2.75,.15],[2.55,2.15,.55],.11,MAT.steel);
     // tool / gripper
-    box(2.55,2.05,.55,.42,.30,.54,MAT.blue);
-    box(2.78,1.86,.38,.10,.48,.12,MAT.dark);
-    box(2.78,1.86,.72,.10,.48,.12,MAT.dark);
+    heroMechanism.tool=box(2.55,2.05,.55,.42,.30,.54,MAT.blue);
+    heroMechanism.grip1=box(2.78,1.86,.38,.10,.48,.12,MAT.dark);
+    heroMechanism.grip2=box(2.78,1.86,.72,.10,.48,.12,MAT.dark);
     // exposed lead screw for engineering character
-    cyl(.85,-.12,0,.07,2.8,"x",MAT.brass);
+    heroMechanism.screw=cyl(.85,-.12,0,.07,2.8,"x",MAT.brass);
     root.rotation.y=-.18;
+  }
+
+
+  if(type==="hero"){
+    heroMechanism.travel=2.45;
+    heroMechanism.parts=[heroMechanism.carriage,heroMechanism.rotary,heroMechanism.column,heroMechanism.joint1,heroMechanism.arm1,heroMechanism.joint2,heroMechanism.arm2,heroMechanism.tool,heroMechanism.grip1,heroMechanism.grip2];
+    heroMechanism.baseX=heroMechanism.parts.map(p=>p.position.x);
+    heroMechanism.applyTravel=v=>{const dx=(Math.max(-100,Math.min(100,+v||0))/100)*heroMechanism.travel*.46;heroMechanism.parts.forEach((p,i)=>p.position.x=heroMechanism.baseX[i]+dx);};
+    heroMechanism.rebuild=(travelMm,heightMm,reachMm)=>{
+      const travel=Math.max(1800,Math.min(3600,+travelMm||2800)), hs=Math.max(900,Math.min(1900,+heightMm||1400))/1400, rs=Math.max(700,Math.min(1500,+reachMm||1050))/1050;
+      const railScale=.78+(travel-1800)/1800*.58; heroMechanism.rail1.scale.x=railScale;heroMechanism.rail2.scale.x=railScale;heroMechanism.screw.scale.y=railScale;heroMechanism.travel=2.45*railScale;
+      heroMechanism.column.scale.y=hs;heroMechanism.joint1.scale.y=hs;
+      [heroMechanism.arm1,heroMechanism.arm2,heroMechanism.tool,heroMechanism.grip1,heroMechanism.grip2].forEach(p=>p.scale.x=rs);
+      heroMechanism.applyTravel(document.getElementById("travelSlider")?.value||20);
+    };
   }
 
   // ENERGY — genuinely spatial deployable solar mechanism.
@@ -686,6 +712,14 @@ setupModel("industry3d","industry");
 setupModel("cad3d","cad");
 document.getElementById("dtext").innerHTML=content.energy.html;
 
+
+const travelSlider=document.getElementById("travelSlider"),railSlider=document.getElementById("railSlider"),heightSlider=document.getElementById("heightSlider"),reachSlider=document.getElementById("reachSlider");
+function cfgLabels(){travelOut.textContent=travelSlider.value+"%";railOut.textContent=railSlider.value+" mm";heightOut.textContent=heightSlider.value+" mm";reachOut.textContent=reachSlider.value+" mm";}
+travelSlider.addEventListener("input",()=>{cfgLabels();heroMechanism.applyTravel?.(travelSlider.value);cfgStatus.textContent="Slædeposition opdateres live";});
+[railSlider,heightSlider,reachSlider].forEach(s=>s.addEventListener("input",()=>{cfgLabels();cfgStatus.textContent="Dimensioner klar · tryk KONSTRUER MODEL";}));
+constructBtn.addEventListener("click",()=>{heroMechanism.rebuild?.(railSlider.value,heightSlider.value,reachSlider.value);cfgStatus.textContent="3D-model konstrueret";});
+resetCfg.addEventListener("click",()=>{travelSlider.value=20;railSlider.value=2800;heightSlider.value=1400;reachSlider.value=1050;cfgLabels();heroMechanism.rebuild?.(2800,1400,1050);heroMechanism.applyTravel?.(20);cfgStatus.textContent="Standardgeometri gendannet";});
+cfgLabels();heroMechanism.rebuild?.(2800,1400,1050);
 </script></body></html>
 """
 components.html(page, height=4300, scrolling=True)
