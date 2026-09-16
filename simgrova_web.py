@@ -457,60 +457,89 @@ function setupModel(id,type){
     box(x,y-h/2,z,w,t,t,mat,parent); box(x,y+h/2,z,w,t,t,mat,parent);
   }
 
-  // HERO — compact mechanical development assembly:
-  // base, rotary gearbox, linear rail, carriage and articulated tool head.
+  // HERO — mechanically connected kinematic chain.
   if(type==="hero"){
-    box(0,-1.05,0,5.4,.28,3.25,MAT.dark);
-    box(0,-.84,0,5.0,.14,2.85,MAT.steel);
-    for(const x of [-2.25,2.25]) for(const z of [-1.15,1.15]) bolt(x,-.64,z,"y");
+    const H=new THREE.Group(); root.add(H);
+    heroMechanism.machine=H;
 
-    // gearbox / rotary axis
-    cyl(-1.55,-.28,0,.92,.72,"y",MAT.blue);
-    cyl(-1.55,.12,0,.58,.88,"y",MAT.polished);
-    gear(-1.55,.62,0,.62,.22,"y",MAT.steel);
-    gear(-.55,.62,0,.34,.22,"y",MAT.brass,root,14);
-    cyl(-.55,.34,0,.16,.72,"y",MAT.dark);
+    box(0,-1.05,0,5.4,.28,3.25,MAT.dark,H);
+    box(0,-.84,0,5.0,.14,2.85,MAT.steel,H);
+    for(const x of [-2.25,2.25]) for(const z of [-1.15,1.15]) bolt(x,-.64,z,"y",H);
 
-    // linear axis with twin rails
-    heroMechanism.rail1=box(.85,-.38,-.82,3.0,.22,.18,MAT.polished);
-    heroMechanism.rail2=box(.85,-.38,.82,3.0,.22,.18,MAT.polished);
-    for(let x=-.35;x<2.2;x+=.5){
-      box(x,-.22,-.82,.20,.14,.34,MAT.blue);
-      box(x,-.22,.82,.20,.14,.34,MAT.blue);
-    }
-    const carriage=box(1.15,.02,0,1.0,.32,2.0,MAT.steel); heroMechanism.carriage=carriage;
-    heroMechanism.rotary=cyl(1.15,.42,0,.38,.34,"y",MAT.dark);
-    // upright actuator + end effector
-    heroMechanism.column=box(1.15,1.35,0,.34,1.75,.34,MAT.dark);
-    heroMechanism.cyl1=cyl(1.15,1.35,0,.23,1.75,"y",MAT.polished);
-    heroMechanism.joint1=cyl(1.15,2.20,0,.28,.44,"y",MAT.blue);
-    heroMechanism.arm1=beam([1.15,2.25,0],[2.05,2.75,.15],.13,MAT.steel);
-    heroMechanism.joint2=cyl(2.05,2.75,.15,.22,.40,"x",MAT.dark);
-    heroMechanism.arm2=beam([2.05,2.75,.15],[2.55,2.15,.55],.11,MAT.steel);
-    // tool / gripper
-    heroMechanism.tool=box(2.55,2.05,.55,.42,.30,.54,MAT.blue);
-    heroMechanism.grip1=box(2.78,1.86,.38,.10,.48,.12,MAT.dark);
-    heroMechanism.grip2=box(2.78,1.86,.72,.10,.48,.12,MAT.dark);
-    // exposed lead screw for engineering character
-    heroMechanism.screw=cyl(.85,-.12,0,.07,2.8,"x",MAT.brass);
-    root.rotation.y=-.18;
-  }
+    // Fixed rotary workstation.
+    cyl(-1.55,-.28,0,.92,.72,"y",MAT.blue,H);
+    cyl(-1.55,.12,0,.58,.88,"y",MAT.polished,H);
+    gear(-1.55,.62,0,.62,.22,"y",MAT.steel,H);
+    gear(-.55,.62,0,.34,.22,"y",MAT.brass,H,14);
 
+    // Linear axis.
+    heroMechanism.rail1=box(.85,-.38,-.82,3.0,.22,.18,MAT.polished,H);
+    heroMechanism.rail2=box(.85,-.38,.82,3.0,.22,.18,MAT.polished,H);
+    heroMechanism.screw=cyl(.85,-.12,0,.07,2.8,"x",MAT.brass,H);
 
-  if(type==="hero"){
+    // Entire robot travels as one assembly.
+    const moving=new THREE.Group(); H.add(moving);
+    heroMechanism.moving=moving; moving.position.set(1.15,0,0);
+    box(0,.02,0,1.0,.32,2.0,MAT.steel,moving);
+    cyl(0,.42,0,.38,.34,"y",MAT.dark,moving);
+
+    // Cylinder 1 starts at carriage.
+    const lift=new THREE.Group(); moving.add(lift);
+    lift.position.set(0,.48,0);
+    heroMechanism.cyl1=cyl(0,.875,0,.23,1.75,"y",MAT.polished,lift);
+
+    // Joint 1 is parented to the END of cylinder 1.
+    const j1=new THREE.Group(); lift.add(j1); j1.position.set(0,1.75,0);
+    heroMechanism.joint1Group=j1;
+    cyl(0,0,0,.29,.44,"y",MAT.blue,j1);
+
+    // Link/cylinder 2.
+    const l2=new THREE.Group(); j1.add(l2); l2.rotation.z=-.48;
+    heroMechanism.link2=l2;
+    heroMechanism.link2Body=cyl(.48,0,0,.13,.96,"x",MAT.steel,l2);
+
+    // Joint 2 is parented to END of link 2.
+    const j2=new THREE.Group(); l2.add(j2); j2.position.set(.96,0,0);
+    heroMechanism.joint2Group=j2;
+    cyl(0,0,0,.22,.40,"x",MAT.dark,j2);
+
+    // Link/cylinder 3.
+    const l3=new THREE.Group(); j2.add(l3); l3.rotation.z=.82;
+    heroMechanism.link3=l3;
+    heroMechanism.link3Body=cyl(.39,0,0,.11,.78,"x",MAT.steel,l3);
+
+    // Tool is parented to END of link 3.
+    const tool=new THREE.Group(); l3.add(tool); tool.position.set(.78,0,0);
+    heroMechanism.toolGroup=tool;
+    box(0,0,0,.44,.32,.56,MAT.blue,tool);
+    box(.25,-.20,-.18,.10,.50,.12,MAT.dark,tool);
+    box(.25,-.20,.18,.10,.50,.12,MAT.dark,tool);
+
+    heroMechanism.L1=1.75; heroMechanism.L2=.96; heroMechanism.L3=.78;
     heroMechanism.travel=2.45;
-    heroMechanism.parts=[heroMechanism.carriage,heroMechanism.rotary,heroMechanism.column,heroMechanism.joint1,heroMechanism.arm1,heroMechanism.joint2,heroMechanism.arm2,heroMechanism.tool,heroMechanism.grip1,heroMechanism.grip2];
-    heroMechanism.baseX=heroMechanism.parts.map(p=>p.position.x);
-    heroMechanism.applyTravel=v=>{const dx=(Math.max(-100,Math.min(100,+v||0))/100)*heroMechanism.travel*.46;heroMechanism.parts.forEach((p,i)=>p.position.x=heroMechanism.baseX[i]+dx);};
+    heroMechanism.applyTravel=v=>{
+      const p=Math.max(-100,Math.min(100,+v||0))/100;
+      moving.position.x=1.15+p*heroMechanism.travel*.46;
+    };
     heroMechanism.liveUpdate=(sizeStep,heightMm,reachMm)=>{
-      const modelScale=[.78,.89,1,1.12,1.25][Math.max(1,Math.min(5,+sizeStep||3))-1];
+      const sc=[.78,.89,1,1.12,1.25][Math.max(1,Math.min(5,+sizeStep||3))-1];
       const hs=Math.max(700,Math.min(1900,+heightMm||1300))/1300;
       const rs=Math.max(500,Math.min(1500,+reachMm||1000))/1000;
-      root.scale.setScalar(modelScale);
+      root.scale.setScalar(sc);
+
+      const L1=heroMechanism.L1*hs;
       heroMechanism.cyl1.scale.y=hs;
-      heroMechanism.column.scale.y=hs;
-      heroMechanism.arm1.scale.y=rs;
-      heroMechanism.arm2.scale.y=rs;
+      heroMechanism.cyl1.position.y=L1/2;
+      heroMechanism.joint1Group.position.y=L1;
+
+      const L2=heroMechanism.L2*rs, L3=heroMechanism.L3*rs;
+      heroMechanism.link2Body.scale.y=rs;
+      heroMechanism.link2Body.position.x=L2/2;
+      heroMechanism.joint2Group.position.x=L2;
+      heroMechanism.link3Body.scale.y=rs;
+      heroMechanism.link3Body.position.x=L3/2;
+      heroMechanism.toolGroup.position.x=L3;
+
       heroMechanism.applyTravel(document.getElementById("travelSlider")?.value||20);
     };
   }
@@ -677,9 +706,10 @@ function setupModel(id,type){
   const P=presets[type]||presets.hero;
   let yaw=type==="energy"?.18:.48, pitch=type==="industry"?.25:.32, dist=P.dist;
   if(type==="hero") heroMechanism.setView=mode=>{
-    if(mode==="top"){yaw=0;pitch=1.53;dist=P.dist*1.05;}
-    else if(mode==="front"){yaw=0;pitch=.03;dist=P.dist;}
-    else if(mode==="side"){yaw=Math.PI/2;pitch=.03;dist=P.dist;}
+    // Conventional principal views: no residual oblique tilt.
+    if(mode==="top"){yaw=0;pitch=Math.PI/2-.001;dist=P.dist*1.06;}
+    else if(mode==="front"){yaw=0;pitch=0;dist=P.dist;}
+    else if(mode==="side"){yaw=Math.PI/2;pitch=0;dist=P.dist;}
     else {yaw=.48;pitch=.32;dist=P.dist;}
     auto=false;
   };
