@@ -204,6 +204,64 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 .concept-static{overflow:hidden;background:#f7faf9}
 .concept-static .concept-image{position:absolute;inset:38px 10px 28px;width:calc(100% - 20px);height:calc(100% - 66px);object-fit:contain;display:block}
 .concept-static canvas,.concept-static .model-grid,.concept-static .model-stage{display:none!important}
+
+/* v35 — premium, more photorealistic SIMGROVA business card */
+#kontakt .business-card,
+#kontakt .contact-card{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 18% 12%,rgba(255,255,255,.92),rgba(255,255,255,0) 30%),
+    linear-gradient(132deg,#f7f8f6 0%,#e7ebe8 42%,#d7ddda 100%);
+  border:1px solid rgba(31,55,55,.22);
+  border-radius:12px;
+  box-shadow:
+    0 24px 45px rgba(16,34,34,.16),
+    0 7px 14px rgba(16,34,34,.09),
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(0,0,0,.05);
+  transform:perspective(1100px) rotateX(.7deg) rotateY(-1.2deg);
+}
+#kontakt .business-card:before,
+#kontakt .contact-card:before{
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  opacity:.34;
+  background:
+    repeating-linear-gradient(96deg,
+      rgba(255,255,255,.14) 0px,
+      rgba(255,255,255,.14) 1px,
+      rgba(35,58,57,.035) 2px,
+      rgba(35,58,57,.018) 4px);
+  mix-blend-mode:multiply;
+}
+#kontakt .business-card:after,
+#kontakt .contact-card:after{
+  content:"";
+  position:absolute;
+  left:-8%;top:-35%;
+  width:58%;height:165%;
+  transform:rotate(14deg);
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.46),transparent);
+  opacity:.38;
+}
+#kontakt .business-card>*,
+#kontakt .contact-card>*{position:relative;z-index:1}
+#kontakt .business-card h3,
+#kontakt .contact-card h3{
+  text-shadow:0 1px 0 rgba(255,255,255,.9);
+  letter-spacing:.025em;
+}
+#kontakt .business-card a,
+#kontakt .contact-card a{
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+@media(max-width:900px){
+  #kontakt .business-card,#kontakt .contact-card{transform:none}
+}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -267,9 +325,8 @@ footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,
 </div></div></section>
 
 <section class="section" id="samarbejde"><div class="section-title"><div class="kicker">SAMARBEJDE</div><h2>Indgår dér, hvor der er behov.</h2><p>Opgaverne kan løses direkte for en virksomhed eller som en del af et engineering- eller projektteam. Rollen og omfanget tilpasses den konkrete opgave.</p></div>
-<div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projektteam.</span></div><div class="step"><span>02</span><b>Afgrænset opgave</b><span>En konkret konstruktions-, udviklings- eller beregningsopgave med et tydeligt teknisk scope.</span></div><div class="step"><span>03</span><b>Projektansvar</b><span>Teknisk koordinering af en mekanisk delopgave med grænseflader til kunde, leverandører og øvrige fag.</span></div><div class="step"><span>04</span><b>On-site / remote</b><span>Arbejdet kan indgå tæt i kundens organisation eller udføres mere selvstændigt efter opgavens karakter.</span></div><div class="step"><span>05</span><b>Engineering house</b><span>Kan indgå som ekstern ressource hos engineeringhuse, der har behov for mekanisk kompetence eller ekstra kapacitet.</span></div></div></section>
-
-<section class="section" id="om"><div class="about"><div><div class="kicker">OM SIMGROVA</div><h2>Baggrund og erfaring.</h2><p>Arbejdsområdet er mekanisk udvikling, konstruktion og teknisk projektledelse med fokus på praktiske, gennemarbejdede løsninger.</p><p>Erfaringsområdet spænder fra koncept- og produktudvikling til specialmaskiner, værktøjer, dimensionering, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
+<div class="process"><div class="step"><span>01</span><b>Engineering support</b><span>Ekstra kapacitet til mekanisk udvikling og konstruktion i et eksisterende projekt<section class="section" id="kontakt"><div class="contact business-card"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
+<div class="contactbox"><div style="font-size:24px;font-weight:700;letter-spacing:.08em;color:#20353a;margin-bottom:22px">SIMGROVA <span style="font-size:13px;font-weight:400;color:#788789">ApS</span></div><p><b>Søren Noe Christiansen</b><br>Maskiningeniør</p><p><a href="mailto:snc@simgrova.dk">snc@simgrova.dk</a><br><a href="tel:+4521467659">+45 21 46 76 59</a></p><p style="color:var(--muted);font-size:13px;line-height:1.6">Mekanisk udvikling · Konstruktion · Teknisk projektledelse · Dimensionering · Specialmaskiner · Risikovurdering & CE</p></div></div></section>ring, optimering, idriftsættelse, risikovurdering og CE. Arbejdet udføres bl.a. i Siemens NX og Teamcenter.</p><p>Tilgangen er at søge enkle og gennemarbejdede løsninger og holde unødig kompleksitet ude af konstruktionen.</p></div>
 <div class="facts"><div class="fact"><b>NX</b><span>3D CAD / KONSTRUKTION</span></div><div class="fact"><b>Teamcenter</b><span>PLM / PROJEKTMILJØ</span></div><div class="fact"><b>Engineering</b><span>UDVIKLING / DIMENSIONERING</span></div><div class="fact"><b>Projekt</b><span>TEKNISK KOORDINERING</span></div></div></div></section>
 
 <section class="section" id="kontakt"><div class="contact"><div><div class="kicker">KONTAKT</div><h2>Kontakt.</h2><p class="lead">Kontakt kan være relevant ved behov for en ekstern maskiningeniør til en konkret opgave, et projektforløb eller som midlertidig engineeringkapacitet.</p><div class="actions"><button class="btn" onclick="location.href='mailto:snc@simgrova.dk?subject=Forespørgsel til SIMGROVA'">E-MAIL</button><button class="btn alt" onclick="location.href='tel:+4521467659'">TELEFON +45 21 46 76 59</button></div></div>
@@ -677,105 +734,140 @@ function setupModel(id,type){
     };
   }
 
-  // FOOD — clean hygienic process skid with readable component relationships.
+  // FOOD — detailed hygienic process skid; components are deliberately separated
+  // so vessels, heat exchanger, pump train and service equipment remain mechanically readable.
   if(type==="food"){
     const F=new THREE.Group(); root.add(F);
 
-    // skid
-    box(0,-1.34,0,5.75,.16,3.05,MAT.dark,F);
-    for(const z of [-1.25,1.25]) box(0,-1.13,z,5.45,.18,.16,MAT.steel,F);
-    for(const x of [-2.48,-.82,.84,2.48]) box(x,-1.13,0,.16,.18,2.48,MAT.steel,F);
-    for(const x of [-2.48,2.48]) for(const z of [-1.22,1.22]){
-      cyl(x,-1.54,z,.09,.48,"y",MAT.dark,F);
-      cyl(x,-1.80,z,.17,.05,"y",MAT.steel,F);
+    // Main welded skid with cross-members and adjustable machine feet.
+    box(0,-1.36,0,6.20,.18,3.45,MAT.dark,F);
+    for(const z of [-1.43,1.43]) box(0,-1.14,z,5.92,.18,.16,MAT.steel,F);
+    for(const x of [-2.72,-1.36,0,1.36,2.72]) box(x,-1.14,0,.16,.18,2.88,MAT.steel,F);
+    for(const x of [-2.72,2.72]) for(const z of [-1.38,1.38]){
+      cyl(x,-1.58,z,.09,.50,"y",MAT.dark,F);
+      cyl(x,-1.85,z,.18,.055,"y",MAT.steel,F);
     }
 
-    function tank(x,z,r,h){
+    function vessel(x,z,r,h){
       const T=new THREE.Group(); F.add(T);
-      cyl(x,-.02,z,r,h,"y",MAT.polished,T);
-      // shallow top dome
-      const dome=mesh(new THREE.SphereGeometry(r,32,16,0,Math.PI*2,0,Math.PI/2),MAT.polished,T);
-      dome.scale.y=.28; dome.position.set(x,h/2-.02,z);
-      // cone bottom
-      const cone=mesh(new THREE.ConeGeometry(r*.82,.42,32),MAT.polished,T);
-      cone.position.set(x,-h/2-.21,z); cone.rotation.x=Math.PI;
-      // three clean legs
+      cyl(x,-.04,z,r,h,"y",MAT.polished,T);
+      const dome=mesh(new THREE.SphereGeometry(r,36,18,0,Math.PI*2,0,Math.PI/2),MAT.polished,T);
+      dome.scale.y=.28; dome.position.set(x,h/2-.04,z);
+      const cone=mesh(new THREE.ConeGeometry(r*.82,.44,36),MAT.polished,T);
+      cone.position.set(x,-h/2-.25,z); cone.rotation.x=Math.PI;
       for(const ang of [0,2*Math.PI/3,4*Math.PI/3])
-        cyl(x+Math.cos(ang)*r*.58,-h/2-.58,z+Math.sin(ang)*r*.58,.05,.72,"y",MAT.steel,T);
-      // manway and vent
-      cyl(x,h/2+.13,z,.20,.10,"y",MAT.dark,T);
-      cyl(x,h/2+.28,z,.07,.22,"y",MAT.polished,T);
-      // bottom outlet
-      pipe([[x,-h/2-.42,z],[x,-h/2-.70,z],[x+.34,-h/2-.70,z]],.06,MAT.polished,T);
-    }
-    tank(-1.55,-.18,.68,2.18);
-    tank(.20,.10,.55,1.72);
-
-    // main product header: deliberately orthogonal and outside vessel envelopes
-    pipe([[-2.35,-.78,1.02],[-1.55,-.78,1.02],[-.55,-.78,1.02],[.20,-.78,1.02],[1.42,-.78,1.02]],.065,MAT.polished,F);
-    pipe([[-1.55,-.78,1.02],[-1.55,-.78,.52]],.065,MAT.polished,F);
-    pipe([[.20,-.78,1.02],[.20,-.78,.50]],.065,MAT.polished,F);
-
-    // three identical butterfly valve stations
-    for(const x of [-.82,.55,1.18]){
-      cyl(x,-.78,1.02,.13,.11,"x",MAT.blue,F);
-      box(x,-.58,1.02,.055,.30,.055,MAT.dark,F);
-      box(x,-.42,1.02,.28,.045,.065,MAT.green,F);
+        cyl(x+Math.cos(ang)*r*.58,-h/2-.62,z+Math.sin(ang)*r*.58,.052,.76,"y",MAT.steel,T);
+      // manway, vent and spray/CIP nozzle
+      cyl(x,h/2+.12,z,.20,.10,"y",MAT.dark,T);
+      cyl(x,h/2+.29,z,.075,.24,"y",MAT.polished,T);
+      pipe([[x-.22,h/2+.02,z],[x-.22,h/2+.28,z],[x-.42,h/2+.28,z]],.038,MAT.polished,T);
+      // lower product outlet
+      pipe([[x,-h/2-.45,z],[x,-h/2-.73,z],[x+.32,-h/2-.73,z]],.062,MAT.polished,T);
+      // side temperature transmitter
+      pipe([[x+r,.24,z],[x+r+.20,.24,z]],.028,MAT.polished,T);
+      cyl(x+r+.28,.24,z,.08,.12,"x",MAT.blue,T);
     }
 
-    // pump/motor assembly
-    box(1.72,-1.05,-.52,1.62,.12,.72,MAT.steel,F);
-    cyl(1.28,-.73,-.52,.36,.30,"z",MAT.polished,F);
-    torus(1.28,-.73,-.34,.28,.05,"z",MAT.dark,F);
-    cyl(2.02,-.73,-.52,.29,.92,"x",MAT.green,F);
-    cyl(1.62,-.73,-.52,.09,.42,"x",MAT.dark,F);
-    pipe([[1.28,-.73,-.22],[1.28,-.73,.38],[1.42,-.73,.62]],.068,MAT.polished,F);
+    // Two vessels, moved to the left/rear half of the skid.
+    vessel(-1.82,-.36,.68,2.18);
+    vessel(-.18,-.44,.53,1.68);
 
-    // plate heat exchanger — upright and isolated from pipework
-    const hx=new THREE.Group(); F.add(hx); hx.position.set(2.05,-.08,-.98);
-    for(let i=0;i<14;i++) box(0,0,i*.035,.72,1.18,.020,i%2?MAT.steel:MAT.brass,hx);
-    box(0,0,-.09,.88,1.34,.09,MAT.dark,hx);
-    box(0,0,.57,.88,1.34,.09,MAT.dark,hx);
-    for(const xx of [-.34,.34]) for(const yy of [-.52,.52])
-      cyl(xx,yy,.62,.045,.75,"z",MAT.dark,hx);
+    // Main hygienic product header along front edge.
+    pipe([[-2.58,-.80,1.12],[-1.82,-.80,1.12],[-.18,-.80,1.12],[1.18,-.80,1.12],[2.48,-.80,1.12]],.066,MAT.polished,F);
+    pipe([[-1.82,-.80,1.12],[-1.82,-.80,.36]],.066,MAT.polished,F);
+    pipe([[-.18,-.80,1.12],[-.18,-.80,.20]],.066,MAT.polished,F);
 
-    // Instrumentation manifold — physically supported from the skid and piped into the process header.
+    // Four butterfly valve stations.
+    for(const x of [-1.20,-.62,.62,1.42]){
+      cyl(x,-.80,1.12,.13,.11,"x",MAT.blue,F);
+      box(x,-.59,1.12,.055,.30,.055,MAT.dark,F);
+      box(x,-.43,1.12,.28,.045,.065,MAT.green,F);
+    }
+
+    // Pump train at front-right, isolated from the heat exchanger.
+    box(1.72,-1.07,.48,1.72,.12,.72,MAT.steel,F);
+    cyl(1.22,-.75,.48,.36,.30,"z",MAT.polished,F);
+    torus(1.22,-.75,.66,.28,.05,"z",MAT.dark,F);
+    cyl(2.04,-.75,.48,.29,.94,"x",MAT.green,F);
+    cyl(1.62,-.75,.48,.09,.44,"x",MAT.dark,F);
+    pipe([[1.22,-.75,.78],[1.22,-.75,1.12]],.068,MAT.polished,F);
+
+    // Plate heat exchanger at rear-right: dedicated clear footprint, no overlap with pump/motor.
+    const hx=new THREE.Group(); F.add(hx); hx.position.set(1.72,-.05,-1.03);
+    for(let i=0;i<16;i++) box(0,0,i*.032,.74,1.26,.020,i%2?MAT.steel:MAT.brass,hx);
+    box(0,0,-.11,.92,1.44,.10,MAT.dark,hx);
+    box(0,0,.62,.92,1.44,.10,MAT.dark,hx);
+    // tie rods
+    for(const xx of [-.36,.36]) for(const yy of [-.56,.56])
+      cyl(xx,yy,.67,.042,.82,"z",MAT.dark,hx);
+    // four hygienic ports
+    for(const yy of [-.38,.38]){
+      cyl(-.50,yy,.12,.085,.22,"x",MAT.polished,hx);
+      cyl(.50,yy,.12,.085,.22,"x",MAT.polished,hx);
+    }
+
+    // Separate small green CIP/service tank at far rear-left — clear of HX.
+    const cip=new THREE.Group(); F.add(cip);
+    cyl(-2.45,-.42,-1.00,.34,1.28,"y",MAT.green,cip);
+    const cipTop=mesh(new THREE.SphereGeometry(.34,28,14,0,Math.PI*2,0,Math.PI/2),MAT.green,cip);
+    cipTop.scale.y=.25; cipTop.position.set(-2.45,.22,-1.00);
+    cyl(-2.45,.34,-1.00,.07,.18,"y",MAT.polished,cip);
+    for(const dx of [-.20,.20]) cyl(-2.45+dx,-1.02,-1.00,.04,.36,"y",MAT.steel,cip);
+
+    // CIP pump beside the service tank.
+    box(-2.32,-1.05,-.42,.82,.10,.50,MAT.steel,F);
+    cyl(-2.45,-.83,-.42,.22,.22,"z",MAT.polished,F);
+    cyl(-2.03,-.83,-.42,.18,.48,"x",MAT.green,F);
+    pipe([[-2.45,-.83,-.20],[-2.45,-.83,.05],[-2.45,-.80,1.12]],.050,MAT.polished,F);
+
+    // Rear CIP/return header, clearly supported.
+    pipe([[-2.45,.48,-1.00],[-2.45,1.18,-1.00],[-1.82,1.18,-1.00],[-.18,1.18,-1.00],[.72,1.18,-1.00]],.052,MAT.polished,F);
+    pipe([[-1.82,1.18,-1.00],[-1.82,1.03,-.36]],.052,MAT.polished,F);
+    pipe([[-.18,1.18,-1.00],[-.18,.82,-.44]],.052,MAT.polished,F);
+    for(const x of [-2.30,-1.05,.42]){
+      box(x,.36,-1.00,.07,1.48,.07,MAT.steel,F);
+      box(x,-.40,-1.00,.22,.06,.22,MAT.dark,F);
+    }
+
+    // Instrument rack, fully supported from skid.
     const inst=new THREE.Group(); F.add(inst);
-    // two vertical frame posts from the skid
-    for(const x of [-.78,.78]){
-      box(x,.05,.96,.08,2.18,.08,MAT.steel,inst);
-      box(x,-1.05,.96,.30,.08,.30,MAT.dark,inst);
+    for(const x of [-.72,.72]){
+      box(x,.04,1.38,.075,2.16,.075,MAT.steel,inst);
+      box(x,-1.07,1.38,.28,.07,.28,MAT.dark,inst);
     }
-    // top crossbar carried by the posts
-    box(0,1.10,.96,1.72,.09,.09,MAT.steel,inst);
-
-    // three local pressure instruments, each with an impulse line to the product header
-    for(const x of [-.58,0,.58]){
-      pipe([[x,1.08,.96],[x,.78,.96],[x,.78,1.02],[x,-.72,1.02]],.022,MAT.polished,inst);
-      cyl(x,1.27,.96,.115,.07,"z",MAT.steel,inst);
-      torus(x,1.27,1.005,.09,.014,"z",MAT.dark,inst);
-      // short valve/isolation body below gauge
-      cyl(x,.91,.99,.055,.12,"y",MAT.blue,inst);
+    box(0,1.08,1.38,1.62,.08,.08,MAT.steel,inst);
+    for(const x of [-.52,0,.52]){
+      pipe([[x,1.04,1.38],[x,.74,1.38],[x,.74,1.12],[x,-.76,1.12]],.020,MAT.polished,inst);
+      cyl(x,1.25,1.38,.105,.065,"z",MAT.steel,inst);
+      torus(x,1.25,1.425,.083,.013,"z",MAT.dark,inst);
+      cyl(x,.90,1.30,.050,.11,"y",MAT.blue,inst);
     }
 
-    // Electrical/control enclosure — mounted on its own rear support frame, not floating.
+    // Control cabinet on rear-right corner, on real legs and away from HX.
     const ctrl=new THREE.Group(); F.add(ctrl);
-    box(2.38,-.22,.78,.70,1.18,.20,MAT.steel,ctrl);
-    box(2.38,-.08,.895,.45,.34,.025,MAT.glass,ctrl);
-    // support legs down to skid
-    for(const x of [2.12,2.64]){
-      box(x,-.88,.78,.07,.76,.07,MAT.dark,ctrl);
-      box(x,-1.27,.78,.24,.06,.24,MAT.dark,ctrl);
+    box(2.58,.02,-.82,.62,1.16,.22,MAT.steel,ctrl);
+    box(2.58,.18,-.695,.40,.34,.026,MAT.glass,ctrl);
+    for(const z of [-.90,-.74]){
+      box(2.38,-.78,z,.065,.78,.065,MAT.dark,ctrl);
+      box(2.38,-1.19,z,.22,.06,.22,MAT.dark,ctrl);
     }
-    // cable tray / conduit from control enclosure toward pump motor
-    pipe([[2.18,-.42,.78],[2.18,-.42,.18],[2.10,-.58,-.18],[2.10,-.68,-.38]],.030,MAT.dark,ctrl);
+    // cable tray to main pump motor
+    pipe([[2.36,-.42,-.72],[2.36,-.42,.05],[2.18,-.58,.34],[2.10,-.70,.46]],.028,MAT.dark,ctrl);
 
-    // sanitary return/CIP line across the rear, supported and tied into both vessels.
-    pipe([[-1.55,1.12,-.88],[-1.55,1.38,-.88],[.20,1.38,-.88],[.20,.92,-.88]],.052,MAT.polished,F);
-    for(const x of [-1.55,.20]){
-      box(x,.78,-.88,.07,.52,.07,MAT.steel,F);
-      box(x,.50,-.88,.20,.06,.20,MAT.dark,F);
-    }
+    // Additional hygienic components: inline filter, sample valve and flow meter.
+    // Filter housing on product header.
+    cyl(2.36,-.52,1.12,.18,.46,"y",MAT.polished,F);
+    cyl(2.36,-.26,1.12,.11,.08,"y",MAT.dark,F);
+    // sample valve
+    pipe([[-1.20,-.80,1.12],[-1.20,-.54,1.12]],.030,MAT.polished,F);
+    cyl(-1.20,-.42,1.12,.055,.12,"y",MAT.green,F);
+    // flow meter body
+    cyl(.95,-.80,1.12,.13,.28,"x",MAT.polished,F);
+    box(.95,-.56,1.12,.18,.22,.12,MAT.blue,F);
+
+    // Small hose station / service connection.
+    torus(2.62,-.18,.72,.20,.035,"x",MAT.dark,F);
+    pipe([[2.62,-.40,.72],[2.62,-.72,.72]],.025,MAT.dark,F);
   }
 
   // INDUSTRY — actual shafts and roll tooling through rigid stands.
