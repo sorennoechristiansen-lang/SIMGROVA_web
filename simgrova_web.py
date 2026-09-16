@@ -149,6 +149,8 @@ section{background:#fff}
     max-width:none!important;
   }
 }
+
+footer{padding-left:clamp(38px,6vw,95px)!important;padding-right:clamp(38px,6vw,95px)!important}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -284,6 +286,11 @@ function cyl(stage,x,y,z,r,kind=""){
  return c;
 }
 
+
+function panel(stage,x,y,z,w,h,d=7,kind=""){
+  return box(stage,x,y,z,w,h,d,kind);
+}
+
 function setupModel(id,type){
  if(built[id]) return; built[id]=true;
  const host=document.getElementById(id); if(!host)return;
@@ -298,13 +305,25 @@ function setupModel(id,type){
    cyl(stage,125,-35,0,38); cyl(stage,125,-35,5,12);
  }
  if(type==="energy"){
-   box(stage,-215,85,-65,430,20,130);
-   box(stage,-190,-95,-50,22,180,22); box(stage,168,-95,-50,22,180,22);
-   box(stage,-190,-110,-50,380,22,22);
-   box(stage,-75,-82,-15,150,42,70);
-   box(stage,-10,-40,0,20,125,20,"accent");
-   box(stage,-85,75,5,170,35,85,"green");
-   box(stage,-110,40,-5,220,16,25);
+   // Deployable solar-array concept: central container/module with folding panel wings.
+   box(stage,-92,35,-45,184,72,90);               // central module
+   box(stage,-82,20,48,164,10,18,"accent");       // hinge beam
+   box(stage,-82,-30,-35,164,55,72);              // upper equipment housing
+
+   // long panel wings, simplified as solid thin modules
+   const pw=112, ph=62, gap=7;
+   for(let i=0;i<4;i++){
+      panel(stage,-105-(i+1)*(pw+gap),8,20,pw,ph,7);
+      panel(stage,105+i*(pw+gap),8,20,pw,ph,7);
+      // pale cell strips
+      for(let c=1;c<4;c++){
+         box(stage,-105-(i+1)*(pw+gap)+c*25,10,24,2,58,3,"green");
+         box(stage,105+i*(pw+gap)+c*25,10,24,2,58,3,"green");
+      }
+   }
+   // support rails
+   box(stage,-585,76,-30,1170,12,18);
+   box(stage,-585,76,42,1170,12,18);
  }
  if(type==="food"){
    // Robust process-equipment model built entirely with the same proven 3D box engine.
@@ -358,21 +377,52 @@ function setupModel(id,type){
    box(stage,205,-105,-58,64,165,44);
  }
  if(type==="industry"){
-   box(stage,-225,90,-70,450,22,145);
-   box(stage,-200,-105,-55,24,195,24); box(stage,176,-105,-55,24,195,24);
-   box(stage,-200,-120,-55,400,24,24);
-   box(stage,-135,-75,-20,270,28,45);
-   box(stage,-65,-100,0,115,55,70);
-   box(stage,-10,-45,5,20,125,20,"accent");
-   box(stage,-65,78,10,130,30,70,"green");
-   cyl(stage,115,-65,5,32);
+   // Roll-forming line: repeated stands, upper/lower roller shafts and strip path.
+   box(stage,-255,105,-80,510,18,170);             // machine bed
+   box(stage,-245,82,-62,490,18,26);
+   const xs=[-205,-125,-45,35,115,195];
+   xs.forEach((x,i)=>{
+      // portal stand
+      box(stage,x,-75,-52,18,160,22);
+      box(stage,x+58,-75,-52,18,160,22);
+      box(stage,x,-88,-52,76,18,22);
+      // bearing blocks
+      box(stage,x+5,-42,-10,24,42,34,"accent");
+      box(stage,x+47,-42,-10,24,42,34,"accent");
+      box(stage,x+5,20,-10,24,42,34,"accent");
+      box(stage,x+47,20,-10,24,42,34,"accent");
+      // upper/lower rollers represented as shafts + discs
+      box(stage,x+20,-25,6,42,12,12);
+      box(stage,x+20,37,6,42,12,12);
+      cyl(stage,x+35,-27,22,20);
+      cyl(stage,x+35,35,22,20);
+   });
+   // strip being formed through the stands
+   box(stage,-275,8,36,565,7,52,"green");
  }
  if(type==="cad"){
-   const main=box(stage,-145,-45,-50,290,90,110);
-   main.querySelector(".front").innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 25px Arial;letter-spacing:.14em;color:#244b53'>SIMGROVA</div>";
-   main.querySelector(".top").innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 12px monospace;letter-spacing:.12em;color:#244b53'>ENGINEERING</div>";
+   // Containerized deployable concept: container body, opened side panels and slide-out module.
+   box(stage,-155,-68,-58,310,136,116);            // main container
+   // end frames / corner posts
+   box(stage,-155,-76,-66,16,152,16); box(stage,139,-76,-66,16,152,16);
+   box(stage,-155,-76,50,16,152,16);  box(stage,139,-76,50,16,152,16);
+
+   // opened side doors/panels, offset like wings
+   panel(stage,-245,-58,-5,88,116,8,"green");
+   panel(stage,157,-58,-5,88,116,8,"green");
+
+   // slide-out platform and equipment
+   box(stage,-72,70,-12,245,14,92);
+   box(stage,72,30,-2,92,54,70,"accent");
+   box(stage,92,-5,5,52,35,48,"green");
+
+   const main=stage.querySelector(".box3d");
+   if(main){
+      const f=main.querySelector(".front");
+      if(f) f.innerHTML="<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:700 22px Arial;letter-spacing:.14em;color:#244b53'>SIMGROVA</div>";
+   }
  }
- let rx=-18,ry=28,scale=(type==="food"?0.86:1),drag=false,px=0,py=0,auto=true;
+ let rx=-18,ry=28,scale=(type==="energy"?0.62:type==="food"?0.86:type==="industry"?0.72:type==="cad"?0.82:1),drag=false,px=0,py=0,auto=true;
  function draw(){stage.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) scale(${scale})`}
  function animate(){if(auto&&!drag){ry+=.055;draw()}requestAnimationFrame(animate)}
  draw(); animate();
