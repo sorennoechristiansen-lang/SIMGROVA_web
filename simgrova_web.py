@@ -732,17 +732,8 @@ function setupModel(id,type){
     for(const xx of [-.34,.34]) for(const yy of [-.52,.52])
       cyl(xx,yy,.62,.045,.75,"z",MAT.dark,hx);
 
-    // compact instrumentation bridge
-    box(.12,1.34,.92,2.40,.08,.08,MAT.steel,F);
-    for(const x of [-.62,.12,.86]){
-      pipe([[x,1.34,.92],[x,1.08,.92]],.025,MAT.polished,F);
-      cyl(x,1.48,.92,.115,.055,"z",MAT.steel,F);
-      torus(x,1.48,.96,.09,.014,"z",MAT.dark,F);
-    }
-
-    // small electrical enclosure at rear, kept clear of sanitary equipment
-    box(2.38,.52,.78,.66,1.12,.18,MAT.steel,F);
-    box(2.38,.68,.89,.43,.34,.025,MAT.glass,F);
+    // Local instrumentation is kept on the connected process equipment.
+    // Detached overhead/rear details removed for a cleaner, mechanically coherent skid.
   }
 
   // INDUSTRY — actual shafts and roll tooling through rigid stands.
