@@ -113,6 +113,16 @@ section{background:#fff}
 @media(max-width:900px){
  :root{--page-pad:24px}
 }
+
+/* v12: SAMARBEJDE has the actual Danish id #samarbejde */
+#samarbejde .process{
+  width:calc(100% - clamp(40px,6vw,110px))!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+@media(max-width:900px){
+  #samarbejde .process{width:100%!important}
+}
 </style></head><body>
 <div class="shell">
 <header><div class="brand">SIMGROVA <small>MEKANISK UDVIKLING</small></div>
@@ -191,31 +201,43 @@ cad:{k:"UDVIKLING / CAD + ENGINEERING",t:"Udvikling og konstruktion i 3D",html:`
 const built={};
 
 function box(stage,x,y,z,w,h,d,kind=""){
- const b=document.createElement("div"); b.className="box3d "+kind;
- b.style.width=w+"px"; b.style.height=h+"px";
+ const b=document.createElement("div");
+ b.className="box3d "+kind;
+ b.style.width=w+"px";
+ b.style.height=h+"px";
  b.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
- const faces=[
-  ["front",w,h,`translateZ(${d/2}px)`],
-  ["back",w,h,`rotateY(180deg) translateZ(${d/2}px)`],
-  ["right",d,h,`left:${(w-d)/2}px;transform:rotateY(90deg) translateZ(${w/2}px)`],
-  ["left",d,h,`left:${(w-d)/2}px;transform:rotateY(-90deg) translateZ(${w/2}px)`],
-  ["top",w,d,`top:${(h-d)/2}px;transform:rotateX(90deg) translateZ(${h/2}px)`],
-  ["bottom",w,d,`top:${(h-d)/2}px;transform:rotateX(-90deg) translateZ(${h/2}px)`]
- ];
- faces.forEach(([n,fw,fh,t])=>{
-   const f=document.createElement("div"); f.className="f "+n; f.style.width=fw+"px"; f.style.height=fh+"px";
-   if(t.includes(";")){t.split(";").forEach(p=>{let [k,v]=p.split(":"); if(k&&v)f.style[k.trim()]=v.trim()})}
-   else f.style.transform=t;
+
+ function face(cls,fw,fh,transform,left=null,top=null){
+   const f=document.createElement("div");
+   f.className="f "+cls;
+   f.style.width=fw+"px";
+   f.style.height=fh+"px";
+   if(left!==null) f.style.left=left+"px";
+   if(top!==null) f.style.top=top+"px";
+   f.style.transform=transform;
    b.appendChild(f);
- });
- stage.appendChild(b); return b;
+ }
+ face("front",w,h,`translateZ(${d/2}px)`);
+ face("back",w,h,`rotateY(180deg) translateZ(${d/2}px)`);
+ face("right",d,h,`rotateY(90deg) translateZ(${w/2}px)`,(w-d)/2);
+ face("left",d,h,`rotateY(-90deg) translateZ(${w/2}px)`,(w-d)/2);
+ face("top",w,d,`rotateX(90deg) translateZ(${h/2}px)`,null,(h-d)/2);
+ face("bottom",w,d,`rotateX(-90deg) translateZ(${h/2}px)`,null,(h-d)/2);
+
+ stage.appendChild(b);
+ return b;
 }
+
 function cyl(stage,x,y,z,r,kind=""){
- const c=document.createElement("div"); c.className="cyl3d "+kind;
- c.style.width=(r*2)+"px";c.style.height=(r*2)+"px";
+ const c=document.createElement("div");
+ c.className="cyl3d "+kind;
+ c.style.width=(r*2)+"px";
+ c.style.height=(r*2)+"px";
  c.style.transform=`translate3d(${x}px,${y}px,${z}px) rotateX(90deg)`;
- stage.appendChild(c); return c;
+ stage.appendChild(c);
+ return c;
 }
+
 function setupModel(id,type){
  if(built[id]) return; built[id]=true;
  const host=document.getElementById(id); if(!host)return;
